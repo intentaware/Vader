@@ -1,4 +1,7 @@
+import commands
+
 from json import JSONEncoder
+from urlparse import urlparse
 
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -9,6 +12,7 @@ from django.conf import settings
 from apps.api.permissions import PublisherAPIPermission
 from apps.impressions.models import Impression
 from apps.users.models import User, Visitor
+from apps.metas.models import DomainData
 
 from .serializers import ImpressionSerializer
 
@@ -135,3 +139,13 @@ class GetImpression(APIView):
             'user_agent': user_agent,
             'ip2geo': ip2geo,
         }
+
+    def scrapy_process(self, request):
+        referer_url = request.META['HTTP_REFERER'] or None
+        if referer_url not None:
+            parsed_url = urlparse(referer_url)
+            domain = parsed_url.netloc
+            try:
+                DomainData.objects.get(domain=domain)
+            except:
+                commands.getstatusoutput('cd %s && nohup scrapy crawl intentscraper -a urls=%s -a domain=%s &', (settings.SPIDER_DIR, referer_url, domain))

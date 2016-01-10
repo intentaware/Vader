@@ -33,3 +33,12 @@ class CampaignCity(TimeStamped):
 
     class Meta:
         unique_together = ['campaign', 'circle']
+
+class DomainData(TimeStamped):
+    domain = models.CharField(max_length=255, unique=True)
+
+class ScrapedData(TimeStamped):
+    domain = models.ForeignKey(DomainData)
+    url = models.TextField(null=True, blank=True)
+    jsondata = models.TextField(null=True, blank=True)
+
