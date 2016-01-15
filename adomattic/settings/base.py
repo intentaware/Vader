@@ -56,7 +56,7 @@ import os, sys
 #from django.conf.directives import app
 CONF_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.join(CONF_DIR, os.pardir)
-
+SPIDER_DIR = os.path.join(BASE_DIR, 'intentscraper/intentscraper/spider/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/

@@ -12,7 +12,8 @@ from django.conf import settings
 from apps.api.permissions import PublisherAPIPermission
 from apps.impressions.models import Impression
 from apps.users.models import User, Visitor
-from apps.metas.models import DomainData
+from apps.metas.models import ScrapedData
+from tasks import scrapy_command
 
 from .serializers import ImpressionSerializer
 
@@ -146,6 +147,7 @@ class GetImpression(APIView):
             parsed_url = urlparse(referer_url)
             domain = parsed_url.netloc
             try:
-                DomainData.objects.get(domain=domain)
+                ScrapedData.objects.get(url=referer_url)
             except:
-                commands.getstatusoutput('cd %s && nohup scrapy crawl intentscraper -a urls=%s -a domain=%s &', (settings.SPIDER_DIR, referer_url, domain))
+                scrapy_command.delay(settings.SPIDER_DIR, referer_url, domain)
+
