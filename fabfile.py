@@ -46,11 +46,11 @@ def stage():
     env.run = run
     env.sudo = sudo
     env.cd = cd
-    env.name = 'adomattic-stage'
+    env.name = 'ia-stage'
     env.conf_path = 'stage'
     env.project_root = '/srv/%(name)s/' % env
-    env.hosts = ['stage.intentaware.com']
-    env.user = 'root'
+    env.hosts = ['ec2-54-213-252-222.us-west-2.compute.amazonaws.com']
+    env.user = 'ec2-user'
     env.key_filename = STAGE_KEY
     # env.no_keys = True
     # env.use_ssh_config = False
