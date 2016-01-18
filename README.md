@@ -89,6 +89,9 @@ If not, do ```npm i -g gulp bower``` and then.
 fab live setup_magneto
 ```
 
+**THIS COMMAND TAKES A _LOT_ OF TIME WHEN YOU RUN IT THE FIRST TIME**
+*Go make a coffee or something, take a walk, and by the time you are back, it will be done*
+
 npm install read package.json, while bower install reads bower.json.
 
 Congatulations, if no error has occured, Supporting Libraries and tools should be with you now.
