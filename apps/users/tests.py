@@ -31,10 +31,7 @@ class UserTest(TestCase):
 
     def test_get_full_name(self):
         full_name = self.user.get_full_name()
-        if full_name == 'Robert Steve':
-            return True
-        else:
-            return False
+        self.assertEqual(full_name, 'Robert Steve')
 
     def test_get_username(self):
         username = self.user.get_username()
@@ -84,6 +81,6 @@ class UserTest(TestCase):
             key  = userCheck.update_key()
             print response
             print type(key)
-    
+
 
 

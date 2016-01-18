@@ -1,4 +1,5 @@
 from django.db import models
+from django_pgjson.fields import JsonBField
 from apps.common.models import *
 
 class Circle(TimeStamped):
@@ -37,5 +38,5 @@ class CampaignCity(TimeStamped):
 class ScrapedData(TimeStamped):
     domain = models.CharField(max_length=255)
     url = models.TextField(null=True, blank=True, unique=True)
-    jsondata = models.TextField(null=True, blank=True)
+    data = JsonBField(blank=True, null=True)
 
