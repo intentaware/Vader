@@ -41,9 +41,13 @@ class IntentSpider(CrawlSpider):
         styleLinks = response.xpath('//link[@rel="stylesheet"]/@href').extract()
         for n, i in enumerate(styleLinks):
             styleLinks[n] = urljoin(self.start_urls[0], i)
-        data = {'raw':rawData, 'scripts':scriptLinks, 'styles':styleLinks, 'analysis': 'to be done later', 'tags':'to be done later'}
-        data = json.dumps(data)
-        p['jsondata'] = data
+        data = {
+            'raw':rawData,
+            'scripts':scriptLinks,
+            'styles':styleLinks,
+            'analysis': 'to be done later',
+            'tags':'to be done later'}
+        p['data'] = data
         p.save()
         for n, i in enumerate(links):
             links[n] = urljoin(self.start_urls[0], i)
