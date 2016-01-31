@@ -149,5 +149,28 @@ class GetImpression(APIView):
             try:
                 ScrapedData.objects.get(url=referer_url)
             except:
+                from bs4 import BeautifulSoup
+                p = ScrapedData()
+                p.domain = domain
+                p.url = referer_url
+                page = requests.get(referer_url)
+                soup = BeautifulSoup(page.text)
+                rawData = soup
+                links = soup.find_all('script', {"src": True})
+                scriptLinks = []
+                for link in links:
+                    scriptLinks.append(link['src'])
+                for n, i in enumerate(scriptLinks):
+                    scriptLinks[n] = urljoin(referer_url, i)
+                styleLinks = [link["href"] for link in soup.findAll("link") 
+                              if "stylesheet" in link.get("rel", [])]
+                for n, i in enumerate(styleLinks):
+                    styleLinks[n] = urljoin(referer_url, i)
+                data = {'raw':rawData, 'scripts':scriptLinks, 'styles':styleLinks, 
+                       'analysis': 'to be done later',
+                        'tags':'to be done later'}
+                data = json.dumps(data)
+                p.jsondata = data
+                p.save()
                 scrapy_command.delay(settings.SPIDER_DIR, referer_url, domain)
 
