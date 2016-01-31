@@ -1,6 +1,6 @@
 import sys
 
-from fabric.api import env, require, run, put, cd, lcd, task, settings as fabric_settings
+from fabric.api import env, require, run, sudo, put, cd, lcd, task, settings as fabric_settings
 from fabric.api import local as lrun
 from fabric.contrib.console import confirm
 
@@ -44,6 +44,7 @@ def stage():
         fab stage <task>
     """
     env.run = run
+    env.sudo = sudo
     env.cd = cd
     env.name = 'adomattic-stage'
     env.conf_path = 'stage'
@@ -69,6 +70,7 @@ def live():
         fab live <task>
     """
     env.run = run
+    env.sudo = sudo
     env.cd = cd
     env.name = 'ia-live'
     env.conf_path = 'live'
@@ -139,7 +141,7 @@ def yum():
     env.run('sudo yum-config-manager --enable epel')
     env.run('sudo yum -y install postgresql94-libs postgresql94-devel')
     env.run('sudo yum -y install nginx')
-    env.run('sudo -i; curl -sL https://rpm.nodesource.com/setup_5.x | bash -; yum install nodejs;')
+    env.sudo('curl -sL https://rpm.nodesource.com/setup_5.x | bash -; yum install nodejs;')
     #env.run('sudo yum -y install uwsgi uwsgi-plugin-python')
     env.run('sudo npm i -g bower gulp yo')
 

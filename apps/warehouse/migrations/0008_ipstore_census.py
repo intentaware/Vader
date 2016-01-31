@@ -8,7 +8,7 @@ import django_pgjson.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warehouse', '0008_populate_lat_long_on_ip'),
+        ('warehouse', '0007_ipstore_geocode'),
     ]
 
     operations = [

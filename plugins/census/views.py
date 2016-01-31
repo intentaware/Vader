@@ -8,6 +8,7 @@ import gzip
 import re
 import requests
 import unicodecsv
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -16,7 +17,7 @@ from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template import loader, TemplateDoesNotExist
-from django.utils import simplejson
+
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
@@ -46,7 +47,7 @@ def render_json_to_response(context):
     '''
     Utility method for rendering a view's data to JSON response.
     '''
-    result = simplejson.dumps(context, sort_keys=False, indent=4)
+    result = json.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
 ### HEALTH CHECK ###
@@ -92,10 +93,10 @@ class TableSearchView(TemplateView):
             status_code = r.status_code
 
             if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                data = json.loads(r.text, object_pairs_hook=OrderedDict)
 
                 # if we end up powering results list with javascript ...
-                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+                #page_context['results'] = SafeString(json.dumps(data['results'], cls=LazyEncoder))
 
                 page_context = data
                 page_context['q'] = q
@@ -117,7 +118,7 @@ class TableSearchView(TemplateView):
 
                 page_context['q'] = q
             elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
+                error_data = json.loads(r.text)
                 raise_404_with_messages(self.request, error_data)
             else:
                 raise Http404
@@ -167,9 +168,9 @@ class TableDetailView(TemplateView):
 
         # make sure we've requeste a legit tabulation code
         if status_code == 200:
-            tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            tabulation_data = json.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
+            error_data = json.loads(r.text)
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
@@ -249,9 +250,9 @@ class TableDetailView(TemplateView):
         status_code = r.status_code
 
         if status_code == 200:
-            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            return json.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
+            error_data = json.loads(r.text)
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
@@ -287,11 +288,11 @@ class GeographySearchView(TemplateView):
             status_code = r.status_code
 
             if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                data = json.loads(r.text, object_pairs_hook=OrderedDict)
 
                 # if we end up powering results list with javascript ...
-                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
-                #page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
+                #page_context['results'] = SafeString(json.dumps(data['results'], cls=LazyEncoder))
+                #page_context['facets'] = SafeString(json.dumps(data['facets'], cls=LazyEncoder))
 
                 page_context = data
                 page_context['q'] = q
@@ -308,7 +309,7 @@ class GeographySearchView(TemplateView):
                 if 'previous_page' in data['links']:
                     page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
             elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
+                error_data = json.loads(r.text)
                 raise_404_with_messages(self.request, error_data)
             else:
                 raise Http404
@@ -369,7 +370,7 @@ class GeographyDetailView(TemplateView):
         status_code = r.status_code
 
         if status_code == 200:
-            geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            geo_data = json.loads(r.text, object_pairs_hook=OrderedDict)
             return geo_data
         return None
 
@@ -429,7 +430,7 @@ class GeographyDetailView(TemplateView):
             # Read the decompressed JSON from S3
             profile_data_json = compressed.read()
             # Load it into a Python dict for the template
-            profile_data = simplejson.loads(profile_data_json)
+            profile_data = json.loads(profile_data_json)
             # Also mark it as safe for the charts on the profile
             profile_data_json = SafeString(profile_data_json)
         else:
@@ -438,7 +439,7 @@ class GeographyDetailView(TemplateView):
             if profile_data:
                 profile_data = enhance_api_data(profile_data)
 
-                profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+                profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
 
                 if s3_key is None:
                     logger.warn("Could not save to S3 because there was no connection to S3.")
@@ -613,14 +614,14 @@ class MakeJSONView(View):
         post_data = self.request.POST
         
         if 'chart_data' in post_data:
-            chart_data = simplejson.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
+            chart_data = json.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
         if 'geography' in post_data:
-            geography = simplejson.loads(post_data['geography'], object_pairs_hook=OrderedDict)
+            geography = json.loads(post_data['geography'], object_pairs_hook=OrderedDict)
         if 'geo_metadata' in post_data:
-            geo_metadata = simplejson.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
+            geo_metadata = json.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
 
         if 'params' in post_data:
-            params = simplejson.loads(post_data['params'])
+            params = json.loads(post_data['params'])
         
         # for now, assume we need all these things
         if not (chart_data and geography and geo_metadata and params):
@@ -640,7 +641,7 @@ class MakeJSONView(View):
 
         nested_set(data, path_to_make, chart_data)
 
-        chart_data_json = SafeString(simplejson.dumps(data, cls=LazyEncoder))
+        chart_data_json = SafeString(json.dumps(data, cls=LazyEncoder))
         
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
         s3 = S3Conn()
@@ -791,11 +792,11 @@ class Elasticsearch(TemplateView):
 
             #print r.url
             if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                data = json.loads(r.text, object_pairs_hook=OrderedDict)
                 page_context['geos'] = data['results']
                 page_context['g'] = geo_select
             elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
+                error_data = json.loads(r.text)
                 raise_404_with_messages(self.request, error_data)
             else:
                 raise Http404
@@ -808,10 +809,10 @@ class Elasticsearch(TemplateView):
             status_code = r.status_code
 
             if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                data = json.loads(r.text, object_pairs_hook=OrderedDict)
                 page_context['tables'] = data['results']
             elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
+                error_data = json.loads(r.text)
                 raise_404_with_messages(self.request, error_data)
             else:
                 raise Http404

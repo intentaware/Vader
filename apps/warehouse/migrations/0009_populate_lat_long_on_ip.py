@@ -30,7 +30,7 @@ def reverse(apps, schemaeditor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warehouse', '0007_ipstore_geocode'),
+        ('warehouse', '0008_ipstore_census'),
     ]
 
     operations = [
