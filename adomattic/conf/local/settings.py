@@ -21,15 +21,24 @@ INTERNAL_IPS = (
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'vader',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'vader',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+  'default': {
+    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    'NAME': 'test',
+    'USER': os.environ.get('PG_USER'),
+    'PASSWORD': os.environ.get('PG_PASSWORD'),
+    'HOST': '127.0.0.1',
+  }
 }
 
 DEVSERVER_MODULES = (
