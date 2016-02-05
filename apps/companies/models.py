@@ -91,6 +91,9 @@ class CompanyGroup(TimeStamped):
     company = models.ForeignKey('companies.Company', related_name='groups')
     permissions = JsonField(default=[])
 
+    def __unicode__(self):
+        return '%s: %s' %(self.company.name, self.name)
+
 
 class CompanyUser(TimeStamped):
     user = models.ForeignKey('users.User', related_name='memberships')

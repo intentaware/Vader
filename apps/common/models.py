@@ -125,12 +125,23 @@ class IP2GeoModel(BaseModel):
 
         try:
             out['city'] = ip2geo['city']['names']['en'] if ip2geo else None
-        except:
+        except KeyError:
             out['city'] = None
 
-        out['country'] = ip2geo['country']['names']['en'] if ip2geo else None
-        out['latitude'] = ip2geo['location']['latitude'] if ip2geo else None
-        out['longitude'] = ip2geo['location']['longitude'] if ip2geo else None
+        try:
+            out['country'] = ip2geo['country']['names']['en'] if ip2geo else None
+        except KeyError:
+            out['country'] = None
+
+        try:
+            out['latitude'] = ip2geo['location']['latitude'] if ip2geo else None
+        except KeyError:
+            out['latitude'] = None
+
+        try:
+            out['longitude'] = ip2geo['location']['longitude'] if ip2geo else None
+        except KeyError:
+            out['longitude'] = None
 
         if ip2geo:
             traits = ip2geo['traits']

@@ -46,11 +46,11 @@ def stage():
     env.run = run
     env.sudo = sudo
     env.cd = cd
-    env.name = 'adomattic-stage'
+    env.name = 'ia-stage'
     env.conf_path = 'stage'
     env.project_root = '/srv/%(name)s/' % env
-    env.hosts = ['stage.intentaware.com']
-    env.user = 'root'
+    env.hosts = ['54.213.228.61']
+    env.user = 'ec2-user'
     env.key_filename = STAGE_KEY
     # env.no_keys = True
     # env.use_ssh_config = False
@@ -85,7 +85,7 @@ def live():
     env.venv = 'source /srv/%(name)s/bin/activate && ' % env
     env.dashboard = '/srv/%(name)s/magneto/dashboard/' % env
     env.impressions = '/srv/%(name)s/magneto/impressions/' % env
-    env.email = '/srv/%(name)s/magneto/emails/' % env
+    env.emails = '/srv/%(name)s/magneto/emails/' % env
 
 
 
@@ -129,21 +129,22 @@ def apt():
     env.run('sudo npm i -g bower gulp yo')
 
 def yum():
-    env.run('sudo yum -y update')
-    env.run('sudo yum -y groupinstall "Development tools"')
-    env.run('sudo yum -y install zlib-devel')
-    env.run('sudo yum -y install python27-devel python27-tools')
-    env.run('sudo yum -y install python27-pip')
-    env.run('sudo yum -y install ibxml2-devel libxslt-devel geos')
-    env.run('sudo yum -y install freetype-devel freetype-demos libjpeg* pngquant lcms2* libtiff* openjpeg* libwebp-devel tcl-devel tk-devel')
-    env.run('sudo yum install -y gcc openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel')
+    env.sudo('yum -y update')
+    env.sudo('yum -y groupinstall "Development tools"')
+    env.sudo('yum -y install zlib-devel')
+    env.sudo('yum -y install python27-devel python27-tools')
+    env.sudo('yum -y install python27-pip')
+    env.sudo('yum -y install ibxml2-devel libxslt-devel geos')
+    env.sudo('yum -y install freetype-devel freetype-demos libjpeg* pngquant lcms2* libtiff* openjpeg* libwebp-devel tcl-devel tk-devel')
+    env.sudo('yum install -y gcc openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel')
     # Adding extra packages
-    env.run('sudo yum-config-manager --enable epel')
-    env.run('sudo yum -y install postgresql94-libs postgresql94-devel')
-    env.run('sudo yum -y install nginx')
-    env.sudo('curl -sL https://rpm.nodesource.com/setup_5.x | bash -; yum install nodejs;')
-    #env.run('sudo yum -y install uwsgi uwsgi-plugin-python')
-    env.run('sudo npm i -g bower gulp yo')
+    env.sudo('yum-config-manager --enable epel')
+    env.sudo('yum -y install postgresql94-libs postgresql94-devel')
+    env.sudo('yum -y install nginx')
+    env.sudo('curl -sL https://rpm.nodesource.com/setup_5.x | bash -')
+    env.sudo('yum -y install nodejs')
+    #env.sudo('yum -y install uwsgi uwsgi-plugin-python')
+    env.sudo('npm i -g bower gulp yo')
 
 def brew():
     print "Warning!!"
@@ -197,7 +198,7 @@ def clone():
     """
     env.run("sudo mkdir %(project_root)s" % env)
     env.run("sudo chown -R ec2-user:ec2-user %(project_root)s" % env)
-    env.run("git clone --recursive git@github.com:adomattic/Vader.git %(project_root)s" % env)
+    env.run("git clone --recursive git@github.com:intentaware/Vader.git %(project_root)s" % env)
 
 
 def git_pull():
@@ -244,7 +245,7 @@ def copy_nginx_conf():
     """
     update nginx settings for the site and make them available in sites-available
     """
-    env.run('sudo cp /srv/%(name)s/adomattic/conf/%(conf_path)s/nginx/%(conf_path)s.conf /etc/nginx/sites-available/%(conf_path)s.conf' % env)
+    env.sudo('cp /srv/%(name)s/adomattic/conf/%(conf_path)s/nginx/%(conf_path)s.conf /etc/nginx/sites-available/%(conf_path)s.conf' % env)
 
 
 def restart_uwsgi():
@@ -289,6 +290,10 @@ def setup_magneto():
     npm()
     bower()
     gulp()
+
+def rabbitmq():
+    with env.cd(env.project_root):
+        sudo('service rabbitmq-server restart')
 
 def get_ipdb():
     """

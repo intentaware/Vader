@@ -29,8 +29,11 @@ class IPStore(TimeStamped):
         pc = None
         if self.geocode:
             for s in self.geocode[0]['address_components']:
-                if s['types'][0] == 'postal_code':
-                    pc = s['long_name']
+                try:
+                    if s['types'][0] == 'postal_code':
+                        pc = s['long_name']
+                except:
+                    pass
         return pc
 
     @property
