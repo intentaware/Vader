@@ -61,9 +61,7 @@ class CampaignTests(TestCase):
 
         """
     def test_set_invoice(self):
-
         Still not figured out
-
         """
 
 

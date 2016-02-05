@@ -1,23 +1,11 @@
 from django.test import TestCase
 from models import Company
 from apps.campaigns.models import *
-from apps.campaigns.tests import CampaignFactory
-import factory
-
-class CompaniesFactory(factory.Factory):
-    class Meta:
-        model = Company
-
-    is_active = True
-    is_advertiser = True
-    publisher_key = "YufjaydQ_U2NQ2Qq8kogKA"
-    advertiser_rate = 1.045
-    payment_data = {'method' : 'bank', 'bank_name' : 'citi', 'acc_no' : '04596'}
+from apps.common.factories import *
 
 class CompaniesTest(TestCase):
     company = CompaniesFactory()
     campaign = CampaignFactory()
-
 
     def test_is_active(self):
         self.assertEqual(self.company.is_active, True, "Company is_active test Failed.")
@@ -42,6 +30,8 @@ class CompaniesTest(TestCase):
     def test_get_target_campaigns(self):
         response = self.company.get_target_campaigns(request='GET',campaign_id=self.campaign.id)
         count  = Coupon.objects.all().count()
+        companies = Campaign.objects.all().count()
 
-        print type(response)
-        print count 
+        print self.campaign.invoice
+        
+       

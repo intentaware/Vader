@@ -2,19 +2,12 @@ from django.test.client import Client
 from django.test import TestCase
 from models import User
 from backends.forms import *
-import factory
 import requests
 from pprint import pprint
 from apps.companies.models import *
+from apps.common.factories import *
 
-class UserFactory(factory.Factory):
-    class Meta:
-        model = User
 
-    first_name = 'Robert'
-    last_name = 'Steve'
-    email = 'selftest@example.com'
-    password = 'password'
 
 
 class UserTest(TestCase):
