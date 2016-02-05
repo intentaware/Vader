@@ -31,7 +31,5 @@ class CompaniesTest(TestCase):
         response = self.company.get_target_campaigns(request='GET',campaign_id=self.campaign.id)
         count  = Coupon.objects.all().count()
         companies = Campaign.objects.all().count()
-
-        print self.campaign.invoice
         
        
