@@ -1,5 +1,4 @@
 from django.db import models
-from django_pgjson.fields import JsonBField
 from django_extensions.db.fields import *
 
 from apps.common.models import TimeStamped, IP2GeoModel
