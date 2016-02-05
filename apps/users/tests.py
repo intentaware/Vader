@@ -73,10 +73,10 @@ class UserTest(TestCase):
             response = self.c.post('/users/auth/password/reset/',{'email' : 'selftest@example.com'})
             key2  = userCheck.key
             if key1 != key2:
-                print "User test_user_registration_view Passed"
+                print "User test_user_registration_view Failed"
                 return True
             else:
-                print "User test_user_registration_view Failed"
+                print "User test_user_registration_view Passed"
                 return False
     
 
