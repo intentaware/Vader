@@ -32,10 +32,12 @@ class UserTest(TestCase):
         username = self.user.get_username()
         self.assertEqual(username, "Robert Steve", "User test_get_username Failed")
         print "User test_get_username Passed"
-
+    """
+    not genrating key because password reset is commented
     def test_update_key(self):
         update_key = self.user.update_key()
         print "User test_update_key Passed"
+    """
 
     def test_get_short_name(self):
         short_name = self.user.get_short_name()
