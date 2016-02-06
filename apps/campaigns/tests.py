@@ -32,12 +32,13 @@ class CampaignTests(TestCase):
     def test_coupon_count(self):
         self.assertEqual(self.campaign.coupon_count, 5, "Campaign test_coupon_count Failed")
         print "Campaign test_coupon_count Passed"
-    """
+    
     def test_save(self):
         #TODO: should not be able to create campaign without a company
         register = self.c.post('/users/auth/register/', {'name' : 'SampleName', 'email' : 'selftest@example.com', 'password1' : 'alphanum', 'password2' : 'alphanum'})
-        company = Company.objects.get(name='SampleName')
-        check = Campaign.objects.get(name="SampleSite")
-        self.assertEqual(check.name, "SampleSite", "Campaign test_save Failed")
-        self.assertEqual(check.description, self.rawDesc, "Campaign test_save Failed")
-        """
+        print register
+        #company = Company.objects.get(name='SampleName')
+        #check = Campaign.objects.get(name="SampleSite")
+        #self.assertEqual(check.name, "SampleSite", "Campaign test_save Failed")
+        #self.assertEqual(check.description, self.rawDesc, "Campaign test_save Failed")
+    
