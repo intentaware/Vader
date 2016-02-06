@@ -74,10 +74,7 @@ class UserTest(TestCase):
             key2  = userCheck.key
             if key1 != key2:
                 print "User test_user_registration_view Failed"
-                return True
+                return False
             else:
                 print "User test_user_registration_view Passed"
-                return False
-    
-
-
+                return True
