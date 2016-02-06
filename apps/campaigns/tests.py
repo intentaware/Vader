@@ -37,7 +37,6 @@ class CampaignTests(TestCase):
         #TODO: should not be able to create campaign without a company
         register = self.c.post('/users/auth/register/', {'name' : 'SampleName', 'email' : 'selftest@example.com', 'password1' : 'alphanum', 'password2' : 'alphanum'})
         company = Company.objects.get(name='SampleName')
-        response = self.campaign.save()
         check = Campaign.objects.get(name="SampleSite")
         self.assertEqual(check.name, "SampleSite", "Campaign test_save Failed")
         self.assertEqual(check.description, self.rawDesc, "Campaign test_save Failed")
