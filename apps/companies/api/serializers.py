@@ -3,12 +3,14 @@ from rest_framework import serializers
 from apps.companies.models import *
 from apps.metas.models import PublisherCircle
 
-class CompanySerializer(serializers.ModelSerializer):
-    circles = serializers.SerializerMethodField()
+class BaseCompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        exclude = ['users', ]
+        exclude = ['users', 'circles']
+
+class CompanySerializer(BaseCompanySerializer):
+    circles = serializers.SerializerMethodField()
 
     def get_circles(self, obj):
         return list(

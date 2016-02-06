@@ -1,25 +1,15 @@
+
 from django.test import TestCase
 from models import *
-import factory
 from apps.companies.models import *
 from django.test.client import Client
-from apps.users.tests import UserFactory
-from apps.companies.tests import CompaniesFactory
+from apps.common.factories import *
 
-class CampaignFactory(factory.Factory):
-    class Meta:
-        model = Campaign
 
-    name = "SampleSite"
-    description = "Some words about campaign "
-    budget = 600
-    coupon_value = 10
-    coupon_count = 5
-    is_active = True
 
 class CampaignTests(TestCase):
     c = Client()
-
+    
     campaign = CampaignFactory()
     rawName = "SampleSite"
     rawDesc = "Some words about campaign "
@@ -54,14 +44,8 @@ class CampaignTests(TestCase):
         check = Campaign.objects.get(name="SampleSite")
         self.assertEqual(check.name, "SampleSite", "Campaign test_save Failed")
         self.assertEqual(check.description, self.rawDesc, "Campaign test_save Failed")
-
+        
         print "Campaign test_save Passed"
-
+        
         #invoice = self.campaign.set_invoice(self)
-
-        """
-    def test_set_invoice(self):
-        Still not figured out
-        """
-
-
+        
