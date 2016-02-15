@@ -217,6 +217,9 @@ class CensusUS(object):
         value = stack.pop()
         error = moe_stack.pop()
 
+        if not error:
+            error = float(0)
+
         return (value, error, numerator, numerator_moe)
 
 
@@ -379,9 +382,6 @@ class CensusUS(object):
 
         result = self.query(sql)
 
-        print data
-        print result
-
         doc['geography']['parents'] = dict()
 
         for row in result:
@@ -525,6 +525,483 @@ class CensusUS(object):
 
         race_dict['percent_two_or_more'] = self.build_item('Two+', data, item_levels,
             'b03002009 b03002001 / %')
+
+        race_dict['percent_hispanic'] = self.build_item('Hispanic', data, item_levels,
+        'b03002012 b03002001 / %')
+
+        # Economics: Per-Capita Income
+        # single data point
+        data = self.map_rows_to_geoid(self.get_data('B19301', comparison_geoids))
+
+        income_dict = dict()
+        doc['economics']['income'] = income_dict
+
+        income_dict['per_capita_income_in_the_last_12_months'] = self.build_item('Per capita income', data, item_levels,
+            'b19301001')
+
+        # Economics: Median Household Income
+        # single data point
+        data = self.map_rows_to_geoid(self.get_data('B19013', comparison_geoids))
+
+        income_dict['median_household_income'] = self.build_item('Median household income', data, item_levels,
+            'b19013001')
+
+        # Economics: Household Income Distribution
+        # multiple data points, suitable for visualization
+        data = self.map_rows_to_geoid(self.get_data('B19001', comparison_geoids))
+
+        income_distribution = dict()
+        income_dict['household_distribution'] = income_distribution
+
+        income_distribution['under_50'] = self.build_item('Under $50K', data, item_levels,
+            'b19001002 b19001003 + b19001004 + b19001005 + b19001006 + b19001007 + b19001008 + b19001009 + b19001010 + b19001001 / %')
+        income_distribution['50_to_100'] = self.build_item('$50K - $100K', data, item_levels,
+            'b19001011 b19001012 + b19001013 + b19001001 / %')
+        income_distribution['100_to_200'] = self.build_item('$100K - $200K', data, item_levels,
+            'b19001014 b19001015 + b19001016 + b19001001 / %')
+        income_distribution['over_200'] = self.build_item('Over $200K', data, item_levels,
+            'b19001017 b19001001 / %')
+
+        # Economics: Poverty Rate
+        # provides separate dicts for children and seniors, with multiple data points, suitable for visualization
+        data = self.map_rows_to_geoid(self.get_data('B17001', comparison_geoids))
+
+        poverty_dict = dict()
+        doc['economics']['poverty'] = poverty_dict
+
+        poverty_dict['percent_below_poverty_line'] = self.build_item('Persons below poverty line', data, item_levels,
+            'b17001002 b17001001 / %')
+
+        poverty_children = dict()
+        poverty_seniors = dict()
+        poverty_dict['children'] = poverty_children
+        poverty_dict['seniors'] = poverty_seniors
+
+        poverty_children['below'] = self.build_item('Poverty', data, item_levels,
+            'b17001004 b17001005 + b17001006 + b17001007 + b17001008 + b17001009 + b17001018 + b17001019 + b17001020 + b17001021 + b17001022 + b17001023 + b17001004 b17001005 + b17001006 + b17001007 + b17001008 + b17001009 + b17001018 + b17001019 + b17001020 + b17001021 + b17001022 + b17001023 + b17001033 + b17001034 + b17001035 + b17001036 + b17001037 + b17001038 + b17001047 + b17001048 + b17001049 + b17001050 + b17001051 + b17001052 + / %')
+        poverty_children['above'] = self.build_item('Non-poverty', data, item_levels,
+            'b17001033 b17001034 + b17001035 + b17001036 + b17001037 + b17001038 + b17001047 + b17001048 + b17001049 + b17001050 + b17001051 + b17001052 + b17001004 b17001005 + b17001006 + b17001007 + b17001008 + b17001009 + b17001018 + b17001019 + b17001020 + b17001021 + b17001022 + b17001023 + b17001033 + b17001034 + b17001035 + b17001036 + b17001037 + b17001038 + b17001047 + b17001048 + b17001049 + b17001050 + b17001051 + b17001052 + / %')
+
+        poverty_seniors['below'] = self.build_item('Poverty', data, item_levels,
+            'b17001015 b17001016 + b17001029 + b17001030 + b17001015 b17001016 + b17001029 + b17001030 + b17001044 + b17001045 + b17001058 + b17001059 + / %')
+        poverty_seniors['above'] = self.build_item('Non-poverty', data, item_levels,
+            'b17001044 b17001045 + b17001058 + b17001059 + b17001015 b17001016 + b17001029 + b17001030 + b17001044 + b17001045 + b17001058 + b17001059 + / %')
+
+        # Economics: Mean Travel Time to Work, Means of Transportation to Work
+        # uses two different tables for calculation, so make sure they draw from same ACS release
+        data = self.map_rows_to_geoid(self.get_data(['B08006', 'B08013'], comparison_geoids))
+
+        employment_dict = dict()
+        doc['economics']['employment'] = employment_dict
+
+        employment_dict['mean_travel_time'] = self.build_item('Mean travel time to work', data, item_levels,
+            'b08013001 b08006001 b08006017 - /')
+
+        data = self.map_rows_to_geoid(self.get_data('B08006', comparison_geoids))
+
+        transportation_dict = dict()
+        employment_dict['transportation_distribution'] = transportation_dict
+
+        transportation_dict['drove_alone'] = self.build_item('Drove alone', data, item_levels,
+            'b08006003 b08006001 / %')
+        transportation_dict['carpooled'] = self.build_item('Carpooled', data, item_levels,
+            'b08006004 b08006001 / %')
+        transportation_dict['public_transit'] = self.build_item('Public transit', data, item_levels,
+            'b08006008 b08006001 / %')
+        transportation_dict['bicycle'] = self.build_item('Bicycle', data, item_levels,
+            'b08006014 b08006001 / %')
+        transportation_dict['walked'] = self.build_item('Walked', data, item_levels,
+            'b08006015 b08006001 / %')
+        transportation_dict['other'] = self.build_item('Other', data, item_levels,
+            'b08006016 b08006001 / %')
+        transportation_dict['worked_at_home'] = self.build_item('Worked at home', data, item_levels,
+            'b08006017 b08006001 / %')
+
+        # Families: Marital Status by Sex
+        data = self.map_rows_to_geoid(self.get_data('B12001', comparison_geoids))
+
+        marital_status = dict()
+        doc['families']['marital_status'] = marital_status
+
+        marital_status['married'] = self.build_item('Married', data, item_levels,
+            'b12001004 b12001013 + b12001001 / %')
+        marital_status['single'] = self.build_item('Single', data, item_levels,
+            'b12001003 b12001009 + b12001010 + b12001012 + b12001018 + b12001019 + b12001001 / %')
+
+        marital_status_grouped = dict()
+        doc['families']['marital_status_grouped'] = marital_status_grouped
+
+        # repeating data temporarily to develop grouped column chart format
+        marital_status_grouped['never_married'] = dict()
+        marital_status_grouped['never_married']['metadata'] = {
+            'universe': 'Population 15 years and over',
+            'table_id': 'b12001',
+            'name': 'Never married'
+        }
+        marital_status_grouped['never_married']['male'] = self.build_item('Male', data, item_levels,
+            'b12001003 b12001002 / %')
+        marital_status_grouped['never_married']['female'] = self.build_item('Female', data, item_levels,
+            'b12001012 b12001011 / %')
+
+        marital_status_grouped['married'] = dict()
+        marital_status_grouped['married']['metadata'] = {
+            'universe': 'Population 15 years and over',
+            'table_id': 'b12001',
+            'name': 'Now married'
+        }
+        marital_status_grouped['married']['male'] = self.build_item('Male', data, item_levels,
+            'b12001004 b12001002 / %')
+        marital_status_grouped['married']['female'] = self.build_item('Female', data, item_levels,
+            'b12001013 b12001011 / %')
+
+        marital_status_grouped['divorced'] = dict()
+        marital_status_grouped['divorced']['metadata'] = {
+            'universe': 'Population 15 years and over',
+            'table_id': 'b12001',
+            'name': 'Divorced'
+        }
+        marital_status_grouped['divorced']['male'] = self.build_item('Male', data, item_levels,
+            'b12001010 b12001002 / %')
+        marital_status_grouped['divorced']['female'] = self.build_item('Female', data, item_levels,
+            'b12001019 b12001011 / %')
+
+        marital_status_grouped['widowed'] = dict()
+        marital_status_grouped['widowed']['metadata'] = {
+            'universe': 'Population 15 years and over',
+            'table_id': 'b12001',
+            'name': 'Widowed'
+        }
+        marital_status_grouped['widowed']['male'] = self.build_item('Male', data, item_levels,
+            'b12001009 b12001002 / %')
+        marital_status_grouped['widowed']['female'] = self.build_item('Female', data, item_levels,
+            'b12001018 b12001011 / %')
+
+
+        # Families: Family Types with Children
+        data = self.map_rows_to_geoid(self.get_data('B09002', comparison_geoids))
+
+        family_types = dict()
+        doc['families']['family_types'] = family_types
+
+        children_family_type_dict = dict()
+        family_types['children'] = children_family_type_dict
+
+        children_family_type_dict['married_couple'] = self.build_item('Married couple', data, item_levels,
+            'b09002002 b09002001 / %')
+        children_family_type_dict['male_householder'] = self.build_item('Male householder', data, item_levels,
+            'b09002009 b09002001 / %')
+        children_family_type_dict['female_householder'] = self.build_item('Female householder', data, item_levels,
+            'b09002015 b09002001 / %')
+
+        # Families: Birth Rate by Women's Age
+        data = self.map_rows_to_geoid(self.get_data('B13016', comparison_geoids))
+
+        fertility = dict()
+        doc['families']['fertility'] = fertility
+
+        fertility['total'] = self.build_item('Women 15-50 who gave birth during past year', data, item_levels,
+            'b13016002 b13016001 / %')
+
+        fertility_by_age_dict = dict()
+        fertility['by_age'] = fertility_by_age_dict
+
+        fertility_by_age_dict['15_to_19'] = self.build_item('15-19', data, item_levels,
+            'b13016003 b13016003 b13016011 + / %')
+        fertility_by_age_dict['20_to_24'] = self.build_item('20-24', data, item_levels,
+            'b13016004 b13016004 b13016012 + / %')
+        fertility_by_age_dict['25_to_29'] = self.build_item('25-29', data, item_levels,
+            'b13016005 b13016005 b13016013 + / %')
+        fertility_by_age_dict['30_to_34'] = self.build_item('30-35', data, item_levels,
+            'b13016006 b13016006 b13016014 + / %')
+        fertility_by_age_dict['35_to_39'] = self.build_item('35-39', data, item_levels,
+            'b13016007 b13016007 b13016015 + / %')
+        fertility_by_age_dict['40_to_44'] = self.build_item('40-44', data, item_levels,
+            'b13016008 b13016008 b13016016 + / %')
+        fertility_by_age_dict['45_to_50'] = self.build_item('45-50', data, item_levels,
+            'b13016009 b13016009 b13016017 + / %')
+
+        # Families: Number of Households, Persons per Household, Household type distribution
+        data = self.map_rows_to_geoid(self.get_data(['B11001', 'B11002'], comparison_geoids))
+
+        households_dict = dict()
+        doc['families']['households'] = households_dict
+
+        households_dict['number_of_households'] = self.build_item('Number of households', data, item_levels,
+            'b11001001')
+
+        households_dict['persons_per_household'] = self.build_item('Persons per household', data, item_levels,
+            'b11002001 b11001001 /')
+
+        households_distribution_dict = dict()
+        households_dict['distribution'] = households_distribution_dict
+
+        households_distribution_dict['married_couples'] = self.build_item('Married couples', data, item_levels,
+            'b11002003 b11002001 / %')
+
+        households_distribution_dict['male_householder'] = self.build_item('Male householder', data, item_levels,
+            'b11002006 b11002001 / %')
+
+        households_distribution_dict['female_householder'] = self.build_item('Female householder', data, item_levels,
+            'b11002009 b11002001 / %')
+
+        households_distribution_dict['nonfamily'] = self.build_item('Non-family', data, item_levels,
+            'b11002012 b11002001 / %')
+
+
+        # Housing: Number of Housing Units, Occupancy Distribution, Vacancy Distribution
+        data = self.map_rows_to_geoid(self.get_data('B25002', comparison_geoids))
+
+        units_dict = dict()
+        doc['housing']['units'] = units_dict
+
+        units_dict['number'] = self.build_item('Number of housing units', data, item_levels,
+            'b25002001')
+
+        occupancy_distribution_dict = dict()
+        units_dict['occupancy_distribution'] = occupancy_distribution_dict
+
+        occupancy_distribution_dict['occupied'] = self.build_item('Occupied', data, item_levels,
+            'b25002002 b25002001 / %')
+        occupancy_distribution_dict['vacant'] = self.build_item('Vacant', data, item_levels,
+            'b25002003 b25002001 / %')
+
+        # Housing: Structure Distribution
+        data = self.map_rows_to_geoid(self.get_data('B25024', comparison_geoids))
+
+        structure_distribution_dict = dict()
+        units_dict['structure_distribution'] = structure_distribution_dict
+
+        structure_distribution_dict['single_unit'] = self.build_item('Single unit', data, item_levels,
+            'b25024002 b25024003 + b25024001 / %')
+        structure_distribution_dict['multi_unit'] = self.build_item('Multi-unit', data, item_levels,
+            'b25024004 b25024005 + b25024006 + b25024007 + b25024008 + b25024009 + b25024001 / %')
+        structure_distribution_dict['mobile_home'] = self.build_item('Mobile home', data, item_levels,
+            'b25024010 b25024001 / %')
+        structure_distribution_dict['vehicle'] = self.build_item('Boat, RV, van, etc.', data, item_levels,
+            'b25024011 b25024001 / %')
+
+        # Housing: Tenure
+        data = self.map_rows_to_geoid(self.get_data('B25003', comparison_geoids))
+
+        ownership_dict = dict()
+        doc['housing']['ownership'] = ownership_dict
+
+        ownership_distribution_dict = dict()
+        ownership_dict['distribution'] = ownership_distribution_dict
+
+        ownership_distribution_dict['owner'] = self.build_item('Owner occupied', data, item_levels,
+            'b25003002 b25003001 / %')
+        ownership_distribution_dict['renter'] = self.build_item('Renter occupied', data, item_levels,
+            'b25003003 b25003001 / %')
+
+        data = self.map_rows_to_geoid(self.get_data('B25026', comparison_geoids))
+
+        length_of_tenure_dict = dict()
+        doc['housing']['length_of_tenure'] = length_of_tenure_dict
+
+        length_of_tenure_dict['before_1970'] = self.build_item('Before 1970', data, item_levels,
+            'b25026008 b25026015 + b25026001 / %')
+        length_of_tenure_dict['1970s'] = self.build_item('1970s', data, item_levels,
+            'b25026007 b25026014 + b25026001 / %')
+        length_of_tenure_dict['1980s'] = self.build_item('1980s', data, item_levels,
+            'b25026006 b25026013 + b25026001 / %')
+        length_of_tenure_dict['1990s'] = self.build_item('1990s', data, item_levels,
+            'b25026005 b25026012 + b25026001 / %')
+        length_of_tenure_dict['2000_to_2004'] = self.build_item('2000-2004', data, item_levels,
+            'b25026004 b25026011 + b25026001 / %')
+        length_of_tenure_dict['since_2005'] = self.build_item('Since 2005', data, item_levels,
+            'b25026003 b25026010 + b25026001 / %')
+
+        # Housing: Mobility
+        data = self.map_rows_to_geoid(self.get_data('B07003', comparison_geoids))
+
+        migration_dict = dict()
+        doc['housing']['migration'] = migration_dict
+
+        migration_dict['moved_since_previous_year'] = self.build_item('Moved since previous year', data, item_levels,
+            'b07003007 b07003010 + b07003013 + b07003016 + b07003001 / %')
+
+        migration_distribution_dict = dict()
+        doc['housing']['migration_distribution'] = migration_distribution_dict
+
+        migration_distribution_dict['same_house_year_ago'] = self.build_item('Same house year ago', data, item_levels,
+            'b07003004 b07003001 / %')
+        migration_distribution_dict['moved_same_county'] = self.build_item('From same county', data, item_levels,
+            'b07003007 b07003001 / %')
+        migration_distribution_dict['moved_different_county'] = self.build_item('From different county', data, item_levels,
+            'b07003010 b07003001 / %')
+        migration_distribution_dict['moved_different_state'] = self.build_item('From different state', data, item_levels,
+            'b07003013 b07003001 / %')
+        migration_distribution_dict['moved_from_abroad'] = self.build_item('From abroad', data, item_levels,
+            'b07003016 b07003001 / %')
+
+        # Housing: Median Value and Distribution of Values
+        data = self.map_rows_to_geoid(self.get_data('B25077', comparison_geoids))
+
+        ownership_dict['median_value'] = self.build_item('Median value of owner-occupied housing units', data, item_levels,
+            'b25077001')
+
+        data = self.map_rows_to_geoid(self.get_data('B25075', comparison_geoids))
+
+        value_distribution = dict()
+        ownership_dict['value_distribution'] = value_distribution
+
+        ownership_dict['total_value'] = self.build_item('Total value of owner-occupied housing units', data, item_levels,
+            'b25075001')
+
+        value_distribution['under_100'] = self.build_item('Under $100K', data, item_levels,
+            'b25075002 b25075003 + b25075004 + b25075005 + b25075006 + b25075007 + b25075008 + b25075009 + b25075010 + b25075011 + b25075012 + b25075013 + b25075014 + b25075001 / %')
+        value_distribution['100_to_200'] = self.build_item('$100K - $200K', data, item_levels,
+            'b25075015 b25075016 + b25075017 + b25075018 + b25075001 / %')
+        value_distribution['200_to_300'] = self.build_item('$200K - $300K', data, item_levels,
+            'b25075019 b25075020 + b25075001 / %')
+        value_distribution['300_to_400'] = self.build_item('$300K - $400K', data, item_levels,
+            'b25075021 b25075001 / %')
+        value_distribution['400_to_500'] = self.build_item('$400K - $500K', data, item_levels,
+            'b25075022 b25075001 / %')
+        value_distribution['500_to_1000000'] = self.build_item('$500K - $1M', data, item_levels,
+            'b25075023 b25075024 + b25075001 / %')
+        value_distribution['over_1000000'] = self.build_item('Over $1M', data, item_levels,
+            'b25075025 b25075001 / %')
+
+
+        # Social: Educational Attainment
+        # Two aggregated data points for "high school and higher," "college degree and higher"
+        # and distribution dict for chart
+        data = self.map_rows_to_geoid(self.get_data('B15002', comparison_geoids))
+
+        attainment_dict = dict()
+        doc['social']['educational_attainment'] = attainment_dict
+
+        attainment_dict['percent_high_school_grad_or_higher'] = self.build_item('High school grad or higher', data, item_levels,
+            'b15002011 b15002012 + b15002013 + b15002014 + b15002015 + b15002016 + b15002017 + b15002018 + b15002028 + b15002029 + b15002030 + b15002031 + b15002032 + b15002033 + b15002034 + b15002035 + b15002001 / %')
+
+        attainment_dict['percent_bachelor_degree_or_higher'] = self.build_item('Bachelor\'s degree or higher', data, item_levels,
+            'b15002015 b15002016 + b15002017 + b15002018 + b15002032 + b15002033 + b15002034 + b15002035 + b15002001 / %')
+
+        attainment_distribution_dict = dict()
+        doc['social']['educational_attainment_distribution'] = attainment_distribution_dict
+
+        attainment_distribution_dict['non_high_school_grad'] = self.build_item('No degree', data, item_levels,
+            'b15002003 b15002004 + b15002005 + b15002006 + b15002007 + b15002008 + b15002009 + b15002010 + b15002020 + b15002021 + b15002022 + b15002023 + b15002024 + b15002025 + b15002026 + b15002027 + b15002001 / %')
+
+        attainment_distribution_dict['high_school_grad'] = self.build_item('High school', data, item_levels,
+            'b15002011 b15002028 + b15002001 / %')
+
+        attainment_distribution_dict['some_college'] = self.build_item('Some college', data, item_levels,
+            'b15002012 b15002013 + b15002014 + b15002029 + b15002030 + b15002031 + b15002001 / %')
+
+        attainment_distribution_dict['bachelor_degree'] = self.build_item('Bachelor\'s', data, item_levels,
+            'b15002015 b15002032 + b15002001 / %')
+
+        attainment_distribution_dict['post_grad_degree'] = self.build_item('Post-grad', data, item_levels,
+            'b15002016 b15002017 + b15002018 + b15002033 + b15002034 + b15002035 + b15002001 / %')
+
+        # Social: Place of Birth
+        data = self.map_rows_to_geoid(self.get_data('B05002', comparison_geoids))
+
+        foreign_dict = dict()
+        doc['social']['place_of_birth'] = foreign_dict
+
+        foreign_dict['percent_foreign_born'] = self.build_item('Foreign-born population', data, item_levels,
+            'b05002013 b05002001 / %')
+
+        data = self.map_rows_to_geoid(self.get_data('B05006', comparison_geoids))
+
+        place_of_birth_dict = dict()
+        foreign_dict['distribution'] = place_of_birth_dict
+
+        place_of_birth_dict['europe'] = self.build_item('Europe', data, item_levels,
+            'b05006002 b05006001 / %')
+        place_of_birth_dict['asia'] = self.build_item('Asia', data, item_levels,
+            'b05006047 b05006001 / %')
+        place_of_birth_dict['africa'] = self.build_item('Africa', data, item_levels,
+            'b05006091 b05006001 / %')
+        place_of_birth_dict['oceania'] = self.build_item('Oceania', data, item_levels,
+            'b05006116 b05006001 / %')
+        place_of_birth_dict['latin_america'] = self.build_item('Latin America', data, item_levels,
+            'b05006123 b05006001 / %')
+        place_of_birth_dict['north_america'] = self.build_item('North America', data, item_levels,
+            'b05006159 b05006001 / %')
+
+        # Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
+        data = self.map_rows_to_geoid(self.get_data('B16001', comparison_geoids))
+
+        language_dict = dict()
+        doc['social']['language'] = language_dict
+
+        language_dict['percent_non_english_at_home'] = self.build_item('Persons with language other than English spoken at home', data, item_levels,
+            'b16001001 b16001002 - b16001001 / %')
+
+
+        data = self.map_rows_to_geoid(self.get_data('B16007', comparison_geoids))
+
+        language_children = dict()
+        language_adults = dict()
+        language_dict['children'] = language_children
+        language_dict['adults'] = language_adults
+
+        language_children['english'] = self.build_item('English only', data, item_levels,
+            'b16007003 b16007002 / %')
+        language_adults['english'] = self.build_item('English only', data, item_levels,
+            'b16007009 b16007015 + b16007008 b16007014 + / %')
+
+        language_children['spanish'] = self.build_item('Spanish', data, item_levels,
+            'b16007004 b16007002 / %')
+        language_adults['spanish'] = self.build_item('Spanish', data, item_levels,
+            'b16007010 b16007016 + b16007008 b16007014 + / %')
+
+        language_children['indoeuropean'] = self.build_item('Indo-European', data, item_levels,
+            'b16007005 b16007002 / %')
+        language_adults['indoeuropean'] = self.build_item('Indo-European', data, item_levels,
+            'b16007011 b16007017 + b16007008 b16007014 + / %')
+
+        language_children['asian_islander'] = self.build_item('Asian/Islander', data, item_levels,
+            'b16007006 b16007002 / %')
+        language_adults['asian_islander'] = self.build_item('Asian/Islander', data, item_levels,
+            'b16007012 b16007018 + b16007008 b16007014 + / %')
+
+        language_children['other'] = self.build_item('Other', data, item_levels,
+            'b16007007 b16007002 / %')
+        language_adults['other'] = self.build_item('Other', data, item_levels,
+            'b16007013 b16007019 + b16007008 b16007014 + / %')
+
+
+        # Social: Number of Veterans, Wartime Service, Sex of Veterans
+        data = self.map_rows_to_geoid(self.get_data('B21002', comparison_geoids))
+
+        veterans_dict = dict()
+        doc['social']['veterans'] = veterans_dict
+
+        veterans_service_dict = dict()
+        veterans_dict['wartime_service'] = veterans_service_dict
+
+        veterans_service_dict['wwii'] = self.build_item('WWII', data, item_levels,
+            'b21002009 b21002011 + b21002012 +')
+        veterans_service_dict['korea'] = self.build_item('Korea', data, item_levels,
+            'b21002008 b21002009 + b21002010 + b21002011 +')
+        veterans_service_dict['vietnam'] = self.build_item('Vietnam', data, item_levels,
+            'b21002004 b21002006 + b21002007 + b21002008 + b21002009 +')
+        veterans_service_dict['gulf_1990s'] = self.build_item('Gulf (1990s)', data, item_levels,
+            'b21002003 b21002004 + b21002005 + b21002006 +')
+        veterans_service_dict['gulf_2001'] = self.build_item('Gulf (2001-)', data, item_levels,
+            'b21002002 b21002003 + b21002004 +')
+
+        data = self.map_rows_to_geoid(self.get_data('B21001', comparison_geoids))
+
+        veterans_sex_dict = dict()
+        veterans_dict['sex'] = veterans_sex_dict
+
+        veterans_sex_dict['male'] = self.build_item('Male', data, item_levels,
+            'b21001005')
+        veterans_sex_dict['female'] = self.build_item('Female', data, item_levels,
+            'b21001023')
+
+        veterans_dict['number'] = self.build_item('Total veterans', data, item_levels,
+            'b21001002')
+
+        veterans_dict['percentage'] = self.build_item('Population with veteran status', data, item_levels,
+            'b21001002 b21001001 / %')
 
         return doc
 
