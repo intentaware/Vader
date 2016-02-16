@@ -357,7 +357,7 @@ class CensusUS(object):
         return data
 
 
-    def profile(self):
+    def get_profile(self):
         item_levels = self.get_comparision_geoids()
         comparison_geoids = [str(level['geoid']) for level in item_levels]
 
@@ -871,7 +871,7 @@ class CensusUS(object):
         data = self.map_rows_to_geoid(self.get_data('B15002', comparison_geoids))
 
         attainment_dict = dict()
-        doc['social']['educational_attainment'] = attainment_dict
+        doc['social']['education'] = attainment_dict
 
         attainment_dict['percent_high_school_grad_or_higher'] = self.build_item('High school grad or higher', data, item_levels,
             'b15002011 b15002012 + b15002013 + b15002014 + b15002015 + b15002016 + b15002017 + b15002018 + b15002028 + b15002029 + b15002030 + b15002031 + b15002032 + b15002033 + b15002034 + b15002035 + b15002001 / %')
@@ -880,7 +880,7 @@ class CensusUS(object):
             'b15002015 b15002016 + b15002017 + b15002018 + b15002032 + b15002033 + b15002034 + b15002035 + b15002001 / %')
 
         attainment_distribution_dict = dict()
-        doc['social']['educational_attainment_distribution'] = attainment_distribution_dict
+        doc['social']['education']['distribution'] = attainment_distribution_dict
 
         attainment_distribution_dict['non_high_school_grad'] = self.build_item('No degree', data, item_levels,
             'b15002003 b15002004 + b15002005 + b15002006 + b15002007 + b15002008 + b15002009 + b15002010 + b15002020 + b15002021 + b15002022 + b15002023 + b15002024 + b15002025 + b15002026 + b15002027 + b15002001 / %')
@@ -1005,4 +1005,44 @@ class CensusUS(object):
 
         return doc
 
+    def computed_profile(self):
+        doc = dict()
+        profile = self.get_profile()
+
+        age = profile['demographics']['age']['median_age']['total']['values']['this']
+        doc['age'] = int(age)
+
+        male = profile['demographics']['sex']['percent_male']['values']['this']
+        female = profile['demographics']['sex']['percent_female']['values']['this']
+        if male > female:
+            doc['sex'] = 'Male'
+        else:
+            doc['sex'] = 'Female'
+
+        transport = dict([
+            ('Bicycle', profile['economics']['employment']['transportation_distribution']['bicycle']['values']['this']),
+            ('Public Transit', profile['economics']['employment']['transportation_distribution']['public_transit']['values']['this']),
+            ('Works At Home', profile['economics']['employment']['transportation_distribution']['worked_at_home']['values']['this']),
+            ('Car Pools', profile['economics']['employment']['transportation_distribution']['carpooled']['values']['this']),
+            ('Walks', profile['economics']['employment']['transportation_distribution']['walked']['values']['this']),
+            ('Drives Alone', profile['economics']['employment']['transportation_distribution']['drove_alone']['values']['this'])
+        ])
+        doc['transport'] = max(transport.iteritems(), key=operator.itemgetter(1))[0]
+
+        income = profile['economics']['income']['per_capita_income_in_the_last_12_months']['values']['this']
+        if income > 49999:
+            doc['job'] = 'Blue Collar'
+        else:
+            doc['job'] = 'White Collar'
+
+        education = dict([
+            ('Bechelors', profile['social']['education']['distribution']['bachelor_degree']['values']['this']),
+            ('High School Dropout', profile['social']['education']['distribution']['non_high_school_grad']['values']['this']),
+            ('Post Graduate', profile['social']['education']['distribution']['post_grad_degree']['values']['this']),
+            ('High School', profile['social']['education']['distribution']['high_school_grad']['values']['this']),
+            ('Some College', profile['social']['education']['distribution']['some_college']['values']['this']),
+        ])
+        doc['education'] = max(education.iteritems(), key=operator.itemgetter(1))[0]
+
+        return doc
 

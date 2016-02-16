@@ -5,3 +5,5 @@ if [[ $? != 0 ]]; then
     echo "Failed importing unified metadata."
     exit 1
 fi
+
+psql us_census -h $PGHOST -U census -c "\copy acs2014_5yr.census_column_metadata FROM '/home/ubuntu/census-table-metadata/precomputed/acs2014_5yr/census_column_metadata.csv' WITH csv ENCODING 'utf8' HEADER;"
