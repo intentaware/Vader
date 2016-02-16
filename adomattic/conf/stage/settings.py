@@ -34,7 +34,8 @@ DATABASES = {
         'PASSWORD': 'e9x2055KK013Qjbz0S8ex5QA',
         'HOST': 'istage.c3udwfzrnadp.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
-    }
+    },
+    'us_census': US_CENSUS_DB
 }
 
 STRIPE_KEY = 'sk_test_s0cxlb2a5kArqUwfSGeig5CI'
