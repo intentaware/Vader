@@ -1,10 +1,11 @@
-from json import JSONEncoder
+import json
 
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from django.conf import settings
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.conf import settings
 
 from apps.api.permissions import PublisherAPIPermission
 from apps.impressions.models import Impression
@@ -15,11 +16,6 @@ from plugins.census.models import Geography
 from plugins.census.api import CensusUS
 
 from .serializers import ImpressionSerializer
-
-
-class RequestEncoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
 
 
 class GetImpression(APIView):
@@ -79,7 +75,7 @@ class GetImpression(APIView):
         return impressions
 
     def process_base64(self, b64_string, impression=None):
-        import base64, json
+        import base64
         # print base64.b64decode(b64_string)
         data = json.loads(base64.b64decode(b64_string))
         email = data.get('email', None)
@@ -172,9 +168,12 @@ class GetProfile(APIView):
                         ).full_geoid.replace('|', '00US')
                 census = CensusUS(geoid=geoid).computed_profile()
         user_agent = request.META['HTTP_USER_AGENT']
+
+        from apps.common.utils.encoders import dump
+
         return {
             'ip': ip,
             'user_agent': user_agent,
             'ip2geo': ip2geo,
-            'census_profile': census,
+            'census_profile': census
         }
