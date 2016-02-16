@@ -161,6 +161,8 @@ class GetProfile(APIView):
         else:
             ip2geo = None
 
+        census = None
+
         if ip2geo:
             country = ip2geo['country']['iso_code']
             postcode = ip2geo['postal']['code']
@@ -169,8 +171,6 @@ class GetProfile(APIView):
                     full_name__contains=postcode
                         ).full_geoid.replace('|', '00US')
                 census = CensusUS(geoid=geoid).computed_profile()
-        else:
-            census = None
         user_agent = request.META['HTTP_USER_AGENT']
         return {
             'ip': ip,
