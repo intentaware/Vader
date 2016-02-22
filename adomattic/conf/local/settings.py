@@ -34,7 +34,8 @@ DATABASES = {
         'PASSWORD': DB_PASSWORD,
         'HOST': 'localhost',
         'PORT': DB_PORT,
-    }
+    },
+    #'us_census': US_CENSUS_DB
 }
 
 DEVSERVER_MODULES = (

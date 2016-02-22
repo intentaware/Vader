@@ -34,6 +34,7 @@ GRANT SELECT ON geography_columns TO census;
 
 -- Create a unified table for all census names -> geoid
 DROP TABLE IF EXISTS tiger2014.census_name_lookup;
+DROP TABLE IF EXISTS tiger2014.census_geo_containment;
 CREATE TABLE tiger2014.census_name_lookup (
     display_name varchar,
     simple_name varchar,
