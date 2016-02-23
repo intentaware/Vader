@@ -144,6 +144,8 @@ class CensusUS(object):
         '%': percentify,
         '%%': rateify,
     }
+
+
     def __init__(self, geoid=None, acs=None, *args, **kwargs):
         self.cursor = connections['us_census'].cursor()
         self.geoid = geoid
