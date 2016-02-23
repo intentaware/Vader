@@ -3,7 +3,7 @@ from django.db import models
 from apps.common.models import TimeStamped
 from plugins.cities.models import PostalCode
 
-from django_pgjson.fields import JsonBField
+from django.contrib.postgres.fields import JSONField
 
 
 class IPStore(TimeStamped):
@@ -11,8 +11,8 @@ class IPStore(TimeStamped):
     postal_code = models.ForeignKey('cities.PostalCode', blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    geocode = JsonBField(blank=True, null=True)
-    census = JsonBField(blank=True, null=True)
+    geocode = JSONField(blank=True, null=True)
+    census = JSONField(blank=True, null=True)
 
     def __unicode__(self):
         return self.ip

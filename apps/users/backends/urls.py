@@ -4,10 +4,7 @@ from .views import UserRegistrationView, CompanyRegistrationView, \
     PasswordResetEmailView, PasswordResetEmailSentDone, UpdateLostPassword
 
 
-urlpatterns = patterns(
-    'registration',
-    #url(r'^register/$',
-    #    UserRegistrationView.as_view(), name='registration_register',),
+urlpatterns = [
     url(
         r'^register/$',
         CompanyRegistrationView.as_view(),
@@ -26,4 +23,4 @@ urlpatterns = patterns(
         UpdateLostPassword.as_view(),
         name='update_lost_password'),
     url(r'', include('registration.auth_urls')),
-    )
+]
