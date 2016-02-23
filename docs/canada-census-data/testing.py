@@ -10,13 +10,14 @@ def GeoCode(conn):
         cur = conn.cursor()
         with open('/home/shalini/csv/shalini.CSV') as f:
             reader= csv.reader(f)
-            tableName = 'Geo_Code'
+            tableName = 'Geo_Prov'
             cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
             for idx, val in enumerate(reader):
                 if idx == 0:
                     # for column in val:
                     #     pass
-                    query = "ALTER TABLE %s ADD COLUMN %s SERIAL, ADD %s text UNIQUE, ADD %s text UNIQUE;" % (tableName, 'geo_id', val[0], val[1])
+                    print val
+                    query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL, ADD %s text UNIQUE, ADD %s text UNIQUE;" % (tableName, 'geo_id', val[0], val[1])
                     print query
                     try:
                         cur.execute(query)
@@ -25,10 +26,11 @@ def GeoCode(conn):
                         pass
                 else:
                     val = [str(x) for x in val]
+                    print val
                     val = val[:2]
                     val.insert(0, tableName)
                     print tuple(val)
-                    query = "INSERT INTO %s VALUES ('%s', '%s')" % tuple(val)
+                    query = "INSERT INTO %s (Geo_Code, Prov_Name) VALUES ('%s', '%s')" % tuple(val)
                     try:
                         cur.execute(query)
                     except psycopg2.Error as e:
@@ -49,7 +51,7 @@ def GeoNom(conn):
                 if idx == 0:
                     # for column in val:
                     #     pass
-                    query = "ALTER TABLE %s ADD COLUMN %s SERIAL PRIMARY KEY, ADD %s text UNIQUE;" % (tableName, 'nom_id', val[2])
+                    query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL PRIMARY KEY, ADD %s text UNIQUE;" % (tableName, 'nom_id', val[2])
                     print query
                     try:
                         cur.execute(query)
@@ -61,7 +63,7 @@ def GeoNom(conn):
                     val = val[2:8]
                     val.insert(0, tableName)
                     print tuple(val)
-                    query = "INSERT INTO %s VALUES ('%s')" % tuple(val)
+                    query = "INSERT INTO %s (Topic) VALUES ('%s')" % tuple(val)
                     try:
                         cur.execute(query)
                     except psycopg2.Error as e:
@@ -82,7 +84,7 @@ def Topic(conn):
                 if idx == 0:
                     # for column in val:
                     #     pass
-                    query = "ALTER TABLE %s ADD COLUMN %s SERIAL PRIMARY KEY,ADD %s text UNIQUE;" % (tableName, 'topic_id', val[2])
+                    query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL PRIMARY KEY,ADD %s text UNIQUE;" % (tableName, 'topic_id', val[2])
                     print query
                     try:
                         cur.execute(query)
@@ -94,7 +96,7 @@ def Topic(conn):
                     val = val[3:7]
                     val.insert(0, tableName)
                     print tuple(val)
-                    query = "INSERT INTO %s VALUES ('%s')" % tuple(val)
+                    query = "INSERT INTO %s () VALUES ('%s')" % tuple(val)
                     try:
                         cur.execute(query)
                     except psycopg2.Error as e:
@@ -115,7 +117,7 @@ def Characteristics(conn):
                 if idx == 0:
                     # for column in val:
                     #     pass
-                    query = "ALTER TABLE %s ADD COLUMN %s SERIAL PRIMARY KEY, ADD %s text UNIQUE;" % (tableName, 'char_id', val[3])
+                    query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL PRIMARY KEY, ADD %s text UNIQUE;" % (tableName, 'char_id', val[3])
                     print query
                     try:
                         cur.execute(query)
@@ -127,7 +129,7 @@ def Characteristics(conn):
                     val = val[3:7]
                     val.insert(0, tableName)
                     print tuple(val)
-                    query = "INSERT INTO %s VALUES ('%s')" % tuple(val)
+                    query = "INSERT INTO %s (Characteristic) VALUES ('%s')" % tuple(val)
                     try:
                         cur.execute(query)
                     except psycopg2.Error as e:
@@ -164,19 +166,17 @@ def GeoProfile(conn):
                     except psycopg2.Error as e:
                         print e.pgerror
                         pass
-                # else:
-                #     val = [str(x) for x in val]
-                #     print val
-                #     val = val[2:8]
-                #     print val
-                #     val.insert(0, tableName)
-                #     print tuple(val)
-                #     query = "INSERT INTO %s VALUES ('%s')" % tuple(val)
-                #     try:
-                #         cur.execute(query)
-                #     except psycopg2.Error as e:
-                #         print e.pgerror
-                #         pass
+                else:
+                    # val = [str(x) for x in val]
+                    # print val
+                    # val.insert(0, tableName)
+                    # val = tuple(val)
+                    # query = "INSERT INTO %s VALUES ('%s')" % (val[0])
+                    # try:
+                    #     cur.execute(query)
+                    # except psycopg2.Error as e:
+                    #     print e.pgerror
+                    #     pass
     else:
         print "Sorry Buddy, No database connection"
 
@@ -184,7 +184,7 @@ if __name__ == '__main__':
     # try:
     #     conn=psycopg2.connect("dbname='shalini' user='root' password='shalini'")
     # except:
-    #     conn = None
+        conn = None
     try:
         conn=psycopg2.connect("dbname='ca_census' user='%s' password='%s' host='%s' port='%s'" % ( 
         settings.US_CENSUS_DB['USER'], settings.US_CENSUS_DB['PASSWORD'], settings.US_CENSUS_DB['HOST'],
