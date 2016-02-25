@@ -58,12 +58,4 @@ class Plan(TimeStamped):
     ]
     amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
     name = models.CharField(max_length=128)
-    matric_name = models.CharField(max_length=128)
-    matric_unit = models.IntegerField(default=1)
     duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
-
-    def __unicode__(self):
-        if self.duration == self.UNTIL_EXPIRY:
-            return '%d per %d %s' %(self.amount, self.matric_unit, self.matric_name)
-        else:
-            return '%d per %d %s per %s' %(self.amount, self.matric_unit, self.matric_name, self.duration)
