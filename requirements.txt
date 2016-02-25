@@ -33,7 +33,7 @@ django-import-export==0.4.2
 django-ipware==1.1.2
 django-model-utils==2.2
 django-money==0.6.0
--e git+https://github.com/djangonauts/django-pgjson.git
+-e git+https://github.com/djangonauts/django-pgjson.git#egg=django-pgjson-redux
 django-photologue==3.5.1
 django-registration-redux==1.1
 django-sortedm2m==1.1.1
