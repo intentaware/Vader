@@ -39,6 +39,10 @@ class CompanyRegistrationView(BaseRegistrationView):
     template_name = 'registration/registration_company.html'
     form_class = CompanyCreationForm
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(CompanyRegistrationView, self).get_context_data(*args, **kwargs)
+        return context
+
     def register(self, request, **cleaned_data):
         email, password, name = cleaned_data['email'], \
             cleaned_data['password1'], cleaned_data['name']

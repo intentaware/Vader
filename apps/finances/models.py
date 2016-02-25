@@ -48,6 +48,21 @@ class Invoice(BasePaymentModel):
     company = models.ForeignKey('companies.Company', related_name='invoices')
 
 
+class Module(TimeStamped):
+    [CORE, DMP, REPORTING] = range(3)
+    SEGMENT_CHOICES = [
+        (CORE, 'Core'),
+        (DMP, 'Data Management Platform'),
+        (REPORTING, 'Reporting'),
+    ]
+
+    name = models.CharField(max_length=128)
+    segment = models.IntegerField(choices=SEGMENT_CHOICES, default=CORE)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Plan(TimeStamped):
     [UNTIL_EXPIRY, MONTHLY, QUARTERLY, YEARLY] = range(4)
     DURATION_CHOICES = [
@@ -56,6 +71,15 @@ class Plan(TimeStamped):
         (YEARLY, 'Yearly'),
         (UNTIL_EXPIRY, 'Expires on Consumption')
     ]
+
     amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
     name = models.CharField(max_length=128)
     duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
+
+
+class PlanModule(TimeStamped):
+    plan = models.ForeignKey(Plan)
+    module = models.ForeignKey(Module)
+
+    class Meta:
+        unique_together = ['plan', 'module']
