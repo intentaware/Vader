@@ -1,14 +1,18 @@
-from django.conf import settings
+import os
+from os import path
+
 import psycopg2
 import csv
-from django.db import connections
 
+# from django.db import connections
+from django.conf import settings
 
-def GeoCode(conn):
+def GeoCode(conn, files):
+for file in files:
     if conn:
         conn.set_isolation_level(0)
         cur = conn.cursor()
-        with open('/home/shalini/csv/shalini.CSV') as f:
+        with open(file) as f:
             reader= csv.reader(f)
             tableName = 'Geo_Prov'
             cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
@@ -39,7 +43,7 @@ def GeoCode(conn):
     else:
         print "Sorry Buddy, No database connection"
 
-def GeoNom(conn):
+def GeoNom(conn, files):
     if conn:
         conn.set_isolation_level(0)
         cur = conn.cursor()
@@ -72,7 +76,7 @@ def GeoNom(conn):
     else:
         print "Sorry Buddy, No database connection"
 
-def Topic(conn):
+def Topic(conn, files):
     if conn:
         conn.set_isolation_level(0)
         cur = conn.cursor()
@@ -105,7 +109,7 @@ def Topic(conn):
     else:
         print "Sorry Buddy, No database connection"
 
-def Characteristics(conn):
+def Characteristics(conn, files):
     if conn:
         conn.set_isolation_level(0)
         cur = conn.cursor()
@@ -138,7 +142,7 @@ def Characteristics(conn):
     else:
         print "Sorry Buddy, No database connection"
 
-def GeoProfile(conn):
+def GeoProfile(conn, files):
     if conn:
         conn.set_isolation_level(0)
         cur = conn.cursor()
@@ -150,7 +154,7 @@ def GeoProfile(conn):
                 if idx == 0:
                     # for column in val:
                     #     pass
-                    query = "ALTER TABLE %s ADD COLUMN %s text REFERENCES Geo_Code (%s), ADD COLUMN %s text REFERENCES Geo_Nom (%s), ADD COLUMN %s text REFERENCES Topic (%s), ADD COLUMN %s text REFERENCES Characteristic (%s);"
+                    query = "ALTER TABLE %s ADD COLUMN %s text REFERENCES Geo_Prov (%s), ADD COLUMN %s text REFERENCES Geo_Nom (%s), ADD COLUMN %s text REFERENCES Topic (%s), ADD COLUMN %s text REFERENCES Characteristic (%s);"
                              % (tableName, 'geo_id', 'geo_id', 'nom_id', 'nom_id', 'topic_id', 'topic_id', 'char_id', 'char_id')
                     print query
                     try:
@@ -164,34 +168,62 @@ def GeoProfile(conn):
                     try:
                         cur.execute(query)
                     except psycopg2.Error as e:
-                        print e.pgerror
+                        print e.pgerror0
                         pass
                 else:
-                    # val = [str(x) for x in val]
-                    # print val
-                    # val.insert(0, tableName)
-                    # val = tuple(val)
-                    # query = "INSERT INTO %s VALUES ('%s')" % (val[0])
-                    # try:
-                    #     cur.execute(query)
-                    # except psycopg2.Error as e:
-                    #     print e.pgerror
-                    #     pass
+                    val = [str(x) for x in val]
+                    "insert into '%s' () values (%s, %s, %s, %s, %s, %s, %s, %s) " % (tableName, func1(val[0], val[1]), func2(val[2]), func3(val[3]), func4(val[4]), )
+                    print val
+                    val.insert(0, tableName)
+                    val = tuple(val)
+                    query = "INSERT INTO %s VALUES ('%s')" % (val[0])
+                    try:
+                        cur.execute(query)
+                    except psycopg2.Error as e:
+                        print e.pgerror
+                        pass
     else:
         print "Sorry Buddy, No database connection"
+
+def func1(val0, val1):
+    query = "SELECT geo_id from Geo_Prov WHERE Geo_Code=val0"
+    cur.execute(query)
+    return
+
+def func2(val2):
+    query = "SELECT nom_id from Geo_Nom WHERE Geo_Nom=val2"
+    cur.execute(query)
+
+def func3(val3):
+    query = "SELECT topic_id from Topic WHERE Topic=val3"
+    cur.execute(query)
+
+def func4(val4):
+    query = "SELECT char_id from Characteristic WHERE Characteristic=val4"
+    cur.execute(query)
+
+
+
 
 if __name__ == '__main__':
     # try:
     #     conn=psycopg2.connect("dbname='shalini' user='root' password='shalini'")
     # except:
-        conn = None
+    #     conn = None
     try:
-        conn=psycopg2.connect("dbname='ca_census' user='%s' password='%s' host='%s' port='%s'" % ( 
+        conn=psycopg2.connect("dbname='us_census' user='%s' password='%s' host='%s' port='%s'" % ( 
         settings.US_CENSUS_DB['USER'], settings.US_CENSUS_DB['PASSWORD'], settings.US_CENSUS_DB['HOST'],
         settings.US_CENSUS_DB['PORT']))
     except psycopg2.Error as e:
         conn = None
-    GeoCode(conn)
-    Topic(conn)
-    Characteristics(conn)
+    listfile = []
+    directory_path = '/home/shalini/csv/new1/'
+    for dirpath,_,filenames in os.walk(directory_path):
+        for f in filenames:
+        list_files = os.path.abspath(os.path.join(dirpath, f))
+        listfile.append(list_files)
+    files = [x for x in listfile if 'Metadata' not in x]
+    GeoCode(conn, files)
+    Topic(conn, files)
+    Characteristics(conn, files)
 
