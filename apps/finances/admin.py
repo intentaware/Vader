@@ -9,7 +9,15 @@ class InvoiceAdmin(admin.ModelAdmin):
 class ModuleAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'segment']
 
+class PlanModuleTabularInline(admin.TabularInline):
+    list_display = ['id', 'plan', 'module']
+    model = PlanModule
+
+class PlanAdmin(admin.ModelAdmin):
+    inlines = [
+        PlanModuleTabularInline,
+    ]
+
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(Module, ModuleAdmin)
-admin.site.register(Plan)
-admin.site.register(PlanModule)
+admin.site.register(Plan, PlanAdmin)

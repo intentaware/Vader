@@ -167,6 +167,9 @@ class GetProfile(APIView):
                     full_name__contains=postcode
                         ).full_geoid.replace('|', '00US')
                 census = CensusUS(geoid=geoid).computed_profile()
+            if coutry == 'CA':
+                # do something
+                pass
         user_agent = request.META['HTTP_USER_AGENT']
 
         from apps.common.utils.encoders import dump

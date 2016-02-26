@@ -75,6 +75,7 @@ class Plan(TimeStamped):
     amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
     name = models.CharField(max_length=128)
     duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
+    modules = models.ManyToManyField(Module, through='finances.PlanModule')
 
 
 class PlanModule(TimeStamped):
