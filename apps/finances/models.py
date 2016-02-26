@@ -82,6 +82,23 @@ class Plan(TimeStamped):
     def __unicode__(self):
         return self.name
 
+    def features(self):
+        from itertools import groupby
+        modules = Module.objects.all().values('id', 'name', 'segment')
+        plan_modules = self.modules.all().values('id', 'name', 'segment')
+        for m in modules:
+            if m in plan_modules:
+                m['is_included'] = True
+            else:
+                m['is_included'] = False
+
+        doc = dict()
+
+        for k, v in groupby(modules, lambda x: x['segment']):
+            doc[Module.SEGMENT_CHOICES[k][1]] = list(v)
+
+        return doc
+
 
 class PlanModule(TimeStamped):
     plan = models.ForeignKey(Plan)
