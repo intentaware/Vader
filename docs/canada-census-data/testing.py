@@ -8,40 +8,40 @@ import csv
 from django.conf import settings
 
 def GeoCode(conn, files):
-    for file in files:
-        if conn:
-            conn.set_isolation_level(0)
-            cur = conn.cursor()
-            with open(file) as f:
-                reader= csv.reader(f)
-                tableName = 'Geo_Prov'
-                cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
-                for idx, val in enumerate(reader):
-                    if idx == 0:
-                        # for column in val:
-                        #     pass
-                        print val
-                        query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL, ADD %s text UNIQUE, ADD %s text UNIQUE;" % (tableName, 'geo_id', val[0], val[1])
-                        print query
-                        try:
-                            cur.execute(query)
-                        except psycopg2.Error as e:
-                            print e.pgerror
-                            pass
-                    else:
-                        val = [str(x) for x in val]
-                        print val
-                        val = val[:2]
-                        val.insert(0, tableName)
-                        print tuple(val)
-                        query = "INSERT INTO %s (Geo_Code, Prov_Name) VALUES ('%s', '%s')" % tuple(val)
-                        try:
-                            cur.execute(query)
-                        except psycopg2.Error as e:
-                            print e.pgerror
-                            pass
-        else:
-            print "Sorry Buddy, No database connection"
+for file in files:
+    if conn:
+        conn.set_isolation_level(0)
+        cur = conn.cursor()
+        with open(file) as f:
+            reader= csv.reader(f)
+            tableName = 'Geo_Prov'
+            cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
+            for idx, val in enumerate(reader):
+                if idx == 0:
+                    # for column in val:
+                    #     pass
+                    print val
+                    query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL, ADD %s text UNIQUE, ADD %s text UNIQUE;" % (tableName, 'geo_id', val[0], val[1])
+                    print query
+                    try:
+                        cur.execute(query)
+                    except psycopg2.Error as e:
+                        print e.pgerror
+                        pass
+                else:
+                    val = [str(x) for x in val]
+                    print val
+                    val = val[:2]
+                    val.insert(0, tableName)
+                    print tuple(val)
+                    query = "INSERT INTO %s (Geo_Code, Prov_Name) VALUES ('%s', '%s')" % tuple(val)
+                    try:
+                        cur.execute(query)
+                    except psycopg2.Error as e:
+                        print e.pgerror
+                        pass
+    else:
+        print "Sorry Buddy, No database connection"
 
 def GeoNom(conn, files):
     for file in files:
@@ -240,5 +240,4 @@ if __name__ == '__main__':
     GeoCode(conn, files)
     Topic(conn, files)
     Characteristics(conn, files)
-    Geo_Profile
 
