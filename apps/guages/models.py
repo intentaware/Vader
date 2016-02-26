@@ -1,5 +1,4 @@
 from django.db import models
-from django_pgjson.fields import JsonBField
 from django_extensions.db.fields import ShortUUIDField
 
 from apps.common.models import TimeStamped, IP2GeoModel

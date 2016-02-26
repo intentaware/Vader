@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 
-urlpatterns = patterns(
-    'api',
+urlpatterns = [
     url(r'^users/', include('apps.users.api.urls')),
     url(r'^campaigns/', include('apps.campaigns.api.urls')),
     url(r'^impressions/', include('apps.impressions.api.urls')),
@@ -11,4 +10,4 @@ urlpatterns = patterns(
     url(r'^metas/', include('apps.metas.api.urls')),
     url(r'^cities/', include('plugins.cities.api.urls')),
     url(r'^guages/', include('apps.guages.api.urls')),
-)
+]

@@ -1,5 +1,5 @@
 from django.db import models
-from django_pgjson.fields import JsonBField
+from django.contrib.postgres.fields import JSONField
 from apps.common.models import *
 
 class Circle(TimeStamped):
@@ -37,7 +37,7 @@ class CampaignCity(TimeStamped):
 
 
 class Audience(TimeStamped, ToCompany):
-    meta = JsonBField(default={})
+    meta = JSONField(default={})
 
 
 class CampaignAudience(TimeStamped):

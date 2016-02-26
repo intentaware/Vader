@@ -1,6 +1,7 @@
 from django.db import models
-from django_extensions.db.fields import *
-from django_pgjson.fields import JsonBField
+from django_extensions.db.fields import CreationDateTimeField, \
+    ModificationDateTimeField, AutoSlugField
+from django.contrib.postgres.fields import JSONField
 
 # Create your models here.
 
@@ -83,15 +84,17 @@ class ToCompany(BaseModel):
     """
     quickly creates a relationship to a company
     """
-    company = models.ForeignKey('companies.Company', blank=True, null=True,
-        related_name='%(class)ss')
+    company = models.ForeignKey('companies.Company',
+                                blank=True,
+                                null=True,
+                                related_name='%(class)ss')
 
     class Meta:
         abstract = True
 
 
 class IP2GeoModel(BaseModel):
-    meta = JsonBField(blank=True, null=True)
+    meta = JSONField(blank=True, null=True)
     visitor = models.ForeignKey('users.visitor', related_name='%(class)ss')
 
     class Meta:
@@ -114,13 +117,13 @@ class IP2GeoModel(BaseModel):
         screen = meta.pop('screen', None)
 
         if nav:
-            for k,v in nav.iteritems():
-                key = 'navigator_%s' %(k)
+            for k, v in nav.iteritems():
+                key = 'navigator_%s' % (k)
                 out[key] = v
 
         if screen:
-            for k,v in screen.iteritems():
-                key = 'screen_%s' %(k)
+            for k, v in screen.iteritems():
+                key = 'screen_%s' % (k)
                 out[key] = v
 
         try:
@@ -129,24 +132,27 @@ class IP2GeoModel(BaseModel):
             out['city'] = None
 
         try:
-            out['country'] = ip2geo['country']['names']['en'] if ip2geo else None
+            out['country'] = ip2geo['country']['names'][
+                'en'] if ip2geo else None
         except KeyError:
             out['country'] = None
 
         try:
-            out['latitude'] = ip2geo['location']['latitude'] if ip2geo else None
+            out['latitude'] = ip2geo['location'][
+                'latitude'] if ip2geo else None
         except KeyError:
             out['latitude'] = None
 
         try:
-            out['longitude'] = ip2geo['location']['longitude'] if ip2geo else None
+            out['longitude'] = ip2geo['location'][
+                'longitude'] if ip2geo else None
         except KeyError:
             out['longitude'] = None
 
         if ip2geo:
             traits = ip2geo['traits']
-            for k,v in traits.iteritems():
-                key = 'trait_%s' %(k)
+            for k, v in traits.iteritems():
+                key = 'trait_%s' % (k)
                 out[key] = v
 
         out.update(meta)
@@ -182,11 +188,7 @@ class IP2GeoModel(BaseModel):
         from django.apps import apps
         from django.conf import settings
 
-        params = {
-            'q': q,
-            'sumlevs': None,
-            'start': None
-        }
+        params = {'q': q, 'sumlevs': None, 'start': None}
         # Geography = apps.get_model('census', 'geography')
         r = requests.get(settings.CENSUS_GEOID_LOOKUP, params=params)
 
@@ -198,10 +200,5 @@ class IP2GeoModel(BaseModel):
 
     def append_census_data(self, q):
         d = self.get_census_data(q)
-        self.meta.update({
-                'census': d
-            })
+        self.meta.update({'census': d})
         self.save()
-
-
-

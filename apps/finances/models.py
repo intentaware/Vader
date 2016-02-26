@@ -1,6 +1,5 @@
 from django.db import models
-
-from django_pgjson.fields import JsonField
+from django.contrib.postgres.fields import JSONField
 
 from apps.common.models import *
 from .mixins import Stripe
@@ -33,7 +32,7 @@ class BasePaymentModel(Stripe, TimeStamped):
     attempted_on = models.DateTimeField(blank=True, null=True)
     charged_on = models.DateTimeField(blank=True, null=True)
 
-    gateway_response = JsonField(default={})
+    gateway_response = JSONField(default={})
     is_paid = models.BooleanField(default=False)
 
     class Meta:
@@ -49,6 +48,21 @@ class Invoice(BasePaymentModel):
     company = models.ForeignKey('companies.Company', related_name='invoices')
 
 
+class Module(TimeStamped):
+    [CORE, DMP, REPORTING] = range(3)
+    SEGMENT_CHOICES = [
+        (CORE, 'Core'),
+        (DMP, 'Data Management Platform'),
+        (REPORTING, 'Reporting'),
+    ]
+
+    name = models.CharField(max_length=128)
+    segment = models.IntegerField(choices=SEGMENT_CHOICES, default=CORE)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Plan(TimeStamped):
     [UNTIL_EXPIRY, MONTHLY, QUARTERLY, YEARLY] = range(4)
     DURATION_CHOICES = [
@@ -57,14 +71,16 @@ class Plan(TimeStamped):
         (YEARLY, 'Yearly'),
         (UNTIL_EXPIRY, 'Expires on Consumption')
     ]
+
     amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
     name = models.CharField(max_length=128)
-    matric_name = models.CharField(max_length=128)
-    matric_unit = models.IntegerField(default=1)
     duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
+    modules = models.ManyToManyField(Module, through='finances.PlanModule')
 
-    def __unicode__(self):
-        if self.duration == self.UNTIL_EXPIRY:
-            return '%d per %d %s' %(self.amount, self.matric_unit, self.matric_name)
-        else:
-            return '%d per %d %s per %s' %(self.amount, self.matric_unit, self.matric_name, self.duration)
+
+class PlanModule(TimeStamped):
+    plan = models.ForeignKey(Plan)
+    module = models.ForeignKey(Module)
+
+    class Meta:
+        unique_together = ['plan', 'module']

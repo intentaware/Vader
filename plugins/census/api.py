@@ -144,6 +144,8 @@ class CensusUS(object):
         '%': percentify,
         '%%': rateify,
     }
+
+
     def __init__(self, geoid=None, acs=None, *args, **kwargs):
         self.cursor = connections['us_census'].cursor()
         self.geoid = geoid
@@ -1042,6 +1044,7 @@ class CensusUS(object):
             ('High School', profile['social']['education']['distribution']['high_school_grad']['values']['this']),
             ('Some College', profile['social']['education']['distribution']['some_college']['values']['this']),
         ])
+
         doc['education'] = max(education.iteritems(), key=operator.itemgetter(1))[0]
 
         return doc
