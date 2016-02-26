@@ -76,6 +76,11 @@ class Plan(TimeStamped):
     name = models.CharField(max_length=128)
     duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
     modules = models.ManyToManyField(Module, through='finances.PlanModule')
+    limit_campaigns = models.IntegerField(default=0, help_text='0 means unlimited')
+    limit_impressions = models.IntegerField(default=0, help_text='0 means unlimited')
+
+    def __unicode__(self):
+        return self.name
 
 
 class PlanModule(TimeStamped):
