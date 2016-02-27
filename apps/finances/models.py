@@ -63,7 +63,7 @@ class Module(TimeStamped):
         return self.name
 
 
-class Plan(TimeStamped):
+class Plan(TimeStamped, Stripe):
     [UNTIL_EXPIRY, MONTHLY, QUARTERLY, YEARLY] = range(4)
     DURATION_CHOICES = [
         (MONTHLY, 'Monthly'),

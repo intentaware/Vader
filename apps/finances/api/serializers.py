@@ -11,6 +11,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
 
+
 class InvoiceChargeSerializer(StripeCreditCardSerializer):
     class Meta:
-        validators = [StripeCardValidator(klass='invoice'), ]
+        validators = [StripeCardValidator(klass='klass'), ]
