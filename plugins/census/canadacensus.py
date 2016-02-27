@@ -22,7 +22,7 @@ class CanadaCensus:
         except psycopg2.Error as e:
             self.conn = None
         listfile = []
-        directory_path = '/home/shalini/csv/new1/'
+        directory_path = '/home/ec2-user/canada/'
         for dirpath,_,filenames in os.walk(directory_path):
             for f in filenames:
                 list_files = os.path.abspath(os.path.join(dirpath, f))
