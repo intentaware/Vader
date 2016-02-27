@@ -30,7 +30,7 @@ class SetSessionData(TemplateView):
         user = self.request.user
         if user and user.memberships.count() > 0:
             membership = user.memberships.get(is_default=True)
-            if company.is_active:
+            if membership.company.is_active:
                 request.session['company'] = membership.company.id
             else:
                 return redirect('/users/suspended/')
