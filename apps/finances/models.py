@@ -63,7 +63,7 @@ class Module(TimeStamped):
         return self.name
 
 
-class Plan(TimeStamped):
+class Plan(TimeStamped, Stripe):
     [UNTIL_EXPIRY, MONTHLY, QUARTERLY, YEARLY] = range(4)
     DURATION_CHOICES = [
         (MONTHLY, 'Monthly'),
@@ -76,6 +76,28 @@ class Plan(TimeStamped):
     name = models.CharField(max_length=128)
     duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
     modules = models.ManyToManyField(Module, through='finances.PlanModule')
+    limit_campaigns = models.IntegerField(default=0, help_text='0 means unlimited')
+    limit_impressions = models.IntegerField(default=0, help_text='0 means unlimited')
+
+    def __unicode__(self):
+        return self.name
+
+    def features(self):
+        from itertools import groupby
+        modules = Module.objects.all().values('id', 'name', 'segment')
+        plan_modules = self.modules.all().values('id', 'name', 'segment')
+        for m in modules:
+            if m in plan_modules:
+                m['is_included'] = True
+            else:
+                m['is_included'] = False
+
+        doc = dict()
+
+        for k, v in groupby(modules, lambda x: x['segment']):
+            doc[Module.SEGMENT_CHOICES[k][1]] = list(v)
+
+        return doc
 
 
 class PlanModule(TimeStamped):

@@ -30,7 +30,10 @@ class SetSessionData(TemplateView):
         user = self.request.user
         if user and user.memberships.count() > 0:
             membership = user.memberships.get(is_default=True)
-            request.session['company'] = membership.company.id
+            if membership.company.is_active:
+                request.session['company'] = membership.company.id
+            else:
+                return redirect('/users/suspended/')
 
             if membership.is_owner or membership.is_superuser:
                 request.session['superuser'] = True
@@ -39,7 +42,7 @@ class SetSessionData(TemplateView):
 
             return super(SetSessionData, self).dispatch(request, *args, **kwargs)
         else:
-            return redirect('/companies/create/')
+            return redirect('/users/create-company/')
 
 
 class DashboardView(SetSessionData):
