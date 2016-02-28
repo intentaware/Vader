@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
         with open(path_to_file, 'rb') as csvfile:
             table = 'cacensus2011.geocodes'
-            pop_table = 'census2011.population'
+            pop_table = 'cacensus2011.population'
             cursor.execute(
                 """
                     DROP TABLE
@@ -25,7 +25,7 @@ class Command(BaseCommand):
                     );
                     DROP TABLE
                         IF EXISTS {pop_table};
-                    CREATE TABLE cacensus2011.population (
+                    CREATE TABLE {pop_table} (
                         id SERIAL PRIMARY KEY,
                         geocode BIGINT NOT NULL,
                         topic TEXT NOT NULL,
@@ -52,7 +52,7 @@ class Command(BaseCommand):
                         SELECT
                             '{geocode}', '{province}', '{city}'
                         """.format(
-                                table = 'cacensus2011.geocodes',
+                                table = table,
                                 geocode=row[0],
                                 province=row[1],
                                 city=row[2]
