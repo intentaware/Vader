@@ -32,7 +32,7 @@ class Command(BaseCommand):
                     SELECT COUNT(*) FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
                 cursor.execute(query)
-                result = cursor.fetchall()
+                result = cursor.fetchone()
                 print result
 
                 # query = """
