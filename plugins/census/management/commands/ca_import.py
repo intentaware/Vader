@@ -31,7 +31,8 @@ class Command(BaseCommand):
                 query = """
                     SELECT * FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
-                result = cursor.execute(query).fetchall()
+                cursor.execute(query)
+                result = cursor.fetchall()
                 print result
 
                 # query = """
