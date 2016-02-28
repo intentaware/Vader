@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import connections
+from django.db.utils import IntegrityError
 from django.core.management.base import BaseCommand, CommandError
 import csv, os
 
@@ -28,5 +29,5 @@ class Command(BaseCommand):
                         )
                 try:
                     cursor.execute(query)
-                except:
-                    print query
+                except IntegrityError as e:
+                    print e
