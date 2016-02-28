@@ -46,7 +46,7 @@ class CanadaCensus:
                             # for column in val:
                             #     pass
                             print val
-                            query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL, ADD %s text UNIQUE, ADD %s text UNIQUE;" % (tableName, 'geo_id', val[0], val[1])
+                            query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL PRIMARY KEY, ADD %s text UNIQUE, ADD %s text UNIQUE;" % (tableName, 'geo_id', val[0], val[1])
                             try:
                                 cur.execute(query)
                             except psycopg2.Error as e:
@@ -57,7 +57,6 @@ class CanadaCensus:
                             val = val[:2]
                             val.insert(0, tableName)
                             query = "INSERT INTO %s (Geo_Code, Prov_Name) VALUES ('%s', '%s')" % tuple(val)
-                            print query
                             try:
                                 cur.execute(query)
                             except psycopg2.Error as e:
