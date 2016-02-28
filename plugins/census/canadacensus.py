@@ -89,7 +89,7 @@ class CanadaCensus:
                             val = [str(x) for x in val]
                             val = val[2:8]
                             val.insert(0, tableName)
-                            print val
+                            print "val: {val}".format(val=val)
                             query = "INSERT INTO %s (Topic) VALUES ('%s')" % tuple(val)
                             try:
                                 cur.execute(query)
