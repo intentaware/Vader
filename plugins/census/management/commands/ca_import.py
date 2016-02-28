@@ -29,7 +29,7 @@ class Command(BaseCommand):
             header = reader.next()
             for row in reader:
                 query = """
-                    SELECT * FROM {table} WHERE geocode='{geocode}';
+                    SELECT COUNT(*) FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
                 cursor.execute(query)
                 result = cursor.fetchall()
