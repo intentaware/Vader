@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class StripeCardValidator(object):
     '''
-    Generic Stripe Validator to be called on overall Serializer Object.
+    Generic Stripe Validator to be called on Serializer Object.
     '''
     def __init__(self, klass, *args, **kwargs):
         '''
