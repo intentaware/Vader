@@ -79,4 +79,7 @@ class Command(BaseCommand):
                         male=row[8] or 0,
                         female=row[10] or 0
                     )
-                cursor.execute(query)
+                try:
+                    cursor.execute(query)
+                except DataError as e:
+                    print e
