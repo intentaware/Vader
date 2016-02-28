@@ -31,8 +31,8 @@ class Command(BaseCommand):
                         topic TEXT NOT NULL,
                         characteristics TEXT NOT NULL,
                         total BIGINT NOT NULL,
-                        male BIGINT NOT NULL,
-                        female BIGINT NOT NULL
+                        male BIGINT,
+                        female BIGINT
                     )
                 """.format(table=table, pop_table=pop_table)
                 )
