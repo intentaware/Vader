@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import connections
-from django.db.utils import IntegrityError
+from django.db.utils import IntegrityError, DataError
 from django.core.management.base import BaseCommand, CommandError
 import csv, os
 
@@ -11,6 +11,19 @@ class Command(BaseCommand):
         cursor = connections['us_census'].cursor()
 
         with open(path_to_file, 'rb') as csvfile:
+            table = 'cacensus2011.geocodes'
+            cursor.execute(
+                """
+                    DROP TABLE
+                        IF EXISTS {table};
+                    CREATE TABLE cacensus2011.geocodes (
+                        id SERIAL PRIMARY KEY,
+                        geocode BIGINT NOT NULL UNIQUE,
+                        province TEXT NOT NULL,
+                        city TEXT NOT NULL
+                    );
+
+                """).format(table=table)
             reader = csv.reader(csvfile)
             header = reader.next()
             for row in reader:
@@ -30,4 +43,6 @@ class Command(BaseCommand):
                 try:
                     cursor.execute(query)
                 except IntegrityError as e:
+                    print e
+                except DataError as e:
                     print e
