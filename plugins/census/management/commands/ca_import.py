@@ -18,7 +18,7 @@ class Command(BaseCommand):
                     DROP TABLE
                         IF EXISTS {table};
                     CREATE TABLE cacensus2011.geocodes (
-                        id SERIAL PRIMARY KEY,
+                        id BIGSERIAL PRIMARY KEY,
                         geocode BIGINT NOT NULL UNIQUE,
                         province TEXT NOT NULL,
                         city TEXT NOT NULL
@@ -26,11 +26,11 @@ class Command(BaseCommand):
                     DROP TABLE
                         IF EXISTS {pop_table};
                     CREATE TABLE {pop_table} (
-                        id SERIAL PRIMARY KEY,
+                        id BIGSERIAL PRIMARY KEY,
                         geocode BIGINT NOT NULL,
                         topic TEXT NOT NULL,
                         characteristics TEXT NOT NULL,
-                        total BIGINT NOT NULL,
+                        total decimal NOT NULL,
                         male BIGINT,
                         female BIGINT
                     )
