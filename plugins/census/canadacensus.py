@@ -16,7 +16,7 @@ class CanadaCensus:
         # except:
             # conn = None
         try:
-            self.conn=psycopg2.connect("dbname='us_census' user='%s' password='%s' host='%s' port='%s'" % ( 
+            self.conn=psycopg2.connect("dbname='us_census' user='%s' password='%s' host='%s' port='%s'" % (
             settings.US_CENSUS_DB['USER'], settings.US_CENSUS_DB['PASSWORD'], settings.US_CENSUS_DB['HOST'],
             settings.US_CENSUS_DB['PORT']))
         except psycopg2.Error as e:
@@ -39,7 +39,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Prov'
-                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -73,7 +73,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Nom'
-                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -89,6 +89,7 @@ class CanadaCensus:
                             val = [str(x) for x in val]
                             val = val[2:8]
                             val.insert(0, tableName)
+                            print val
                             query = "INSERT INTO %s (Topic) VALUES ('%s')" % tuple(val)
                             try:
                                 cur.execute(query)
@@ -108,7 +109,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Topic'
-                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -144,7 +145,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Characteristic'
-                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -180,7 +181,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Profile'
-                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
