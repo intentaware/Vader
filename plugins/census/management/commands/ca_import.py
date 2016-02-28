@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 query = """
                     SELECT COUNT(*) FROM {table} WHERE geoid='{geoid}';
                 """.format(table=table, geoid=row[0])
-                result = cursor.execute.fetchone()
+                result = cursor.execute(query).fetchone()
                 print result
 
                 # query = """
