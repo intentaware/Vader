@@ -29,11 +29,11 @@ class Command(BaseCommand):
             header = reader.next()
             for row in reader:
                 query = """
-                    SELECT COUNT(*) FROM {table} WHERE geocode='{geocode}';
+                    SELECT * FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
                 cursor.execute(query)
-                result = cursor.fetchone()
-                print result
+                result = cursor.fetchall()
+                print len(result)
 
                 # query = """
                 #     INSERT INTO
