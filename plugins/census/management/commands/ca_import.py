@@ -23,7 +23,8 @@ class Command(BaseCommand):
                         city TEXT NOT NULL
                     );
 
-                """).format(table=table)
+                """.format(table=table)
+                )
             reader = csv.reader(csvfile)
             header = reader.next()
             for row in reader:
