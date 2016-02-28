@@ -12,6 +12,7 @@ class Command(BaseCommand):
 
         with open(path_to_file, 'rb') as csvfile:
             table = 'cacensus2011.geocodes'
+            pop_table = 'census2011.population'
             cursor.execute(
                 """
                     DROP TABLE
@@ -22,12 +23,23 @@ class Command(BaseCommand):
                         province TEXT NOT NULL,
                         city TEXT NOT NULL
                     );
-
+                    DROP TABLE
+                        IF EXISTS {pop_table};
+                    CREATE TABLE cacensus2011.population (
+                        id SERIAL PRIMARY KEY,
+                        geocode BIGINT NOT NULL,
+                        topic TEXT NOT NULL,
+                        characteristics TEXT NOT NULL,
+                        total BIGINT NOT NULL,
+                        male BIGINT NOT NULL,
+                        female BIGINT NOT NULL
+                    )
                 """.format(table=table)
                 )
             reader = csv.reader(csvfile)
             header = reader.next()
             for row in reader:
+                # inserting geocodes
                 query = """
                     SELECT * FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
@@ -51,3 +63,20 @@ class Command(BaseCommand):
                         print e
                     except DataError as e:
                         print e
+
+                # inserting actual data
+                query = """
+                    INSERT INTO
+                        {pop_table} (geocode, topic, characteristics, total, male, female)
+                    SELECT
+                        '{geocode}', '{topic}', '{characteristics}', '{total}', '{male}', '{female}'
+                """.format(
+                        pop_table=pop_table,
+                        geocode=row[0],
+                        topic=row[3],
+                        characteristics=row[4],
+                        total=row[6],
+                        male=row[8],
+                        female=row[10]
+                    )
+                cursor.execute(query)
