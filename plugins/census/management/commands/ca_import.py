@@ -75,8 +75,8 @@ class Command(BaseCommand):
                         geocode=row[0],
                         topic=row[3],
                         characteristics=row[4],
-                        total=row[6],
-                        male=row[8],
-                        female=row[10]
+                        total=row[6] || 0,
+                        male=row[8] || 0,
+                        female=row[10] || 0
                     )
                 cursor.execute(query)
