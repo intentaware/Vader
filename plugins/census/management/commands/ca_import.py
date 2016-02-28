@@ -34,7 +34,7 @@ class Command(BaseCommand):
                         male BIGINT NOT NULL,
                         female BIGINT NOT NULL
                     )
-                """.format(table=table)
+                """.format(table=table, pop_table=pop_table)
                 )
             reader = csv.reader(csvfile)
             header = reader.next()
