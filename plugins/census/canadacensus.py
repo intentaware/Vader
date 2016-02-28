@@ -22,7 +22,7 @@ class CanadaCensus:
         except psycopg2.Error as e:
             self.conn = None
         listfile = []
-        directory_path = '/srv/ia-stage/ca_census/'
+        directory_path = '/home/ec2-user/canada/'
         for dirpath,_,filenames in os.walk(directory_path):
             for f in filenames:
                 list_files = os.path.abspath(os.path.join(dirpath, f))
@@ -39,6 +39,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Prov'
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -72,6 +73,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Nom'
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -106,6 +108,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Topic'
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -141,6 +144,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Characteristic'
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
@@ -176,6 +180,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Profile'
+                    cur.execute("DROP TABLE IF EXISTS %s;" % (tableName)) 
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
