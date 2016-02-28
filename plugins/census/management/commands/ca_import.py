@@ -30,9 +30,9 @@ class Command(BaseCommand):
                         geocode BIGINT NOT NULL,
                         topic TEXT NOT NULL,
                         characteristics TEXT NOT NULL,
-                        total decimal NOT NULL,
-                        male BIGINT,
-                        female BIGINT
+                        total DECIMAL NOT NULL,
+                        male DECIMAL,
+                        female DECIMAL
                     )
                 """.format(table=table, pop_table=pop_table)
                 )
