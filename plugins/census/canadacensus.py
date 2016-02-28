@@ -57,6 +57,7 @@ class CanadaCensus:
                             val = val[:2]
                             val.insert(0, tableName)
                             query = "INSERT INTO %s (Geo_Code, Prov_Name) VALUES ('%s', '%s')" % tuple(val)
+                            print query
                             try:
                                 cur.execute(query)
                             except psycopg2.Error as e:
