@@ -12,38 +12,42 @@ class Command(BaseCommand):
 
         with open(path_to_file, 'rb') as csvfile:
             table = 'cacensus2011.geocodes'
-            cursor.execute(
-                """
-                    DROP TABLE
-                        IF EXISTS {table};
-                    CREATE TABLE cacensus2011.geocodes (
-                        id SERIAL PRIMARY KEY,
-                        geocode BIGINT NOT NULL UNIQUE,
-                        province TEXT NOT NULL,
-                        city TEXT NOT NULL
-                    );
+            # cursor.execute(
+            #     """
+            #         DROP TABLE
+            #             IF EXISTS {table};
+            #         CREATE TABLE cacensus2011.geocodes (
+            #             id SERIAL PRIMARY KEY,
+            #             geocode BIGINT NOT NULL UNIQUE,
+            #             province TEXT NOT NULL,
+            #             city TEXT NOT NULL
+            #         );
 
-                """.format(table=table)
-                )
+            #     """.format(table=table)
+            #     )
             reader = csv.reader(csvfile)
             header = reader.next()
             for row in reader:
-                #                     WHERE NOT EXISTS
-                #        (SELECT 1 FROM {table} WHERE geocode = '{geocode}');
                 query = """
-                    INSERT INTO
-                        {table} (geocode, province, city)
-                    SELECT
-                        '{geocode}', '{province}', '{city}'
-                    """.format(
-                            table = 'cacensus2011.geocodes',
-                            geocode=row[0],
-                            province=row[1],
-                            city=row[2]
-                        )
-                try:
-                    cursor.execute(query)
-                except IntegrityError as e:
-                    print e
-                except DataError as e:
-                    print e
+                    SELECT COUNT(*) FROM {table} WHERE geoid='{geoid}';
+                """.format(table=table, geoid=row[0])
+                result = cursor.execute.fetchone()
+                print result
+
+                # query = """
+                #     INSERT INTO
+                #         {table} (geocode, province, city)
+                #     SELECT
+                #         '{geocode}', '{province}', '{city}'
+                #     """.format(
+                #             table = 'cacensus2011.geocodes',
+                #             geocode=row[0],
+                #             province=row[1],
+                #             city=row[2]
+                #         )
+                # try:
+                #     cursor.execute(query)
+                # except IntegrityError as e:
+                #     print e
+                # except DataError as e:
+                #     print e
