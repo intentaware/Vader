@@ -15,6 +15,7 @@ class Command(BaseCommand):
             pop_table = 'cacensus2011.population'
             cursor.execute(
                 """
+                    set client_encoding to 'latin1';
                     DROP TABLE
                         IF EXISTS {table};
                     CREATE TABLE cacensus2011.geocodes (
