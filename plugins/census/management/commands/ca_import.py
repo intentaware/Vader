@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 """
                     DROP TABLE
                         IF EXISTS {table};
-                    CREATE TABLE cacensus2011.geocodes (
+                    CREATE TABLE {table} (
                         id BIGSERIAL PRIMARY KEY,
                         geocode BIGINT NOT NULL UNIQUE,
                         province TEXT NOT NULL,
@@ -41,7 +41,6 @@ class Command(BaseCommand):
             for row in reader:
                 # inserting geocodes
                 query = """
-                    set client_encoding to 'latin1';
                     SELECT * FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
                 cursor.execute(query)
