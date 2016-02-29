@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import connections
 from django.db.utils import IntegrityError, DataError
 from django.core.management.base import BaseCommand, CommandError
-import csv, os
+import csv, os, codecs
 
 class Command(BaseCommand):
 
@@ -10,7 +10,7 @@ class Command(BaseCommand):
         path_to_file = os.path.join(settings.BASE_DIR, 'docs', 'test.csv')
         cursor = connections['us_census'].cursor()
 
-        with open(path_to_file, 'rb') as csvfile:
+        with codecs.open(path_to_file, 'rb' encoding='utf-8') as csvfile:
             table = 'cacensus2011.geocodes'
             pop_table = 'cacensus2011.population'
             cursor.execute(
