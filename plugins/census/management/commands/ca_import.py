@@ -83,4 +83,5 @@ class Command(BaseCommand):
                 try:
                     cursor.execute(query)
                 except DataError as e:
+                    print row
                     print e
