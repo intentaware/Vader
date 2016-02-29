@@ -10,7 +10,7 @@ class Command(BaseCommand):
         path_to_file = os.path.join(settings.BASE_DIR, 'docs', 'test.csv')
         cursor = connections['us_census'].cursor()
 
-        with codecs.open(path_to_file, 'rb' encoding='utf-8') as csvfile:
+        with codecs.open(path_to_file, 'rb', encoding='utf-8') as csvfile:
             table = 'cacensus2011.geocodes'
             pop_table = 'cacensus2011.population'
             cursor.execute(
