@@ -15,7 +15,6 @@ class Command(BaseCommand):
             pop_table = 'cacensus2011.population'
             cursor.execute(
                 """
-                    set client_encoding to 'latin1';
                     DROP TABLE
                         IF EXISTS {table};
                     CREATE TABLE cacensus2011.geocodes (
@@ -49,7 +48,6 @@ class Command(BaseCommand):
                 result = len(cursor.fetchall())
                 if result == 0:
                     query = """
-                        set client_encoding to 'latin1';
                         INSERT INTO
                             {table} (geocode, province, city)
                         SELECT
