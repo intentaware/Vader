@@ -42,12 +42,14 @@ class Command(BaseCommand):
             for row in reader:
                 # inserting geocodes
                 query = """
+                    set client_encoding to 'latin1';
                     SELECT * FROM {table} WHERE geocode='{geocode}';
                 """.format(table=table, geocode=row[0])
                 cursor.execute(query)
                 result = len(cursor.fetchall())
                 if result == 0:
                     query = """
+                        set client_encoding to 'latin1';
                         INSERT INTO
                             {table} (geocode, province, city)
                         SELECT
@@ -63,6 +65,7 @@ class Command(BaseCommand):
                     except IntegrityError as e:
                         print e
                     except DataError as e:
+                        print row
                         print e
 
                 # inserting actual data
