@@ -13,6 +13,7 @@ class Command(BaseCommand):
         with codecs.open(path_to_file, 'rb', encoding='utf-8', errors='ignore') as csvfile:
             table = 'cacensus2011.geocodes'
             pop_table = 'cacensus2011.population'
+            print 'Droping and Creating Tables'
             cursor.execute(
                 """
                     DROP TABLE
@@ -36,6 +37,8 @@ class Command(BaseCommand):
                     )
                 """.format(table=table, pop_table=pop_table)
                 )
+            print 'Drop and Creating Table Done'
+            print 'Reading CSV file'
             reader = csv.reader(csvfile)
             header = reader.next()
             for row in reader:
@@ -46,6 +49,7 @@ class Command(BaseCommand):
                 cursor.execute(query)
                 result = len(cursor.fetchall())
                 if result == 0:
+                    print 'Inserting Geocode into Table'
                     query = """
                         INSERT INTO
                             {table} (geocode, province, city)
@@ -66,6 +70,7 @@ class Command(BaseCommand):
                         print e
 
                 # inserting actual data
+                print 'Inserting actual data'
                 query = """
                     INSERT INTO
                         {pop_table} (geocode, topic, characteristics, total, male, female)
