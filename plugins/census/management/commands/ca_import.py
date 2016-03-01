@@ -106,6 +106,7 @@ class Command(BaseCommand):
                     income DECIMAL NOT NULL
                 );
             """.format(income_table=income_table)
+            cursor.execute(query)
             print 'Table Succefully cleaned, Importing CSV now'
             reader = csv.reader(csvfile)
             header = reader.next()
