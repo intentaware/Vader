@@ -39,13 +39,15 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Prov'
+                    self.schema = 'ca_census'
+                    tableName = self.schema + "." + tableName
+                    cur.execute("CREATE SCHEMA IF NOT EXISTS %s;" % (self.schema))
                     cur.execute("DROP TABLE IF EXISTS %s CASCADE;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
                             # for column in val:
                             #     pass
-                            print val
                             query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL PRIMARY KEY, ADD %s int UNIQUE, ADD %s text;" % (tableName, 'geo_id', val[0], val[1])
                             try:
                                 cur.execute(query)
@@ -56,11 +58,11 @@ class CanadaCensus:
                             val = [str(x) for x in val]
                             val = val[:2]
                             val.insert(0, tableName)
-                            print val
                             query = "INSERT INTO %s (Geo_Code, Prov_Name) VALUES ('%s', '%s')" % tuple(val)
                             try:
                                 cur.execute(query)
                             except psycopg2.Error as e:
+                                print e.pgerror
                                 pass
             else:
                 print "Sorry Buddy, No database connection"
@@ -74,13 +76,13 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Nom'
+                    tableName = self.schema + "." + tableName
                     cur.execute("DROP TABLE IF EXISTS %s CASCADE;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
                         if idx == 0:
                             # for column in val:
                             #     pass
-                            print val[2]
                             query = "ALTER TABLE %s ADD COLUMN %s BIGSERIAL PRIMARY KEY, ADD %s int UNIQUE;" % (tableName, 'nom_id', val[2])
                             try:
                                 cur.execute(query)
@@ -111,6 +113,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Topic'
+                    tableName = self.schema + "." + tableName
                     cur.execute("DROP TABLE IF EXISTS %s CASCADE;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
@@ -126,11 +129,8 @@ class CanadaCensus:
                                 pass
                         else:
                             val = [str(x) for x in val]
-                            print type(val)
                             val = val[3:4]
-                            print val
                             val.insert(0, tableName)
-                            print tuple(val)
                             query = "INSERT INTO %s (topic) VALUES ('%s')" % tuple(val)
                             try:
                                 cur.execute(query)
@@ -149,6 +149,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Characteristic'
+                    tableName = self.schema + "." + tableName
                     cur.execute("DROP TABLE IF EXISTS %s CASCADE;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
@@ -185,6 +186,7 @@ class CanadaCensus:
                 with open(file) as f:
                     reader= csv.reader(f)
                     tableName = 'Geo_Profile'
+                    tableName = self.schema + "." + tableName
                     cur.execute("DROP TABLE IF EXISTS %s CASCADE;" % (tableName))
                     cur.execute("CREATE TABLE IF NOT EXISTS %s();"  % (tableName))
                     for idx, val in enumerate(reader):
@@ -205,8 +207,6 @@ class CanadaCensus:
                                 pass
                         else:
                             val = [str(x) for x in val]
-                            print val[10]
-
                             query = "INSERT INTO %s values (%s, %s, %s, %s, %s, %s, %s)" % (tableName, self.func1(val[0], val[1]), self.func2(val[2]), self.func3(val[3]), self.func4(val[4]), self.checkval(val[6]), self.checkval(val[8]), self.checkval(val[10]))
                             try:
                                 cur.execute(query)
