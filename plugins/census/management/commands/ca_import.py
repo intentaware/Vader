@@ -96,15 +96,16 @@ class Command(BaseCommand):
         with codecs.open(income, 'rb', encoding='utf-8', errors='ignore') as csvfile:
             print 'importing income data'
             print 'droping and creating tables'
+            income_table = 'cacensus2011.income'
             query = """
-                DROP TABLE IF EXISTS cacensus2011.income;
-                CREATE TABLE cacensus2011.income (
+                DROP TABLE IF EXISTS {income_table};
+                CREATE TABLE {income_table} (
                     id BIGSERIAL PRIMARY KEY UNIQUE,
                     geocode BIGINT NOT NULL,
                     topic TEXT NOT NULL,
-                    income TEXT NOT NULL
+                    income DECIMAL NOT NULL
                 );
-            """
+            """.format(income_table=income_table)
             print 'Table Succefully cleaned, Importing CSV now'
             reader = csv.reader(csvfile)
             header = reader.next()
@@ -119,6 +120,13 @@ class Command(BaseCommand):
                 geocode = ''
                 if len(result):
                     print 'geocode found, processing data'
-                    geocode = result[0][0]
+                    query = """
+                        INSERT INTO
+                            {income_table}, (geocode, topic, income)
+                        SELECT
+                            '{geocode}', '{topic}', '{income}';
+                    """.format(income_table=income_table,
+                            geocode=geocode, topic=row[1], income=row[2])
+                    print query
 
 
