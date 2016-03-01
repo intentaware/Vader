@@ -119,10 +119,10 @@ class Command(BaseCommand):
                 geocode = ''
                 if len(result):
                     geocode = result[0][0]
-                    print 'geocode found, processing data'
+                    print 'geocode found, inserting new row'
                     query = """
                         INSERT INTO
-                            {income_table}, (geocode, topic, income)
+                            {income_table} (geocode, topic, income)
                         SELECT
                             '{geocode}', '{topic}', '{income}';
                     """.format(income_table=income_table,
