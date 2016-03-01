@@ -111,7 +111,6 @@ class Command(BaseCommand):
             header = reader.next()
             for row in reader:
                 city = row[0]
-                print city
                 query = """
                     SELECT geocode FROM cacensus2011.geocodes WHERE city='{city}';
                 """.format(city=city)
@@ -128,6 +127,9 @@ class Command(BaseCommand):
                             '{geocode}', '{topic}', '{income}';
                     """.format(income_table=income_table,
                             geocode=geocode, topic=row[1], income=row[2])
-                    print query
+                    try:
+                        cursor.execute(query)
+                    except DataError as e:
+                        print e
 
 
