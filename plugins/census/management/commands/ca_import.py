@@ -101,7 +101,7 @@ class Command(BaseCommand):
                 city = row[0]
                 print city
                 query = """
-                    SELECT * FROM cacensus2011.geocodes WHERE city='{city}';
+                    SELECT geocode FROM cacensus2011.geocodes WHERE city='{city}';
                 """.format(city=city)
                 cursor.execute(query)
                 result = cursor.fetchall()
