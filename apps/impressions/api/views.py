@@ -14,6 +14,7 @@ from apps.warehouse.models import IPStore
 
 from plugins.census.models import Geography
 from plugins.census.api import CensusUS
+from plugins.census.ca import CaCensus
 
 from .serializers import ImpressionSerializer
 
@@ -162,14 +163,14 @@ class GetProfile(APIView):
         if ip2geo:
             country = ip2geo['country']['iso_code']
             postcode = ip2geo['postal']['code']
+            city = ip2geo['city']['names']['en']
             if country == 'US':
                 geoid = Geography.objects.get(
                     full_name__contains=postcode
                         ).full_geoid.replace('|', '00US')
                 census = CensusUS(geoid=geoid).computed_profile()
             if coutry == 'CA':
-                # do something
-                pass
+                census = CaCensus(city=city).get_profile()
         user_agent = request.META['HTTP_USER_AGENT']
 
         from apps.common.utils.encoders import dump
