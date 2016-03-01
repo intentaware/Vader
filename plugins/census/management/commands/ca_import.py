@@ -119,6 +119,7 @@ class Command(BaseCommand):
                 result = cursor.fetchall()
                 geocode = ''
                 if len(result):
+                    geocode = result[0][0]
                     print 'geocode found, processing data'
                     query = """
                         INSERT INTO
