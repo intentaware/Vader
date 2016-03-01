@@ -33,7 +33,8 @@ class SetSessionData(TemplateView):
             if membership.company.is_active:
                 request.session['company'] = membership.company.id
             else:
-                return redirect('/users/suspended/')
+                request.session['company'] = membership.company.id
+                # return redirect('/users/suspended/')
 
             if membership.is_owner or membership.is_superuser:
                 request.session['superuser'] = True
