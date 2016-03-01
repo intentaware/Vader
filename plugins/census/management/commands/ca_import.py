@@ -7,10 +7,12 @@ import csv, os, codecs
 class Command(BaseCommand):
 
     def handle(self, **options):
-        path_to_file = os.path.join(settings.BASE_DIR, 'docs', 'test.csv')
+        population = os.path.join(settings.BASE_DIR, 'docs', 'test.csv')
+        income = os.path.join(settings.BASE_DIR, 'docs', 'income.csv')
         cursor = connections['us_census'].cursor()
 
-        with codecs.open(path_to_file, 'rb', encoding='utf-8', errors='ignore') as csvfile:
+        with codecs.open(population, 'rb', encoding='utf-8', errors='ignore') as csvfile:
+            print 'importing population data'
             table = 'cacensus2011.geocodes'
             pop_table = 'cacensus2011.population'
             print 'Droping and Creating Tables'
@@ -19,7 +21,7 @@ class Command(BaseCommand):
                     DROP TABLE
                         IF EXISTS {table};
                     CREATE TABLE {table} (
-                        id BIGSERIAL PRIMARY KEY,
+                        id BIGSERIAL PRIMARY KEY UNIQUE,
                         geocode BIGINT NOT NULL UNIQUE,
                         province TEXT NOT NULL,
                         city TEXT NOT NULL
@@ -27,7 +29,7 @@ class Command(BaseCommand):
                     DROP TABLE
                         IF EXISTS {pop_table};
                     CREATE TABLE {pop_table} (
-                        id BIGSERIAL PRIMARY KEY,
+                        id BIGSERIAL PRIMARY KEY UNIQUE,
                         geocode BIGINT NOT NULL,
                         topic TEXT NOT NULL,
                         characteristics TEXT NOT NULL,
@@ -90,3 +92,5 @@ class Command(BaseCommand):
                 except DataError as e:
                     print row
                     print e
+
+        with codecs.open(filename)
