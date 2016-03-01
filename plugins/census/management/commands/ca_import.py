@@ -98,4 +98,5 @@ class Command(BaseCommand):
             reader = csv.reader(csvfile)
             header = reader.next()
             for row in reader:
-                print row
+                city = row[0]
+                print city
