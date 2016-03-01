@@ -105,5 +105,8 @@ class Command(BaseCommand):
                 """.format(city=city)
                 cursor.execute(query)
                 result = cursor.fetchall()
+                geocode = ''
                 if len(result):
-                    print result
+                    geocode = result[0][0]
+                    print geocode
+
