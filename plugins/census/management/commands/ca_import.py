@@ -100,3 +100,10 @@ class Command(BaseCommand):
             for row in reader:
                 city = row[0]
                 print city
+                query = """
+                    SELECT * FROM cacensus2011.geocodes WHERE city='{city}';
+                """.format(city=city)
+                cursor.execute(query)
+                result = cursor.fetchall()
+                if len(result):
+                    print result
