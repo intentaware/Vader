@@ -146,10 +146,10 @@ class GetProfile(APIView):
 
     def process_request(self, request):
         from ipware.ip import get_real_ip
-        ip = get_real_ip(request) or '99.22.48.100'
+        from django.conf import settings
+        ip = get_real_ip(request) or '99.235.58.170'
         if ip:
             from geoip2 import database, webservice
-            from django.conf import settings
             client = webservice.Client(
                 settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET)
             ip2geo = client.insights(ip).raw
@@ -170,7 +170,22 @@ class GetProfile(APIView):
                         ).full_geoid.replace('|', '00US')
                 census = CensusUS(geoid=geoid).computed_profile()
             if country == 'CA':
+                from googlemaps import Client
+                gmaps = Client(key=settings.GOOGLE_GEOCODE_KEY)
+                location = ip2geo['location']
+                # census = CaCensus(city=city).get_profile()
+                results = gmaps.reverse_geocode(
+                        (location['latitude'], location['longitude'])
+                    )[0]['address_components']
+                for r in results:
+                    try:
+                        types = r['types']
+                        if types[0] == 'locality' and types[1] == 'political':
+                            city = r['long_name']
+                    except:
+                        pass
                 census = CaCensus(city=city).get_profile()
+
         user_agent = request.META['HTTP_USER_AGENT']
 
         from apps.common.utils.encoders import dump

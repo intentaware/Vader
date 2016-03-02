@@ -8,6 +8,7 @@ class CaCensus(object):
         self.city = city
 
     def get_geocode(self):
+        print self.city
         query = """
             SELECT geocode FROM cacensus2011.geocodes WHERE city='{city}';
         """.format(city=self.city)
@@ -19,6 +20,8 @@ class CaCensus(object):
 
         if len(result):
             geocode = result[0][0]
+
+        print geocode
 
         self.geocode = geocode
 
@@ -83,14 +86,13 @@ class CaCensus(object):
         doc = dict()
 
         population = self.get_population()
+        print population
         if population['male'] > population['female']:
             doc['sex'] = 'Male'
             doc['age'] = int(population['median_male'])
         else:
             doc['sex'] = 'Female'
             doc['age'] = int(population['median_female'])
-
-        print doc
 
         income = self.get_income()
 
