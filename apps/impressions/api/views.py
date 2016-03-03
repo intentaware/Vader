@@ -182,6 +182,9 @@ class GetProfile(APIView):
                         types = r['types']
                         if types[0] == 'locality' and types[1] == 'political':
                             city = r['long_name']
+
+                        if types[0] == 'postal_code':
+                            postcode = r['long_name']
                     except:
                         pass
                 census = CaCensus(city=city).get_profile()
@@ -194,5 +197,6 @@ class GetProfile(APIView):
             'ip': ip,
             'user_agent': user_agent,
             'ip2geo': ip2geo,
-            'census_profile': census
+            'census_profile': census,
+            'postcode': postcode
         }
