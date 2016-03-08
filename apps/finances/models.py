@@ -1,7 +1,10 @@
+import shortuuid
 from django.db import models
+from django.utils.text import slugify, Truncator
 from django.contrib.postgres.fields import JSONField
-
+from django_extensions.db.fields import ShortUUIDField
 from apps.common.models import *
+from apps.common.utils.money import convert_to_cents
 from .mixins import Stripe, CURRENCY_CHOICES
 
 
@@ -113,8 +116,27 @@ class Plan(TimeStamped, Stripe):
         help_text='0 means unlimited'
     )
 
+    stripe_id = ShortUUIDField(blank=True, null=True)
+
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        plan = None
+        sd = self.stripe_dictionary
+        if sd and self.stripe_id:
+            try:
+                plan = self._stripe.Plan.retrieve(self.stripe_id)
+                if not plan.amount == convert_to_cents(self.amount) or not plan.currency == self.currency:
+                    self.stripe_id = shortuuid.uuid()
+                    self.id = None
+                    self.create_stripe_plan()
+            except self._stripe.error.InvalidRequestError:
+                self.create_stripe_plan()
+        return super(Plan, self).save(*args, **kwargs)
+
+    def create_stripe_plan(self, *args, **kwargs):
+        self._stripe.Plan.create(**self.stripe_dictionary)
 
     def features(self):
         from itertools import groupby
@@ -131,6 +153,24 @@ class Plan(TimeStamped, Stripe):
         for k, v in groupby(modules, lambda x: x['segment']):
             doc[Module.SEGMENT_CHOICES[k][1]] = list(v)
 
+        return doc
+
+    @property
+    def stripe_dictionary(self):
+        doc = None
+        if not self.interval == 0:
+            doc = {
+                'id': self.stripe_id,
+                'name': self.name,
+                'amount': convert_to_cents(self.amount),
+                'currency': self.currency,
+                'interval': self.INTERVAL_CHOICES[self.interval][1],
+                'statement_descriptor': Truncator(
+                    'IA: {name}'.format(
+                        name=self.name
+                    )
+                ).chars(22)
+            }
         return doc
 
 
