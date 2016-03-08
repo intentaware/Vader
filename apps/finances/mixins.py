@@ -1,7 +1,10 @@
 import stripe
 from django.conf import settings
+from moneyed import CURRENCIES
+
 from apps.common.models import BaseModel
 
+CURRENCY_CHOICES = [(CURRENCIES[k].code, CURRENCIES[k].name) for k in CURRENCIES]
 
 class Stripe(BaseModel):
     """

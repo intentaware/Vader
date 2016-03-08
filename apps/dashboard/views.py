@@ -13,7 +13,9 @@ class LoginRequiredMixin(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(LoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs
+        )
 
 
 class SetSessionData(TemplateView):
@@ -41,7 +43,9 @@ class SetSessionData(TemplateView):
             else:
                 request.session['superuser'] = False
 
-            return super(SetSessionData, self).dispatch(request, *args, **kwargs)
+            return super(SetSessionData, self).dispatch(
+                request, *args, **kwargs
+            )
         else:
             return redirect('/users/create-company/')
 
@@ -64,21 +68,21 @@ class DashboardView(SetSessionData):
         from django.conf import settings
         request = self.request
         membership = request.user.memberships.prefetch_related(
-            'company__coupons').select_related(
-            'company').get(is_default=True)
+            'company__coupons'
+        ).select_related(
+            'company'
+        ).get(is_default=True)
         user = DashboardUserSerializer(request.user).data
-        company = CompanySerializer(
-                membership.company
-            ).data
+        company = CompanySerializer(membership.company).data
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['globals'] = {
             'user': user,
             'company': company,
             'coupons': {
-                    'total': membership.company.coupons.all().count(),
-                    'claimed': membership.company.coupons.claimed().count(),
-                    'remaining': membership.company.coupons.remaining().count(),
-                },
+                'total': membership.company.coupons.all().count(),
+                'claimed': membership.company.coupons.claimed().count(),
+                'remaining': membership.company.coupons.remaining().count(),
+            },
             'budget': membership.company.campaigns.active().active_budget(),
             'cxt': {
                 'staticUrl': settings.STATIC_URL,
@@ -113,7 +117,9 @@ def user_opt_out(request):
     It fetches the ImpressionUser object for the current customer and
     sets the opt_out_flag to true.
     """
-    if (request.method == POST) and ("optOutButton" in request.POST) and request.visitor:
+    if (request.method == POST) and (
+            "optOutButton" in request.POST
+    ) and request.visitor:
         impression_user = ImpressionUser.objects.get(key=request.visitor)
         impression_user.set_opt_out_flag()
     return render(request, 'debug/opt-out-child.html', {})
@@ -126,7 +132,8 @@ def display_coupon(request, code):
         #coupon = coupon.redeem()
     except Coupon.DoesNotExist:
         coupon = False
-    return render(request, 'coupons/redeem.html', { 'coupon': coupon })
+    return render(request, 'coupons/redeem.html', {'coupon': coupon})
+
 
 def redeem_coupon(request, code):
     from apps.campaigns.models import Coupon
@@ -136,4 +143,9 @@ def redeem_coupon(request, code):
     except Coupon.DoesNotExist:
         coupon = False
     print coupon
-    return render(request, 'coupons/redeem.html', { 'coupon': coupon, 'redeemed': True })
+    return render(
+        request, 'coupons/redeem.html', {
+            'coupon': coupon,
+            'redeemed': True
+        }
+    )

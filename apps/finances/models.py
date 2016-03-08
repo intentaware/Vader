@@ -2,9 +2,8 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 
 from apps.common.models import *
-from .mixins import Stripe
+from .mixins import Stripe, CURRENCY_CHOICES
 
-# Create your models here.
 
 class BasePaymentModel(Stripe, TimeStamped):
     """Basic Payment Model, inherits Stripe model, will be used for multiple
@@ -21,10 +20,19 @@ class BasePaymentModel(Stripe, TimeStamped):
         taxes (Decimal): Taxes if any, Note: amount is inclusive of taxes
     """
     amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
+    currency = models.CharField(
+        max_length=4,
+        choices=CURRENCY_CHOICES,
+        default='USD'
+    )
     attempts = models.IntegerField(default=0)
 
     #service charges
-    service_charges = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
+    service_charges = models.DecimalField(
+        default=0.00,
+        max_digits=20,
+        decimal_places=4
+    )
     taxes = models.DecimalField(default=0.0, max_digits=20, decimal_places=4)
     #total_amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
 
@@ -32,7 +40,9 @@ class BasePaymentModel(Stripe, TimeStamped):
     attempted_on = models.DateTimeField(blank=True, null=True)
     charged_on = models.DateTimeField(blank=True, null=True)
 
+    # json mapped response from stripe
     gateway_response = JSONField(default={})
+
     is_paid = models.BooleanField(default=False)
 
     class Meta:
@@ -43,8 +53,13 @@ class BasePaymentModel(Stripe, TimeStamped):
         return self.amount - self.service_charges - self.taxes
 
 
-
 class Invoice(BasePaymentModel):
+    stripe_id = models.CharField(
+        max_length=256,
+        blank=True,
+        null=True,
+        help_text='id obtained from stripe'
+    )
     company = models.ForeignKey('companies.Company', related_name='invoices')
 
 
@@ -56,28 +71,47 @@ class Module(TimeStamped):
         (REPORTING, 'Reporting'),
     ]
 
-    name = models.CharField(max_length=128)
-    segment = models.IntegerField(choices=SEGMENT_CHOICES, default=CORE)
+    name = models.CharField(max_length=128, help_text='The name of the module')
+    segment = models.IntegerField(
+        choices=SEGMENT_CHOICES,
+        default=CORE,
+        help_text='The segment it is part of'
+    )
 
     def __unicode__(self):
         return self.name
 
 
 class Plan(TimeStamped, Stripe):
-    [UNTIL_EXPIRY, MONTHLY, QUARTERLY, YEARLY] = range(4)
-    DURATION_CHOICES = [
-        (MONTHLY, 'Monthly'),
-        (QUARTERLY, 'Quarterly'),
-        (YEARLY, 'Yearly'),
-        (UNTIL_EXPIRY, 'Expires on Consumption')
+    [UNTIL_EXPIRY, DAY, WEEK, MONTH, YEAR] = range(5)
+    INTERVAL_CHOICES = [
+        (UNTIL_EXPIRY, 'untill expiry'),
+        (DAY, 'day'),
+        (WEEK, 'week'),
+        (MONTH, 'month'),
+        (YEAR, 'year'),
     ]
 
-    amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=4)
+    amount = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
+    currency = models.CharField(
+        max_length=4,
+        choices=CURRENCY_CHOICES,
+        default='USD'
+    )
     name = models.CharField(max_length=128)
-    duration = models.IntegerField(choices=DURATION_CHOICES, default=UNTIL_EXPIRY)
+    interval = models.IntegerField(
+        choices=INTERVAL_CHOICES,
+        default=UNTIL_EXPIRY
+    )
     modules = models.ManyToManyField(Module, through='finances.PlanModule')
-    limit_campaigns = models.IntegerField(default=0, help_text='0 means unlimited')
-    limit_impressions = models.IntegerField(default=0, help_text='0 means unlimited')
+    limit_campaigns = models.IntegerField(
+        default=0,
+        help_text='0 means unlimited'
+    )
+    limit_impressions = models.IntegerField(
+        default=0,
+        help_text='0 means unlimited'
+    )
 
     def __unicode__(self):
         return self.name
