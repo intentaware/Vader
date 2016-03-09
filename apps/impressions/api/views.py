@@ -147,7 +147,7 @@ class GetProfile(APIView):
     def process_request(self, request):
         from ipware.ip import get_real_ip
         from django.conf import settings
-        ip = get_real_ip(request) or '99.235.58.170'
+        ip = get_real_ip(request) or '184.151.179.173'
         if ip:
             from geoip2 import database, webservice
             client = webservice.Client(
