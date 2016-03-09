@@ -24,7 +24,7 @@ class Company(TimeStamped, SluggedFromName, Stripe):
     publisher_rate = models.DecimalField(default=0.05, max_digits=4, decimal_places=4)
 
     # stripe
-    payment_data = JsonField(default={})
+    payment_data = JsonField(blank=True, null=True, default={})
 
     users = models.ManyToManyField('users.User', through='companies.CompanyUser')
     circles = models.ManyToManyField('metas.Circle', through='metas.PublisherCircle')
