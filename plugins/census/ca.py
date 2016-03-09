@@ -64,17 +64,18 @@ class CaCensus(object):
         else:
             geocode = self.geocode
 
-        income = None
+        income = 40000
 
         doc = dict()
 
-        query = """
-            SELECT * FROM cacensus2011.income WHERE geocode='{geocode}';
-            """.format(geocode=geocode)
+        if geocode:
+            query = """
+                SELECT * FROM cacensus2011.income WHERE geocode='{geocode}';
+                """.format(geocode=geocode)
 
-        self.cursor.execute(query)
+            self.cursor.execute(query)
 
-        results = self.cursor.fetchall()
+            results = self.cursor.fetchall()
 
         for row in results:
             if 'Average' in row[2]:
@@ -86,21 +87,19 @@ class CaCensus(object):
         doc = dict()
 
         population = self.get_population()
-        print population
-        if population['male'] > population['female']:
-            doc['sex'] = 'Male'
-            doc['age'] = int(population['median_male'])
-        else:
-            doc['sex'] = 'Female'
-            doc['age'] = int(population['median_female'])
+        if len(population):
+            if population['male'] > population['female']:
+                doc['sex'] = 'Male'
+                doc['age'] = int(population['median_male'])
+            else:
+                doc['sex'] = 'Female'
+                doc['age'] = int(population['median_female'])
 
         income = self.get_income()
 
-        if int(income) > 39999:
+        if int(income) > 45000:
             doc['job'] = 'White Collar'
         else:
             doc['job'] = 'Blue Collar'
 
         return doc
-
-

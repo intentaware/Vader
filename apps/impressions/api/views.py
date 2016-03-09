@@ -20,7 +20,7 @@ from .serializers import ImpressionSerializer
 
 
 class GetImpression(APIView):
-    permission_classes = (PublisherAPIPermission,)
+    permission_classes = (PublisherAPIPermission, )
 
     def get(self, request, pk=None, b64_string=None):
         if not pk:
@@ -43,15 +43,17 @@ class GetImpression(APIView):
                     key, val = self.process_base64(b64_string)
                     if key == "campaign":
                         # print val
-                        coupons = request.publisher.get_target_campaigns(request, campaign_id=val)
+                        coupons = request.publisher.get_target_campaigns(
+                            request,
+                            campaign_id=val)
                         # print coupons
-                        impressions = self.get_impression_markup(request, coupons)
+                        impressions = self.get_impression_markup(request,
+                                                                 coupons)
                         return Response(impressions, status=200)
 
     def get_impression_markup(self, request, coupons):
         impressions = list()
-        visitor, created = Visitor.objects.get_or_create(
-            key=request.visitor)
+        visitor, created = Visitor.objects.get_or_create(key=request.visitor)
         if request.user.is_authenticated() and not visitor.user:
             visitor.user = request.user
             visitor.save()
@@ -59,19 +61,17 @@ class GetImpression(APIView):
         # print meta
         for c in coupons:
             i = Impression.objects.create(
-                coupon=c, campaign=c.campaign, publisher=request.publisher,
-                visitor=visitor, meta=meta
+                coupon=c,
+                campaign=c.campaign,
+                publisher=request.publisher,
+                visitor=visitor,
+                meta=meta
             )
 
-            context = RequestContext(request, {
-                'impression': i
-            })
+            context = RequestContext(request, {'impression': i})
 
             template = render_to_string('impressions/basic.html', context)
-            impression = {
-                'id': i.id,
-                'template': template
-            }
+            impression = {'id': i.id, 'template': template}
             impressions.append(impression)
         return impressions
 
@@ -107,7 +107,6 @@ class GetImpression(APIView):
             impression.meta[key] = val
         impression.save()
 
-
     def claim_coupon(self, impression, email):
         user, created = User.objects.get_or_create(email=email)
         # assign the user to impression object.
@@ -131,11 +130,7 @@ class GetImpression(APIView):
         else:
             ip2geo = None
         user_agent = request.META['HTTP_USER_AGENT']
-        return {
-            'ip': ip,
-            'user_agent': user_agent,
-            'ip2geo': ip2geo,
-        }
+        return {'ip': ip, 'user_agent': user_agent, 'ip2geo': ip2geo, }
 
 
 class GetProfile(APIView):
@@ -151,7 +146,8 @@ class GetProfile(APIView):
         if ip:
             from geoip2 import database, webservice
             client = webservice.Client(
-                settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET)
+                settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET
+            )
             ip2geo = client.insights(ip).raw
             # reader = database.Reader(settings.MAXMIND_CITY_DB)
             # ip2geo = reader.city(ip).raw
@@ -167,7 +163,7 @@ class GetProfile(APIView):
             if country == 'US':
                 geoid = Geography.objects.get(
                     full_name__contains=postcode
-                        ).full_geoid.replace('|', '00US')
+                ).full_geoid.replace('|', '00US')
                 census = CensusUS(geoid=geoid).computed_profile()
             if country == 'CA':
                 from googlemaps import Client
@@ -175,8 +171,8 @@ class GetProfile(APIView):
                 location = ip2geo['location']
                 # census = CaCensus(city=city).get_profile()
                 results = gmaps.reverse_geocode(
-                        (location['latitude'], location['longitude'])
-                    )[0]['address_components']
+                    (location['latitude'], location['longitude'])
+                )[0]['address_components']
                 for r in results:
                     try:
                         types = r['types']
