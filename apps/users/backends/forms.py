@@ -58,6 +58,7 @@ class PasswordResetForm(forms.Form):
         return email
 
 class SubscriptionForm(BasePaymentForm):
+    name = forms.CharField(max_length=128, required=True)
     plan = forms.HiddenInput()
     invoice = forms.HiddenInput()
 
