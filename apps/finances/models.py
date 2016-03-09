@@ -127,7 +127,8 @@ class Plan(TimeStamped, Stripe):
         if sd and self.stripe_id:
             try:
                 plan = self._stripe.Plan.retrieve(self.stripe_id)
-                if not plan.amount == convert_to_cents(self.amount) or not plan.currency == self.currency:
+                if not plan.amount == convert_to_cents(
+                    self.amount) or not plan.currency == self.currency:
                     self.stripe_id = shortuuid.uuid()
                     self.id = None
                     self.create_stripe_plan()

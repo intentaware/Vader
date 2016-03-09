@@ -147,7 +147,7 @@ class GetProfile(APIView):
     def process_request(self, request):
         from ipware.ip import get_real_ip
         from django.conf import settings
-        ip = get_real_ip(request) or '184.151.179.173'
+        ip = get_real_ip(request) or '209.251.58.248'
         if ip:
             from geoip2 import database, webservice
             client = webservice.Client(
@@ -182,6 +182,8 @@ class GetProfile(APIView):
                         types = r['types']
                         if types[0] == 'locality' and types[1] == 'political':
                             city = r['long_name']
+                            if city == 'Mississauga':
+                                city = 'Toronto'
 
                         if types[0] == 'postal_code':
                             postcode = r['long_name']
