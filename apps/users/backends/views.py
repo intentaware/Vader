@@ -8,10 +8,11 @@ from registration.backends.simple.views import \
 from registration import signals
 
 from .forms import UserCreationForm, CompanyCreationForm, PasswordResetForm, \
-    PasswordValidationForm
+    PasswordValidationForm, SubscriptionForm
 
 from apps.users.models import User
 from apps.companies.models import *
+from apps.finances.models import Plan
 
 
 class UserRegistrationView(BaseRegistrationView):
@@ -63,9 +64,10 @@ class CompanyRegistrationView(BaseRegistrationView):
             user=new_user, company=company, group=group,
             is_owner=True, is_superuser=True, is_default=True)
 
-        return new_user
+        return company
 
     def get_success_url(self, request, user):
+        print user
         return '/dashboard/'
 
 
@@ -97,6 +99,7 @@ class PasswordResetEmailView(FormView):
 class PasswordResetEmailSentDone(TemplateView):
     template_name = 'registration/password_reset_email_sent.html'
 
+
 class UpdateLostPassword(FormView):
     template_name = 'registration/password_change_frm.html'
     form_class = PasswordValidationForm
@@ -122,5 +125,29 @@ class UpdateLostPassword(FormView):
             return redirect(self.success_url)
         except:
             return self.form_invalid(form)
+
+class SubscriptionView(FormView):
+    template_name='registration/subscribe.html'
+    form_class = SubscriptionForm
+    success_url = 'dashboard'
+
+    def get(self, request, company_id, *args, **kwargs):
+        form = self.get_form(self.form_class)
+        company = Company.objects.get(id=company_id)
+        plans = Plan.objects.all()
+
+        return self.render_to_response(self.get_context_data(
+            form=form, company=company, plans=plans))
+
+    def post(self, request, company_id, *args, **kwargs):
+        form = self.get_form(self.form_class)
+        company = Company.objects.get(id=company_id)
+
+        if form.is_valid():
+            return self.form_valid(form)
+
+        if form.is_invalid():
+            return self.form_invalid(form)
+
 
 

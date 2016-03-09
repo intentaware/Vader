@@ -127,8 +127,10 @@ class Plan(TimeStamped, Stripe):
         if sd and self.stripe_id:
             try:
                 plan = self._stripe.Plan.retrieve(self.stripe_id)
-                if not plan.amount == convert_to_cents(
-                    self.amount) or not plan.currency == self.currency:
+                if int(plan.amount) != convert_to_cents(
+                    self.amount
+                ) or self.currency.lower() != plan.currency:
+                    print 'not equal, creating new account'
                     self.stripe_id = shortuuid.uuid()
                     self.id = None
                     self.create_stripe_plan()
@@ -162,7 +164,10 @@ class Plan(TimeStamped, Stripe):
         if not self.interval == 0:
             doc = {
                 'id': self.stripe_id,
-                'name': self.name,
+                'name': '{name} ({currency})'.format(
+                    name=self.name,
+                    currency=self.currency
+                ),
                 'amount': convert_to_cents(self.amount),
                 'currency': self.currency,
                 'interval': self.INTERVAL_CHOICES[self.interval][1],

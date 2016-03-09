@@ -75,7 +75,7 @@ class Company(TimeStamped, SluggedFromName, Stripe):
                 customer = self.set_stripe_customer()
         return customer
 
-    def set_stripe_customer(self):
+    def set_stripe_customer(self, *args, **kwargs):
         owner = self.memberships.filter(is_owner=True)[0].user
         response = self._stripe.Customer.create(
                 email=owner.email,

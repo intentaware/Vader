@@ -1,5 +1,8 @@
 from django import forms
+from apps.finances.forms import BasePaymentForm
 from apps.users.models import User
+from apps.companies.models import Company
+
 
 
 class PasswordValidationForm(forms.Form):
@@ -15,7 +18,7 @@ class PasswordValidationForm(forms.Form):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password1 and password2 and password1 != password2:
-            msg = "Passwords mismatch"
+            msg = 'Passwords mismatch'
             raise forms.ValidationError('Password mismatch')
         return password2
 
@@ -53,3 +56,10 @@ class PasswordResetForm(forms.Form):
 
         self.user = user
         return email
+
+class SubscriptionForm(BasePaymentForm):
+    plan = forms.HiddenInput()
+    invoice = forms.HiddenInput()
+
+    def clean(self):
+        cleaned = super(SubscriptionForm, self).clean()
