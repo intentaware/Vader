@@ -4,5 +4,7 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET', 'POST'])
 def invoice_webhook(request):
-    print request.data
+    data = request.data
+    if 'payment_succeeded' in data['type']:
+        print 'success'
     return Response({}, status=200)
