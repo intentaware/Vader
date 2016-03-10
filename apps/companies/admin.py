@@ -29,3 +29,4 @@ class CompanyUserAdmin(admin.ModelAdmin):
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(CompanyGroup, CompanyGroupAdmin)
 admin.site.register(CompanyUser, CompanyUserAdmin)
+admin.site.register(CompanySubscription)
