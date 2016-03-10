@@ -5,14 +5,12 @@ from apps.companies.models import Company, CompanySubscription
 from apps.finances.models import Plan
 
 
-
 class PasswordValidationForm(forms.Form):
-    password1 = forms.CharField(
-        label='Password',
-        widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(
         label='Password confirmation',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput
+    )
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -26,8 +24,11 @@ class PasswordValidationForm(forms.Form):
 
 class UserCreationForm(PasswordValidationForm):
     # create user
-    email = forms.EmailField(required=True, max_length=128,
-        label='Email Address')
+    email = forms.EmailField(
+        required=True,
+        max_length=128,
+        label='Email Address'
+    )
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -43,8 +44,11 @@ class CompanyCreationForm(UserCreationForm):
 
 
 class PasswordResetForm(forms.Form):
-    email = forms.EmailField(required=True, max_length=128,
-        label='Email Address')
+    email = forms.EmailField(
+        required=True,
+        max_length=128,
+        label='Email Address'
+    )
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -57,6 +61,7 @@ class PasswordResetForm(forms.Form):
 
         self.user = user
         return email
+
 
 class SubscriptionForm(BasePaymentForm):
     name = forms.CharField(max_length=128, required=True, label='Name on Card')
@@ -80,7 +85,8 @@ class SubscriptionForm(BasePaymentForm):
 
             try:
                 customer.save()
-            except (company._stripe.error.CardError, company._stripe.error.AuthenticationError) as ce:
+            except (company._stripe.error.CardError,
+                    company._stripe.error.AuthenticationError) as ce:
                 if ce.param in ['exp_month', 'exp_year']:
                     self.add_error('expiration', ce.message)
                 elif ce.param in ['name', 'cvc']:
@@ -90,10 +96,26 @@ class SubscriptionForm(BasePaymentForm):
 
             plan = Plan.objects.get(id=self.cleaned_data['plan'])
             try:
-                subscription = customer.subscriptions.create(plan=plan.stripe_id)
-                CompanySubscription.objects.get_or_create(
-                    company=company, plan=plan, stripe_id=subscription.id)
-            except (company._stripe.error.CardError, company._stripe.error.AuthenticationError, company._stripe.error.InvalidRequestError) as ce:
+                subscription = customer.subscriptions.create(
+                    plan=plan.stripe_id)
+                try:
+                    c_subscription = CompanySubscription.objects.get(
+                        company=company,
+                        plan=plan)
+                    print c_subscription
+                    c_subscription.stripe_id = subscription.id
+                    c_subscription.save()
+                except CompanySubscription.DoesNotExist:
+                    CompanySubscription.objects.create(
+                        company=company,
+                        plan=plan,
+                        stripe_id=subscription.id
+                    )
+            except (
+                company._stripe.error.CardError,
+                company._stripe.error.AuthenticationError,
+                company._stripe.error.InvalidRequestError
+            ) as ce:
                 self.add_error('number', ce.message)
         else:
             print self.errors
