@@ -85,6 +85,11 @@ class Company(TimeStamped, SluggedFromName, Stripe):
         self.save()
         return response
 
+    @property
+    def subscription(self):
+        return self.subscriptions.filter(is_active=True)[0].plan
+
+
 
 class CompanyGroup(TimeStamped):
     name = models.CharField(max_length=128)
@@ -128,3 +133,10 @@ class CompanyUser(TimeStamped):
             self.user.memberships.all().update(is_active=False)
             self.is_active = True
             self.save()
+
+
+class CompanySubscription(TimeStamped):
+    company = models.ForeignKey(Company, related_name='subscriptions')
+    plan = models.ForeignKey('finances.Plan', related_name='subscriptions')
+    is_active = models.BooleanField(default=True)
+    stripe_id = models.CharField(max_length=256)

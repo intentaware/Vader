@@ -126,7 +126,7 @@ class Plan(TimeStamped, Stripe):
         sd = self.stripe_dictionary
         if sd and self.stripe_id:
             try:
-                plan = self._stripe.Plan.retrieve(self.stripe_id)
+                plan = self.stripe_plan
                 if int(plan.amount) != convert_to_cents(
                     self.amount
                 ) or self.currency.lower() != plan.currency:
@@ -139,7 +139,12 @@ class Plan(TimeStamped, Stripe):
         return super(Plan, self).save(*args, **kwargs)
 
     def create_stripe_plan(self, *args, **kwargs):
-        self._stripe.Plan.create(**self.stripe_dictionary)
+        return self._stripe.Plan.create(**self.stripe_dictionary)
+
+    @property
+    def stripe_plan(self):
+        return self._stripe.Plan.retrieve(self.stripe_id)
+
 
     def features(self):
         from itertools import groupby

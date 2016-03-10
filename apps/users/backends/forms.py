@@ -1,7 +1,8 @@
 from django import forms
 from apps.finances.forms import BasePaymentForm
 from apps.users.models import User
-from apps.companies.models import Company
+from apps.companies.models import Company, CompanySubscription
+from apps.finances.models import Plan
 
 
 
@@ -76,6 +77,7 @@ class SubscriptionForm(BasePaymentForm):
             company = getattr(self, 'company', None)
             customer = company.stripe_customer
             customer.source = card
+
             try:
                 customer.save()
             except (company._stripe.error.CardError, company._stripe.error.AuthenticationError) as ce:
@@ -85,5 +87,13 @@ class SubscriptionForm(BasePaymentForm):
                     self.add_error(ce.param, ce.message)
                 else:
                     self.add_error('number', ce.message)
+
+            plan = Plan.objects.get(id=self.cleaned_data['plan'])
+            try:
+                subscription = customer.subscriptions.create(plan=plan.stripe_id)
+                CompanySubscription.objects.create(
+                    company=company, plan=plan, stripe_id=subscription.id)
+            except (company._stripe.error.CardError, company._stripe.error.AuthenticationError, company._stripe.error.InvalidRequestError) as ce:
+                self.add_error('number', ce.message)
         else:
             print self.errors
