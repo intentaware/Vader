@@ -129,24 +129,26 @@ class UpdateLostPassword(FormView):
 class SubscriptionView(FormView):
     template_name='registration/subscribe.html'
     form_class = SubscriptionForm
-    success_url = 'dashboard'
+    success_url = '.'
 
     def get(self, request, company_id, *args, **kwargs):
         form = self.get_form(self.form_class)
-        company = Company.objects.get(id=company_id)
+        # company = Company.objects.get(id=company_id)
         plans = Plan.objects.all()
 
         return self.render_to_response(self.get_context_data(
-            form=form, company=company, plans=plans))
+            form=form, plans=plans))
 
     def post(self, request, company_id, *args, **kwargs):
         form = self.get_form(self.form_class)
         company = Company.objects.get(id=company_id)
 
+        form.company = company
+
         if form.is_valid():
             return self.form_valid(form)
 
-        if form.is_invalid():
+        else:
             return self.form_invalid(form)
 
 

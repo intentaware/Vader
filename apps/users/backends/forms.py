@@ -58,9 +58,32 @@ class PasswordResetForm(forms.Form):
         return email
 
 class SubscriptionForm(BasePaymentForm):
-    name = forms.CharField(max_length=128, required=True)
-    plan = forms.HiddenInput()
-    invoice = forms.HiddenInput()
+    name = forms.CharField(max_length=128, required=True, label='Name on Card')
+    plan = forms.IntegerField(widget=forms.HiddenInput(), required=True)
 
     def clean(self):
         cleaned = super(SubscriptionForm, self).clean()
+
+        if not self.errors:
+            card = dict()
+            card['object'] = 'card'
+            card['name'] = self.cleaned_data['name']
+            card['number'] = self.cleaned_data['number']
+            card['cvc'] = self.cleaned_data['cvc']
+            card['exp_month'] = self.cleaned_data['expiration'].month
+            card['exp_year'] = self.cleaned_data['expiration'].year
+
+            company = getattr(self, 'company', None)
+            customer = company.stripe_customer
+            customer.source = card
+            try:
+                customer.save()
+            except (company._stripe.error.CardError, company._stripe.error.AuthenticationError) as ce:
+                if ce.param in ['exp_month', 'exp_year']:
+                    self.add_error('expiration', ce.message)
+                elif ce.param in ['name', 'cvc']:
+                    self.add_error(ce.param, ce.message)
+                else:
+                    self.add_error('number', ce.message)
+        else:
+            print self.errors

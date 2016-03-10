@@ -95,14 +95,6 @@ class BasePaymentForm(forms.Form):
         Sale instance. If it fails, it simply raises the error given from
         Stripe's library as a standard ValidationError for proper feedback.
         """
-        # cleaned = super(BasePaymentForm, self).clean()
+        cleaned = super(BasePaymentForm, self).clean()
 
-        # if not self.errors:
-        #     number = self.cleaned_data["number"]
-        #     exp_month = self.cleaned_data["expiration"].month
-        #     exp_year = self.cleaned_data["expiration"].year
-        #     cvc = self.cleaned_data["cvc"]
-
-        # return cleaned
-        #
-        raise NotImplementedError('no payment method defined')
+        return cleaned
