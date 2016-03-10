@@ -91,7 +91,7 @@ class SubscriptionForm(BasePaymentForm):
             plan = Plan.objects.get(id=self.cleaned_data['plan'])
             try:
                 subscription = customer.subscriptions.create(plan=plan.stripe_id)
-                CompanySubscription.objects.create(
+                CompanySubscription.objects.get_or_create(
                     company=company, plan=plan, stripe_id=subscription.id)
             except (company._stripe.error.CardError, company._stripe.error.AuthenticationError, company._stripe.error.InvalidRequestError) as ce:
                 self.add_error('number', ce.message)
