@@ -103,7 +103,7 @@ class PasswordResetEmailSentDone(TemplateView):
 class UpdateLostPassword(FormView):
     template_name = 'registration/password_change_frm.html'
     form_class = PasswordValidationForm
-    success_url = 'dashboard'
+    success_url = '/dashboard/'
 
     def get(self, request, key, *args, **kwargs):
         form = self.get_form(self.form_class)
@@ -129,7 +129,7 @@ class UpdateLostPassword(FormView):
 class SubscriptionView(FormView):
     template_name='registration/subscribe.html'
     form_class = SubscriptionForm
-    success_url = '.'
+    success_url = '/dashboard/'
 
     def get(self, request, company_id, *args, **kwargs):
         form = self.get_form(self.form_class)
@@ -141,11 +141,14 @@ class SubscriptionView(FormView):
 
     def post(self, request, company_id, *args, **kwargs):
         form = self.get_form(self.form_class)
+        plans = Plan.objects.all()
         company = Company.objects.get(id=company_id)
 
         form.company = company
 
         if form.is_valid():
+            company.is_active = True
+            company.save()
             return self.form_valid(form)
 
         else:

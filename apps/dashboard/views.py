@@ -36,7 +36,11 @@ class SetSessionData(TemplateView):
                 request.session['company'] = membership.company.id
             else:
                 request.session['company'] = membership.company.id
-                # return redirect('/users/suspended/')
+                return redirect(
+                    '/users/auth/subscribe/{company}/'.format(
+                        company=membership.company.id
+                    )
+                )
 
             if membership.is_owner or membership.is_superuser:
                 request.session['superuser'] = True
@@ -118,7 +122,7 @@ def user_opt_out(request):
     sets the opt_out_flag to true.
     """
     if (request.method == POST) and (
-            "optOutButton" in request.POST
+        "optOutButton" in request.POST
     ) and request.visitor:
         impression_user = ImpressionUser.objects.get(key=request.visitor)
         impression_user.set_opt_out_flag()
