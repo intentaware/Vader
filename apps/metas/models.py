@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from apps.common.models import *
 
 class Circle(TimeStamped):
@@ -33,3 +34,12 @@ class CampaignCity(TimeStamped):
 
     class Meta:
         unique_together = ['campaign', 'circle']
+
+
+class Audience(TimeStamped, ToCompany):
+    meta = JSONField(default={})
+
+
+class CampaignAudience(TimeStamped):
+    audience = models.ForeignKey('metas.Audience', default=1)
+    campaign = models.ForeignKey('campaigns.Campaign')

@@ -17,6 +17,10 @@ class StripeCreditCardSerializer(StripeSerializer):
     cvc = serializers.IntegerField(required=True)
 
     def get_source(self, cleaned_data):
+        '''
+        source is normally an invoice object, call be any other source i.e.
+        Company
+        '''
         source = cleaned_data
         del source['amount']
         del source['description']

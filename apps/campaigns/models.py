@@ -70,12 +70,12 @@ class Campaign(TimeStamped, ToCompany):
         self.save()
         return self.invoice
 
-    @property
-    def is_paid(self):
-        if self.invoice:
-            if self.invoice.is_paid:
-                return True
-        return False
+    # @property
+    # def is_paid(self):
+    #     if self.invoice:
+    #         if self.invoice.is_paid:
+    #             return True
+    #     return False
 
 
 class Coupon(TimeStamped, ToCompany):

@@ -1,18 +1,19 @@
 from base import *
+import os
 
 SITE_ID = 1
 
 BASE_URL = 'http://localhost:9050'
 
 INSTALLED_APPS += (
-    'rest_framework',
-    'devserver',
     'django.contrib.staticfiles',
+    'rest_framework',
+    #'devserver',
 )
 
-MIDDLEWARE_CLASSES += (
-    'devserver.middleware.DevServerMiddleware',
-)
+# MIDDLEWARE_CLASSES += (
+#     'devserver.middleware.DevServerMiddleware',
+# )
 
 INTERNAL_IPS = (
     '0.0.0.0', '127.0.0.1'
@@ -21,27 +22,32 @@ INTERNAL_IPS = (
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
+DB_USER = os.environ.get('PG_USER')
+DB_PASSWORD = os.environ.get('PG_PASSWORD')
+DB_PORT = os.environ.get('DB_PORT', 5434)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vader',
-        'USER': 'root',
-        'PASSWORD': '',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'test',
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
         'HOST': 'localhost',
-        'PORT': '5432',
-    }
+        'PORT': DB_PORT,
+    },
+    #'us_census': US_CENSUS_DB
 }
 
 DEVSERVER_MODULES = (
-    'devserver.modules.sql.SQLRealTimeModule',
+    #'devserver.modules.sql.SQLRealTimeModule',
     'devserver.modules.sql.SQLSummaryModule',
     'devserver.modules.profile.ProfileSummaryModule',
 
     # Modules not enabled by default
-    'devserver.modules.ajax.AjaxDumpModule',
-    'devserver.modules.profile.MemoryUseModule',
-    'devserver.modules.cache.CacheSummaryModule',
-    'devserver.modules.profile.LineProfilerModule',
+    #'devserver.modules.ajax.AjaxDumpModule',
+    #'devserver.modules.profile.MemoryUseModule',
+    #'devserver.modules.cache.CacheSummaryModule',
+    #'devserver.modules.profile.LineProfilerModule',
 )
 
 DEVSERVER_TRUNCATE_SQL = False

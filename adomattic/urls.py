@@ -4,8 +4,7 @@ from .settings import ADMIN_SITE_HEADER
 
 admin.site.site_header = ADMIN_SITE_HEADER
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'adomattic.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
@@ -18,7 +17,7 @@ urlpatterns = patterns(
     url(r'^users/', include('apps.users.urls')),
     url(r'^dashboard/', include('apps.dashboard.urls')),
     #url(r'^search/', include('haystack.urls')),
-)
+    ]
 
 from django.conf import settings
 

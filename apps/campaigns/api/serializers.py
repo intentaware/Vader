@@ -2,7 +2,7 @@ from rest_framework import serializers
 from photologue.models import Photo
 
 from apps.campaigns.models import Campaign
-from apps.metas.models import CampaignCircle
+from apps.metas.models import CampaignCircle, Audience, CampaignAudience
 from apps.api.fields import Base64ImageField, ModelPropertyField
 
 class BaseCampaignSerializer(serializers.ModelSerializer):
@@ -50,6 +50,7 @@ class CreateCampaignSerializer(serializers.ModelSerializer):
     service_charges = serializers.DecimalField(max_digits=20, decimal_places=4, required=False)
     taxes = serializers.DecimalField(max_digits=20, decimal_places=4, required=False)
     circles = serializers.ListField(child=serializers.IntegerField(), required=False)
+    audience = serializers.JSONField()
 
     class Meta:
         model = Campaign
@@ -65,8 +66,14 @@ class CreateCampaignSerializer(serializers.ModelSerializer):
         service_charges = i.pop('service_charges', None)
         taxes = i.pop('taxes', None)
         circles = i.pop('circles', None)
+        audience = i.pop('audience', None)
         i['image'] = image
         campaign = Campaign.objects.create(**i)
+        audience, created = Audience.objects.get_or_create(
+                company=campaign.company,
+                meta=audience
+            )
+        CampaignAudience.objects.get_or_create(audience=audience, campaign=campaign)
         campaign.set_invoice(
                 amount=campaign.budget,
                 service_charges=service_charges,
@@ -74,7 +81,6 @@ class CreateCampaignSerializer(serializers.ModelSerializer):
             )
         if circles and len(circles):
             for c in circles:
-                print c
                 CampaignCircle.objects.create(campaign=campaign, circle_id=c)
         return campaign
 

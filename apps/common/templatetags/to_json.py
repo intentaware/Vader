@@ -18,7 +18,6 @@ class CommonJSONEncoder(json.JSONEncoder):
         # determine the type of each object and do whatever is
         # requred accordingly
         if isinstance(obj, Decimal):
-            print obj
             return str(obj)
 
 def jsonify(value):

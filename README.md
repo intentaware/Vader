@@ -14,7 +14,7 @@ make sure you have these packages on your system
 You know virtualenv, right? MAKE ONE and switch to it!
 
 ```bash
-git clone git@github.com:adomattic/Vader.git && cd Vader
+git clone --recusive git@github.com:adomattic/Vader.git && cd Vader
 pip install -r requirements.txt
 touch adomattic/conf/fabric/variables.py
 ```
@@ -28,10 +28,13 @@ LOCAL_PROJECT_PATH = 'your local project path'
 LOCAL_ENVIRONMENT_PATH = 'you virtual environment path'
 ```
 
+
+
 one you have this set up, this is the magic command you run first before you can tame this monster
 
 ```bash
 fab local update_envs
+fab local prepare
 ```
 
 ## The GIT branching structure
@@ -70,24 +73,62 @@ git flow feature finish awesome
 
 ## UI/UX
 
-everything frontend related is at the directory 'apps/dashboard/static/
+everything frontend related is managed through a seperate submodule [magneto](https://github.com/intentaware/magneto)
 
 with each function of ui having a seperate folder e.g
 
-1. dash > everything related to dashboard
+1. dashboard > everything related to dashboard
 2. emails > to generate email friendly templates
-3. impressions > standalone javascript files for serving impressions
+3. impressions > manages pixel for client side that gathers us the data or display our ad.
 
 to watch the static files while working on dashboard, we would need gulp with browser-sync which proxies django local development server. Do this in a seperate terminal/console window
+It is assumed that you have node installed, and gulp/bower commands available locally. If you have followed the instructions above, node with gulp and bower should be available to you at this point.
+If not, do ```npm i -g gulp bower``` and then.
 
 ```bash
-cd apps/dashboard/static/dash/
-npm install
-bower install
-gulp serve
+fab live setup_magneto
 ```
 
+**THIS COMMAND TAKES A _LOT_ OF TIME WHEN YOU RUN IT THE FIRST TIME**
+
+*Go make a coffee or something, take a walk, and by the time you are back, it will be done*
+
 npm install read package.json, while bower install reads bower.json.
+
+Congatulations, if no error has occured, Supporting Libraries and tools should be with you now.
+
+## Next Steps
+
+The usual, update your local settings file, located at
+
+```bash
+adomattic/settings/local.py
+```
+
+It should be already be populated with some default variables, update it according to your needs.
+Some word. Go look at base.py to understand how we are doing the configuration.
+
+## Oh! And one last thing!
+The core apps which run our applications are in ```apps/``` while third party apps are forked into ```plugins``` folder.
+There is a common application which provides functions that are used site wide. For example, we have a models.py file which contains a model
+
+```python
+class TimeStamped(BaseModel):
+    """
+    Provides created and updated timestamps on models.
+    This will be the model inherited site wide because for SAAS
+    added_on and updated_on are required to check the action on
+    a particular record
+    """
+
+    added_on = CreationDateTimeField()
+    updated_on = ModificationDateTimeField()
+
+    class Meta:
+        abstract = True
+  ```
+
+It is absolutely imperative that this is inherited everywhere when making a new model. And remember *KISS* and *DRY* i.e. Keep it simple stupid and Dont repeat yourself!
 
 Some helper commands
 

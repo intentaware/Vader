@@ -20,14 +20,28 @@ class Company(TimeStamped, SluggedFromName, Stripe):
 
     publisher_key = ShortUUIDField(blank=True, null=True)
 
-    advertiser_rate = models.DecimalField(default=0.25, max_digits=4, decimal_places=4)
-    publisher_rate = models.DecimalField(default=0.05, max_digits=4, decimal_places=4)
+    advertiser_rate = models.DecimalField(
+        default=0.25,
+        max_digits=4,
+        decimal_places=4
+    )
+    publisher_rate = models.DecimalField(
+        default=0.05,
+        max_digits=4,
+        decimal_places=4
+    )
 
     # stripe
-    payment_data = JsonField(default={})
+    payment_data = JsonField(blank=True, null=True, default={})
 
-    users = models.ManyToManyField('users.User', through='companies.CompanyUser')
-    circles = models.ManyToManyField('metas.Circle', through='metas.PublisherCircle')
+    users = models.ManyToManyField(
+        'users.User',
+        through='companies.CompanyUser'
+    )
+    circles = models.ManyToManyField(
+        'metas.Circle',
+        through='metas.PublisherCircle'
+    )
 
     class Meta:
         verbose_name_plural = "companies"
@@ -39,13 +53,13 @@ class Company(TimeStamped, SluggedFromName, Stripe):
         from apps.campaigns.models import Coupon
         if not campaign_id:
             return Coupon.objects.active().exclude(
-                    campaign__image=None
-                ).order_by('?')[:1]
+                campaign__image=None
+            ).order_by('?')[:1]
         else:
             return Coupon.objects.filter(
-                    campaign_id=campaign_id,
-                    redeemed_on__isnull=True,
-                ).order_by('?')[:1]
+                campaign_id=campaign_id,
+                redeemed_on__isnull=True,
+            ).order_by('?')[:1]
 
     @property
     def stripe_customer_id(self):
@@ -69,21 +83,27 @@ class Company(TimeStamped, SluggedFromName, Stripe):
             customer = self.set_stripe_customer()
         else:
             try:
-                customer = self._stripe.Customer.retrieve(self.stripe_customer_id)
+                customer = self._stripe.Customer.retrieve(
+                    self.stripe_customer_id
+                )
             #except self._stripe.error.AuthenticationError as ce:
             except:
                 customer = self.set_stripe_customer()
         return customer
 
-    def set_stripe_customer(self):
+    def set_stripe_customer(self, *args, **kwargs):
         owner = self.memberships.filter(is_owner=True)[0].user
         response = self._stripe.Customer.create(
-                email=owner.email,
-                description=self.name
-            )
+            email=owner.email,
+            description=self.name
+        )
         self.payment_data['stripe_customer_id'] = response.id
         self.save()
         return response
+
+    @property
+    def subscription(self):
+        return self.subscriptions.filter(is_active=True)[0].plan
 
 
 class CompanyGroup(TimeStamped):
@@ -91,11 +111,20 @@ class CompanyGroup(TimeStamped):
     company = models.ForeignKey('companies.Company', related_name='groups')
     permissions = JsonField(default=[])
 
+    def __unicode__(self):
+        return '%s: %s' % (self.company.name, self.name)
+
 
 class CompanyUser(TimeStamped):
     user = models.ForeignKey('users.User', related_name='memberships')
-    group = models.ForeignKey('companies.CompanyGroup', related_name='memberships')
-    company = models.ForeignKey('companies.Company', related_name='memberships')
+    group = models.ForeignKey(
+        'companies.CompanyGroup',
+        related_name='memberships'
+    )
+    company = models.ForeignKey(
+        'companies.Company',
+        related_name='memberships'
+    )
 
     # override default group permissions?
     is_owner = models.BooleanField(default=False)
@@ -114,7 +143,7 @@ class CompanyUser(TimeStamped):
         unique_together = ('user', 'group', 'company')
 
     def __unicode__(self):
-        return '%s: %s' %(self.company.name, self.user)
+        return '%s: %s' % (self.company.name, self.user)
 
     def set_default(self):
         """
@@ -125,3 +154,16 @@ class CompanyUser(TimeStamped):
             self.user.memberships.all().update(is_active=False)
             self.is_active = True
             self.save()
+
+
+class CompanySubscription(TimeStamped):
+    company = models.ForeignKey(Company, related_name='subscriptions')
+    plan = models.ForeignKey('finances.Plan', related_name='subscriptions')
+    is_active = models.BooleanField(default=True)
+    stripe_id = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return '{company}: {plan}'.format(
+            company=self.company.name,
+            plan=self.plan.name
+        )

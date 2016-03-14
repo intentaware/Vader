@@ -1,0 +1,1493 @@
+unzip:  cannot find or open **/*.zip, **/*.zip.zip or **/*.zip.ZIP.
+
+No zipfiles found.
+ERROR:  cannot drop schema tiger2014 because other objects depend on it
+DETAIL:  table tiger2014.cbsa depends on schema tiger2014
+table tiger2014.cd depends on schema tiger2014
+table tiger2014.county depends on schema tiger2014
+table tiger2014.csa depends on schema tiger2014
+table tiger2014.place depends on schema tiger2014
+table tiger2014.state depends on schema tiger2014
+table tiger2014.elsd depends on schema tiger2014
+table tiger2014.scsd depends on schema tiger2014
+table tiger2014.zcta5 depends on schema tiger2014
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+ALTER SCHEMA
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/CBSA.sql:16: ERROR:  relation "cbsa" already exists
+psql:/home/ubuntu/sql/CBSA.sql:17: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/CBSA.sql:18: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/CBSA.sql:19: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file CBSA.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/CD.sql:16: ERROR:  relation "cd" already exists
+psql:/home/ubuntu/sql/CD.sql:17: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/CD.sql:18: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/CD.sql:19: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file CD.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/COUNTY.sql:21: ERROR:  relation "county" already exists
+psql:/home/ubuntu/sql/COUNTY.sql:22: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/COUNTY.sql:23: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/COUNTY.sql:24: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file COUNTY.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/CSA.sql:14: ERROR:  relation "csa" already exists
+psql:/home/ubuntu/sql/CSA.sql:15: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/CSA.sql:16: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/CSA.sql:17: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file CSA.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/PLACE.sql:20: ERROR:  relation "place" already exists
+psql:/home/ubuntu/sql/PLACE.sql:21: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/PLACE.sql:22: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/PLACE.sql:23: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file PLACE.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/STATE.sql:18: ERROR:  relation "state" already exists
+psql:/home/ubuntu/sql/STATE.sql:19: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/STATE.sql:20: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/STATE.sql:21: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file STATE.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/ELSD.sql:18: ERROR:  relation "elsd" already exists
+psql:/home/ubuntu/sql/ELSD.sql:19: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/ELSD.sql:20: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/ELSD.sql:21: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file ELSD.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/SCSD.sql:18: ERROR:  relation "scsd" already exists
+psql:/home/ubuntu/sql/SCSD.sql:19: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/SCSD.sql:20: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/SCSD.sql:21: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file SCSD.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+psql:/home/ubuntu/sql/ZCTA5.sql:13: ERROR:  relation "zcta5" already exists
+psql:/home/ubuntu/sql/ZCTA5.sql:14: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/ZCTA5.sql:15: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+psql:/home/ubuntu/sql/ZCTA5.sql:16: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+removing temporary sql file ZCTA5.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                     
+-----------------------------------------------------------
+ tiger2014.cousub.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file COUSUB.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                    
+---------------------------------------------------------
+ tiger2014.puma.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file PUMA.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                    
+---------------------------------------------------------
+ tiger2014.sldl.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file SLDL.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                    
+---------------------------------------------------------
+ tiger2014.sldu.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file SLDU.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                     
+-----------------------------------------------------------
+ tiger2014.aiannh.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file AIANNH.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                    
+---------------------------------------------------------
+ tiger2014.aits.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file AITS.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                    
+---------------------------------------------------------
+ tiger2014.anrc.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file ANRC.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                   addgeometrycolumn                   
+-------------------------------------------------------
+ tiger2014.bg.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file BG.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                     
+-----------------------------------------------------------
+ tiger2014.cnecta.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file CNECTA.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                      
+------------------------------------------------------------
+ tiger2014.concity.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file CONCITY.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                     
+-----------------------------------------------------------
+ tiger2014.metdiv.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file METDIV.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                     
+----------------------------------------------------------
+ tiger2014.necta.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file NECTA.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                      addgeometrycolumn                      
+-------------------------------------------------------------
+ tiger2014.nectadiv.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file NECTADIV.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                     
+-----------------------------------------------------------
+ tiger2014.submcd.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file SUBMCD.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                   addgeometrycolumn                    
+--------------------------------------------------------
+ tiger2014.tbg.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file TBG.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                     addgeometrycolumn                     
+-----------------------------------------------------------
+ tiger2014.ttract.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file TTRACT.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                      addgeometrycolumn                      
+-------------------------------------------------------------
+ tiger2014.tabblock.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file TABBLOCK.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                     
+----------------------------------------------------------
+ tiger2014.tract.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file TRACT.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                   addgeometrycolumn                    
+--------------------------------------------------------
+ tiger2014.uac.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file UAC.sql
+convert shp file to postgis schema
+Start by preparing the table
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+appending all the geometries
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+Shapefile type: Polygon
+Postgis type: MULTIPOLYGON[2]
+load into PostgreSQL
+                    addgeometrycolumn                    
+---------------------------------------------------------
+ tiger2014.unsd.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+removing temporary sql file UNSD.sql
+                           addgeometrycolumn                           
+-----------------------------------------------------------------------
+ tiger2014.census_name_lookup.geom SRID:4326 TYPE:MULTIPOLYGON DIMS:2 
+(1 row)
+
+psql:13_index_tiger_2014.sql:704: NOTICE:  Self-intersection at or near point -98.918044999999992 37.379078
+psql:13_index_tiger_2014.sql:749: NOTICE:  Holes are nested at or near point -87.27425199999999 33.901336999999998
+psql:13_index_tiger_2014.sql:749: NOTICE:  Hole lies outside shell at or near point -99.500250999999992 41.352846999999997
+psql:13_index_tiger_2014.sql:749: NOTICE:  Hole lies outside shell at or near point -95.569826999999989 40.225664999999999
+psql:13_index_tiger_2014.sql:764: NOTICE:  Hole lies outside shell at or near point -80.771700999999993 34.983181000000002
+psql:13_index_tiger_2014.sql:764: NOTICE:  Hole lies outside shell at or near point -80.771700999999993 34.983181000000002
+psql:13_index_tiger_2014.sql:764: NOTICE:  Hole lies outside shell at or near point -80.771700999999993 34.983181000000002
+psql:13_index_tiger_2014.sql:764: NOTICE:  Hole lies outside shell at or near point -80.771700999999993 34.983181000000002

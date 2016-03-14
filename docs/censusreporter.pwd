@@ -1,0 +1,11 @@
+user: census
+password: RnEnrChWdJUq9g6VTvhPbHEt8mRzW9We
+database: us_census
+
+hostname:port:database:username:password
+us-census.c3udwfzrnadp.us-west-2.rds.amazonaws.com:5432:us_census:census:RnEnrChWdJUq9g6VTvhPbHEt8mRzW9We
+
+psql -h $PGHOST -d us_census -U census -c "DROP SCHEMA IF EXISTS tiger2014; CREATE SCHEMA tiger2014;"
+psql -h $PGHOST -d us_census -U census -c "ALTER SCHEMA tiger2014 OWNER TO census;"
+
+echo "us-census.c3udwfzrnadp.us-west-2.rds.amazonaws.com:5432:us_census:census:RnEnrChWdJUq9g6VTvhPbHEt8mRzW9We" > /home/ubuntu/.pgpass

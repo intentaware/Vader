@@ -67,8 +67,6 @@ SECRET_KEY = '$r^ufp^!he)i22(@yw#+%y&%-)t3cdvipxbz4#s)g^5gifitt-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = DEBUG
-
 ALLOWED_HOSTS = []
 
 
@@ -86,6 +84,7 @@ DEFAULT_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
+    'django.contrib.humanize',
 )
 
 THIRD_PARTY_APPS = (
@@ -108,6 +107,7 @@ THIRD_PARTY_APPS = (
 
 PLUGIN_APPS = (
     'plugins.cities',
+    'plugins.census',
 )
 
 ADOMATIC_APPS = (
@@ -201,28 +201,41 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = (
-        'x-requested-with',
-        'content-type',
-        'accept',
-        'origin',
-        'authorization',
-        'x-csrftoken',
-        'wp-api-key',
-        'publisher-key',
-        'access-control-allow-origin',
-        'access-control-allow-credentials'
-    )
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'wp-api-key',
+    'publisher-key',
+    'access-control-allow-origin',
+    'access-control-allow-credentials'
+)
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-        "django.contrib.auth.context_processors.auth",
-        "django.core.context_processors.debug",
-        "django.core.context_processors.i18n",
-        "django.core.context_processors.media",
-        "django.core.context_processors.static",
-        "django.core.context_processors.tz",
-        "django.core.context_processors.request",
-        "django.contrib.messages.context_processors.messages"
-    )
+# Templates
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 
 # Impression Engine
@@ -256,6 +269,17 @@ CITIES_PLUGINS = [
 
 # Google Geocode API
 GOOGLE_GEOCODE_KEY = 'AIzaSyCAT8k8LnKNPPnQcsGzLWuO7OhAh5tgCFo'
+
+# CENSUS URL
+US_CENSUS_DB = {
+    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    'NAME': 'us_census',
+    'USER': 'census',
+    'PASSWORD': 'RnEnrChWdJUq9g6VTvhPbHEt8mRzW9We',
+    'HOST': 'us-census.c3udwfzrnadp.us-west-2.rds.amazonaws.com',
+    'PORT': '5432',
+}
+
 
 try:
     from local import *
