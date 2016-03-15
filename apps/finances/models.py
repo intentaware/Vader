@@ -136,6 +136,8 @@ class Plan(TimeStamped, Stripe):
                     self.create_stripe_plan()
             except self._stripe.error.InvalidRequestError:
                 self.create_stripe_plan()
+        else:
+            self.create_stripe_plan()
         return super(Plan, self).save(*args, **kwargs)
 
     def create_stripe_plan(self, *args, **kwargs):
