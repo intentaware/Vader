@@ -67,7 +67,6 @@ class CompanyRegistrationView(BaseRegistrationView):
         return company
 
     def get_success_url(self, request, user):
-        print user
         return '/dashboard/'
 
 

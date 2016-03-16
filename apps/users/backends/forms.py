@@ -95,6 +95,7 @@ class SubscriptionForm(BasePaymentForm):
                     self.add_error('number', ce.message)
 
             plan = Plan.objects.get(id=self.cleaned_data['plan'])
+            print plan
             try:
                 subscription = customer.subscriptions.create(
                     plan=plan.stripe_id)
