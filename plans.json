@@ -1,1 +1,646 @@
-[{"model": "finances.plan", "pk": 1, "fields": {"added_on": "2016-02-25T23:59:21.601Z", "updated_on": "2016-03-09T09:45:18.381Z", "amount": "399.99", "currency": "USD", "name": "Small Business", "interval": 3, "limit_campaigns": 0, "limit_impressions": 0, "stripe_id": "LzMCwattcaxni7MUUnQr3o"}}, {"model": "finances.module", "pk": 1, "fields": {"added_on": "2016-02-25T22:41:00.472Z", "updated_on": "2016-02-25T22:41:00.472Z", "name": "Dynamic Ad Builder Tool", "segment": 0}}, {"model": "finances.module", "pk": 2, "fields": {"added_on": "2016-02-25T22:41:14.222Z", "updated_on": "2016-02-25T22:41:14.222Z", "name": "End to End Campaign Management", "segment": 0}}, {"model": "finances.module", "pk": 3, "fields": {"added_on": "2016-02-25T22:41:37.823Z", "updated_on": "2016-02-25T22:41:37.823Z", "name": "Integrated Realtime Graph Analysis Tool", "segment": 0}}, {"model": "finances.module", "pk": 4, "fields": {"added_on": "2016-02-25T22:41:55.734Z", "updated_on": "2016-02-25T22:41:55.734Z", "name": "Content Analysis and Recommendations", "segment": 0}}, {"model": "finances.module", "pk": 5, "fields": {"added_on": "2016-02-25T22:42:08.386Z", "updated_on": "2016-02-25T22:42:08.386Z", "name": "Marketing Analytics", "segment": 0}}, {"model": "finances.module", "pk": 6, "fields": {"added_on": "2016-02-25T22:42:21.168Z", "updated_on": "2016-02-25T22:42:21.168Z", "name": "Conversion Analytics - CPA Based", "segment": 0}}, {"model": "finances.module", "pk": 7, "fields": {"added_on": "2016-02-25T22:42:54.153Z", "updated_on": "2016-02-25T22:42:54.153Z", "name": "Dashboards", "segment": 0}}, {"model": "finances.module", "pk": 8, "fields": {"added_on": "2016-02-25T22:43:04.327Z", "updated_on": "2016-02-25T22:43:04.327Z", "name": "Cross Device Tracking", "segment": 0}}, {"model": "finances.module", "pk": 9, "fields": {"added_on": "2016-02-25T22:43:14.048Z", "updated_on": "2016-02-25T22:43:14.048Z", "name": "Website Personalization", "segment": 0}}, {"model": "finances.module", "pk": 10, "fields": {"added_on": "2016-02-25T22:43:24.830Z", "updated_on": "2016-02-25T22:43:24.830Z", "name": "Mobile App Analytics", "segment": 0}}, {"model": "finances.module", "pk": 11, "fields": {"added_on": "2016-02-25T22:43:33.311Z", "updated_on": "2016-02-25T22:43:33.311Z", "name": "Social Analytics", "segment": 0}}, {"model": "finances.module", "pk": 12, "fields": {"added_on": "2016-02-25T22:43:51.981Z", "updated_on": "2016-02-25T22:43:51.981Z", "name": "Internet of Things Analytics", "segment": 0}}, {"model": "finances.module", "pk": 13, "fields": {"added_on": "2016-02-25T22:44:08.282Z", "updated_on": "2016-02-25T22:44:08.282Z", "name": "Realtime Ad Trageting and Personalization", "segment": 0}}, {"model": "finances.module", "pk": 14, "fields": {"added_on": "2016-02-25T22:44:21.779Z", "updated_on": "2016-02-25T22:44:21.779Z", "name": "Financial Grade Security", "segment": 0}}, {"model": "finances.module", "pk": 15, "fields": {"added_on": "2016-02-25T22:44:45.079Z", "updated_on": "2016-02-25T22:44:45.079Z", "name": "Deep Machine and Neural Learning", "segment": 0}}, {"model": "finances.module", "pk": 16, "fields": {"added_on": "2016-02-25T22:44:57.870Z", "updated_on": "2016-02-25T22:44:57.871Z", "name": "Robust API", "segment": 0}}, {"model": "finances.module", "pk": 17, "fields": {"added_on": "2016-02-25T22:45:20.196Z", "updated_on": "2016-02-25T22:45:20.196Z", "name": "Location Based targeting at scale", "segment": 0}}, {"model": "finances.module", "pk": 18, "fields": {"added_on": "2016-02-25T22:45:39.222Z", "updated_on": "2016-02-25T22:45:39.222Z", "name": "Customize Messaging to drive in-store purchases", "segment": 0}}, {"model": "finances.module", "pk": 19, "fields": {"added_on": "2016-02-25T22:45:50.959Z", "updated_on": "2016-02-25T22:45:50.959Z", "name": "Win households near your competitors", "segment": 0}}, {"model": "finances.module", "pk": 20, "fields": {"added_on": "2016-02-25T22:46:21.759Z", "updated_on": "2016-02-25T23:26:41.440Z", "name": "IA Premium Demographic Data - US", "segment": 1}}, {"model": "finances.module", "pk": 21, "fields": {"added_on": "2016-02-25T22:46:37.404Z", "updated_on": "2016-02-25T23:26:41.444Z", "name": "IA Premium Demographic Data - Canada", "segment": 1}}, {"model": "finances.module", "pk": 22, "fields": {"added_on": "2016-02-25T22:46:52.270Z", "updated_on": "2016-02-25T23:26:41.446Z", "name": "IA Premium Postal Code Matching - World", "segment": 1}}, {"model": "finances.module", "pk": 23, "fields": {"added_on": "2016-02-25T22:47:06.749Z", "updated_on": "2016-02-25T23:26:41.448Z", "name": "IA Premium Seasonal Audiences", "segment": 1}}, {"model": "finances.module", "pk": 24, "fields": {"added_on": "2016-02-25T22:47:16.436Z", "updated_on": "2016-02-25T23:26:41.450Z", "name": "Lookalike Modeling", "segment": 1}}, {"model": "finances.module", "pk": 25, "fields": {"added_on": "2016-02-25T22:47:37.196Z", "updated_on": "2016-02-25T23:27:15.334Z", "name": "By Advertiser, By Campaign, by site or by asset", "segment": 2}}, {"model": "finances.module", "pk": 26, "fields": {"added_on": "2016-02-25T22:47:48.107Z", "updated_on": "2016-02-25T23:27:15.337Z", "name": "By Month", "segment": 2}}, {"model": "finances.module", "pk": 27, "fields": {"added_on": "2016-02-25T22:47:58.800Z", "updated_on": "2016-02-25T23:27:15.340Z", "name": "For Impressions, clicks and conversions", "segment": 2}}, {"model": "finances.module", "pk": 28, "fields": {"added_on": "2016-02-25T22:48:12.984Z", "updated_on": "2016-02-25T23:27:15.342Z", "name": "Overlap report", "segment": 2}}, {"model": "finances.module", "pk": 29, "fields": {"added_on": "2016-02-25T22:48:23.544Z", "updated_on": "2016-02-25T23:27:15.344Z", "name": "Frequency Report", "segment": 2}}, {"model": "finances.module", "pk": 30, "fields": {"added_on": "2016-02-25T22:48:48.741Z", "updated_on": "2016-02-25T23:27:15.346Z", "name": "Verified, scalableable offline data downloads", "segment": 2}}, {"model": "finances.planmodule", "pk": 1, "fields": {"added_on": "2016-02-26T00:25:44.442Z", "updated_on": "2016-02-26T00:25:44.442Z", "plan": 1, "module": 1}}, {"model": "finances.planmodule", "pk": 2, "fields": {"added_on": "2016-02-26T00:25:44.446Z", "updated_on": "2016-02-26T00:25:44.446Z", "plan": 1, "module": 2}}, {"model": "finances.planmodule", "pk": 3, "fields": {"added_on": "2016-02-26T00:25:44.447Z", "updated_on": "2016-02-26T00:25:44.447Z", "plan": 1, "module": 3}}, {"model": "finances.planmodule", "pk": 4, "fields": {"added_on": "2016-02-26T00:25:44.448Z", "updated_on": "2016-02-26T00:25:44.448Z", "plan": 1, "module": 4}}, {"model": "finances.planmodule", "pk": 5, "fields": {"added_on": "2016-02-26T00:25:44.449Z", "updated_on": "2016-02-26T00:25:44.450Z", "plan": 1, "module": 5}}, {"model": "finances.planmodule", "pk": 6, "fields": {"added_on": "2016-02-26T00:25:44.450Z", "updated_on": "2016-02-26T00:25:44.450Z", "plan": 1, "module": 6}}, {"model": "finances.planmodule", "pk": 7, "fields": {"added_on": "2016-02-26T00:25:44.452Z", "updated_on": "2016-02-26T00:25:44.452Z", "plan": 1, "module": 7}}, {"model": "finances.planmodule", "pk": 8, "fields": {"added_on": "2016-02-26T00:25:44.455Z", "updated_on": "2016-02-26T00:25:44.455Z", "plan": 1, "module": 8}}, {"model": "finances.planmodule", "pk": 9, "fields": {"added_on": "2016-02-26T00:25:44.456Z", "updated_on": "2016-02-26T00:25:44.456Z", "plan": 1, "module": 9}}, {"model": "finances.planmodule", "pk": 10, "fields": {"added_on": "2016-02-26T00:25:44.457Z", "updated_on": "2016-02-26T00:25:44.457Z", "plan": 1, "module": 10}}]
+[{
+  "model": "finances.plan",
+  "pk": 1,
+  "fields": {
+    "added_on": "2016-02-25T23:59:21.601Z",
+    "updated_on": "2016-03-16T08:40:54.780Z",
+    "amount": "399.99",
+    "currency": "USD",
+    "name": "Small Business",
+    "interval": 3,
+    "limit_campaigns": 2,
+    "limit_impressions": 10000,
+    "stripe_id": "LzMCwattcaxni7MUUnQr3o"
+  }
+}, {
+  "model": "finances.plan",
+  "pk": 2,
+  "fields": {
+    "added_on": "2016-03-16T11:03:44.491Z",
+    "updated_on": "2016-03-16T11:20:44.847Z",
+    "amount": "1199.99",
+    "currency": "USD",
+    "name": "Medium Business",
+    "interval": 3,
+    "limit_campaigns": 5,
+    "limit_impressions": 100000,
+    "stripe_id": "57vSFUBzQWy7uMnzD2rqTP"
+  }
+}, {
+  "model": "finances.plan",
+  "pk": 3,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.598Z",
+    "updated_on": "2016-03-16T11:29:01.598Z",
+    "amount": "2499.99",
+    "currency": "USD",
+    "name": "Professional",
+    "interval": 3,
+    "limit_campaigns": 10,
+    "limit_impressions": 500000,
+    "stripe_id": "GyfbJw8atHLKXtPkLMtreJ"
+  }
+}, {
+  "model": "finances.module",
+  "pk": 1,
+  "fields": {
+    "added_on": "2016-02-25T22:41:00.472Z",
+    "updated_on": "2016-02-25T22:41:00.472Z",
+    "name": "Dynamic Ad Builder Tool",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 2,
+  "fields": {
+    "added_on": "2016-02-25T22:41:14.222Z",
+    "updated_on": "2016-02-25T22:41:14.222Z",
+    "name": "End to End Campaign Management",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 3,
+  "fields": {
+    "added_on": "2016-02-25T22:41:37.823Z",
+    "updated_on": "2016-02-25T22:41:37.823Z",
+    "name": "Integrated Realtime Graph Analysis Tool",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 4,
+  "fields": {
+    "added_on": "2016-02-25T22:41:55.734Z",
+    "updated_on": "2016-02-25T22:41:55.734Z",
+    "name": "Content Analysis and Recommendations",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 5,
+  "fields": {
+    "added_on": "2016-02-25T22:42:08.386Z",
+    "updated_on": "2016-02-25T22:42:08.386Z",
+    "name": "Marketing Analytics",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 6,
+  "fields": {
+    "added_on": "2016-02-25T22:42:21.168Z",
+    "updated_on": "2016-02-25T22:42:21.168Z",
+    "name": "Conversion Analytics - CPA Based",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 7,
+  "fields": {
+    "added_on": "2016-02-25T22:42:54.153Z",
+    "updated_on": "2016-02-25T22:42:54.153Z",
+    "name": "Dashboards",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 8,
+  "fields": {
+    "added_on": "2016-02-25T22:43:04.327Z",
+    "updated_on": "2016-02-25T22:43:04.327Z",
+    "name": "Cross Device Tracking",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 9,
+  "fields": {
+    "added_on": "2016-02-25T22:43:14.048Z",
+    "updated_on": "2016-02-25T22:43:14.048Z",
+    "name": "Website Personalization",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 10,
+  "fields": {
+    "added_on": "2016-02-25T22:43:24.830Z",
+    "updated_on": "2016-02-25T22:43:24.830Z",
+    "name": "Mobile App Analytics",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 11,
+  "fields": {
+    "added_on": "2016-02-25T22:43:33.311Z",
+    "updated_on": "2016-02-25T22:43:33.311Z",
+    "name": "Social Analytics",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 12,
+  "fields": {
+    "added_on": "2016-02-25T22:43:51.981Z",
+    "updated_on": "2016-02-25T22:43:51.981Z",
+    "name": "Internet of Things Analytics",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 13,
+  "fields": {
+    "added_on": "2016-02-25T22:44:08.282Z",
+    "updated_on": "2016-02-25T22:44:08.282Z",
+    "name": "Realtime Ad Trageting and Personalization",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 14,
+  "fields": {
+    "added_on": "2016-02-25T22:44:21.779Z",
+    "updated_on": "2016-02-25T22:44:21.779Z",
+    "name": "Financial Grade Security",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 15,
+  "fields": {
+    "added_on": "2016-02-25T22:44:45.079Z",
+    "updated_on": "2016-02-25T22:44:45.079Z",
+    "name": "Deep Machine and Neural Learning",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 16,
+  "fields": {
+    "added_on": "2016-02-25T22:44:57.870Z",
+    "updated_on": "2016-02-25T22:44:57.871Z",
+    "name": "Robust API",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 17,
+  "fields": {
+    "added_on": "2016-02-25T22:45:20.196Z",
+    "updated_on": "2016-02-25T22:45:20.196Z",
+    "name": "Location Based targeting at scale",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 18,
+  "fields": {
+    "added_on": "2016-02-25T22:45:39.222Z",
+    "updated_on": "2016-02-25T22:45:39.222Z",
+    "name": "Customize Messaging to drive in-store purchases",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 19,
+  "fields": {
+    "added_on": "2016-02-25T22:45:50.959Z",
+    "updated_on": "2016-02-25T22:45:50.959Z",
+    "name": "Win households near your competitors",
+    "segment": 0
+  }
+}, {
+  "model": "finances.module",
+  "pk": 20,
+  "fields": {
+    "added_on": "2016-02-25T22:46:21.759Z",
+    "updated_on": "2016-02-25T23:26:41.440Z",
+    "name": "IA Premium Demographic Data - US",
+    "segment": 1
+  }
+}, {
+  "model": "finances.module",
+  "pk": 21,
+  "fields": {
+    "added_on": "2016-02-25T22:46:37.404Z",
+    "updated_on": "2016-02-25T23:26:41.444Z",
+    "name": "IA Premium Demographic Data - Canada",
+    "segment": 1
+  }
+}, {
+  "model": "finances.module",
+  "pk": 22,
+  "fields": {
+    "added_on": "2016-02-25T22:46:52.270Z",
+    "updated_on": "2016-02-25T23:26:41.446Z",
+    "name": "IA Premium Postal Code Matching - World",
+    "segment": 1
+  }
+}, {
+  "model": "finances.module",
+  "pk": 23,
+  "fields": {
+    "added_on": "2016-02-25T22:47:06.749Z",
+    "updated_on": "2016-02-25T23:26:41.448Z",
+    "name": "IA Premium Seasonal Audiences",
+    "segment": 1
+  }
+}, {
+  "model": "finances.module",
+  "pk": 24,
+  "fields": {
+    "added_on": "2016-02-25T22:47:16.436Z",
+    "updated_on": "2016-02-25T23:26:41.450Z",
+    "name": "Lookalike Modeling",
+    "segment": 1
+  }
+}, {
+  "model": "finances.module",
+  "pk": 25,
+  "fields": {
+    "added_on": "2016-02-25T22:47:37.196Z",
+    "updated_on": "2016-02-25T23:27:15.334Z",
+    "name": "By Advertiser, By Campaign, by site or by asset",
+    "segment": 2
+  }
+}, {
+  "model": "finances.module",
+  "pk": 26,
+  "fields": {
+    "added_on": "2016-02-25T22:47:48.107Z",
+    "updated_on": "2016-02-25T23:27:15.337Z",
+    "name": "By Month",
+    "segment": 2
+  }
+}, {
+  "model": "finances.module",
+  "pk": 27,
+  "fields": {
+    "added_on": "2016-02-25T22:47:58.800Z",
+    "updated_on": "2016-02-25T23:27:15.340Z",
+    "name": "For Impressions, clicks and conversions",
+    "segment": 2
+  }
+}, {
+  "model": "finances.module",
+  "pk": 28,
+  "fields": {
+    "added_on": "2016-02-25T22:48:12.984Z",
+    "updated_on": "2016-02-25T23:27:15.342Z",
+    "name": "Overlap report",
+    "segment": 2
+  }
+}, {
+  "model": "finances.module",
+  "pk": 29,
+  "fields": {
+    "added_on": "2016-02-25T22:48:23.544Z",
+    "updated_on": "2016-02-25T23:27:15.344Z",
+    "name": "Frequency Report",
+    "segment": 2
+  }
+}, {
+  "model": "finances.module",
+  "pk": 30,
+  "fields": {
+    "added_on": "2016-02-25T22:48:48.741Z",
+    "updated_on": "2016-02-25T23:27:15.346Z",
+    "name": "Verified, scalableable offline data downloads",
+    "segment": 2
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 16,
+  "fields": {
+    "added_on": "2016-03-16T08:40:54.785Z",
+    "updated_on": "2016-03-16T08:40:54.785Z",
+    "plan": 1,
+    "module": 1
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 17,
+  "fields": {
+    "added_on": "2016-03-16T08:40:54.786Z",
+    "updated_on": "2016-03-16T08:40:54.786Z",
+    "plan": 1,
+    "module": 2
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 18,
+  "fields": {
+    "added_on": "2016-03-16T08:40:54.787Z",
+    "updated_on": "2016-03-16T08:40:54.787Z",
+    "plan": 1,
+    "module": 25
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 19,
+  "fields": {
+    "added_on": "2016-03-16T08:40:54.788Z",
+    "updated_on": "2016-03-16T08:40:54.788Z",
+    "plan": 1,
+    "module": 26
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 20,
+  "fields": {
+    "added_on": "2016-03-16T08:40:54.789Z",
+    "updated_on": "2016-03-16T08:40:54.789Z",
+    "plan": 1,
+    "module": 28
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 24,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.454Z",
+    "updated_on": "2016-03-16T11:20:26.454Z",
+    "plan": 2,
+    "module": 1
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 25,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.456Z",
+    "updated_on": "2016-03-16T11:20:26.456Z",
+    "plan": 2,
+    "module": 2
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 26,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.457Z",
+    "updated_on": "2016-03-16T11:20:26.457Z",
+    "plan": 2,
+    "module": 8
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 27,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.458Z",
+    "updated_on": "2016-03-16T11:20:26.458Z",
+    "plan": 2,
+    "module": 9
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 28,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.459Z",
+    "updated_on": "2016-03-16T11:20:26.459Z",
+    "plan": 2,
+    "module": 17
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 29,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.459Z",
+    "updated_on": "2016-03-16T11:20:26.460Z",
+    "plan": 2,
+    "module": 18
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 30,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.460Z",
+    "updated_on": "2016-03-16T11:20:26.460Z",
+    "plan": 2,
+    "module": 19
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 31,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.461Z",
+    "updated_on": "2016-03-16T11:20:26.461Z",
+    "plan": 2,
+    "module": 24
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 32,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.463Z",
+    "updated_on": "2016-03-16T11:20:26.463Z",
+    "plan": 2,
+    "module": 25
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 33,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.464Z",
+    "updated_on": "2016-03-16T11:20:26.464Z",
+    "plan": 2,
+    "module": 26
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 34,
+  "fields": {
+    "added_on": "2016-03-16T11:20:26.465Z",
+    "updated_on": "2016-03-16T11:20:26.465Z",
+    "plan": 2,
+    "module": 27
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 35,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.603Z",
+    "updated_on": "2016-03-16T11:29:01.604Z",
+    "plan": 3,
+    "module": 1
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 36,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.606Z",
+    "updated_on": "2016-03-16T11:29:01.606Z",
+    "plan": 3,
+    "module": 2
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 37,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.607Z",
+    "updated_on": "2016-03-16T11:29:01.607Z",
+    "plan": 3,
+    "module": 3
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 38,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.608Z",
+    "updated_on": "2016-03-16T11:29:01.608Z",
+    "plan": 3,
+    "module": 4
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 39,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.609Z",
+    "updated_on": "2016-03-16T11:29:01.609Z",
+    "plan": 3,
+    "module": 8
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 40,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.611Z",
+    "updated_on": "2016-03-16T11:29:01.611Z",
+    "plan": 3,
+    "module": 9
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 41,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.615Z",
+    "updated_on": "2016-03-16T11:29:01.615Z",
+    "plan": 3,
+    "module": 10
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 42,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.616Z",
+    "updated_on": "2016-03-16T11:29:01.616Z",
+    "plan": 3,
+    "module": 11
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 43,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.617Z",
+    "updated_on": "2016-03-16T11:29:01.617Z",
+    "plan": 3,
+    "module": 12
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 44,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.618Z",
+    "updated_on": "2016-03-16T11:29:01.618Z",
+    "plan": 3,
+    "module": 17
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 45,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.620Z",
+    "updated_on": "2016-03-16T11:29:01.620Z",
+    "plan": 3,
+    "module": 18
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 46,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.621Z",
+    "updated_on": "2016-03-16T11:29:01.621Z",
+    "plan": 3,
+    "module": 19
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 47,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.622Z",
+    "updated_on": "2016-03-16T11:29:01.622Z",
+    "plan": 3,
+    "module": 20
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 48,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.623Z",
+    "updated_on": "2016-03-16T11:29:01.623Z",
+    "plan": 3,
+    "module": 21
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 49,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.624Z",
+    "updated_on": "2016-03-16T11:29:01.624Z",
+    "plan": 3,
+    "module": 22
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 50,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.626Z",
+    "updated_on": "2016-03-16T11:29:01.626Z",
+    "plan": 3,
+    "module": 24
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 51,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.627Z",
+    "updated_on": "2016-03-16T11:29:01.627Z",
+    "plan": 3,
+    "module": 25
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 52,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.628Z",
+    "updated_on": "2016-03-16T11:29:01.628Z",
+    "plan": 3,
+    "module": 26
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 53,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.630Z",
+    "updated_on": "2016-03-16T11:29:01.630Z",
+    "plan": 3,
+    "module": 27
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 54,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.632Z",
+    "updated_on": "2016-03-16T11:29:01.632Z",
+    "plan": 3,
+    "module": 28
+  }
+}, {
+  "model": "finances.planmodule",
+  "pk": 55,
+  "fields": {
+    "added_on": "2016-03-16T11:29:01.633Z",
+    "updated_on": "2016-03-16T11:29:01.634Z",
+    "plan": 3,
+    "module": 29
+  }
+}]
