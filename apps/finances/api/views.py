@@ -12,7 +12,7 @@ def invoice_webhook(request):
     data = request.data
     if 'payment_succeeded' in data['type']:
         invoice = data['data']['object']
-        # subscription = invoice['subscription']
+        subscription = invoice['subscription']
         try:
             subscription = CompanySubscription.objects.get(
                 stripe_id=invoice['subscription']
@@ -21,7 +21,7 @@ def invoice_webhook(request):
             subscription = None
         # amount from stripe comes as type(str) and is in cents, we need to convert it to
         # type(Decimal) and dollars.cents
-        amount = Decimal[invoice['amount_due']] / 100
+        amount = Decimal(invoice['total']) / 100
         now = _tz.now()
         if subscription:
             Invoice.objects.create(
