@@ -1,7 +1,7 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 
 from django_extensions.db.fields import *
-from django_pgjson.fields import JsonField
 
 from apps.common.models import *
 from apps.finances.mixins import Stripe
@@ -31,8 +31,14 @@ class Company(TimeStamped, SluggedFromName, Stripe):
         decimal_places=4
     )
 
-    # stripe
-    payment_data = JsonField(blank=True, null=True, default={})
+    # stripe and payments
+    payment_data = JSONField(blank=True, null=True, default={})
+    tax_rate = models.DecimalField(
+        default=0.00,
+        max_digits=4,
+        decimal_places=4,
+        help_text='Percentage as fraction, e.g. 15\%\ Tax Rate would be 0.15'
+    )
 
     users = models.ManyToManyField(
         'users.User',
@@ -109,7 +115,7 @@ class Company(TimeStamped, SluggedFromName, Stripe):
 class CompanyGroup(TimeStamped):
     name = models.CharField(max_length=128)
     company = models.ForeignKey('companies.Company', related_name='groups')
-    permissions = JsonField(default=[])
+    permissions = JSONField(default=[])
 
     def __unicode__(self):
         return '%s: %s' % (self.company.name, self.name)
