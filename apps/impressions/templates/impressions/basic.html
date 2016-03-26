@@ -23,9 +23,5 @@
 </div>
 <div class="powered-by">
   <span>Powered By</span>
-  {% if debug %}
-  <a href="{% base_url %}"><img src="{% base_url %}/static/dashboard/imgs/logo-full.png"></a>
-  {% else %}
   <a href="{% base_url %}"><img src="{{ STATIC_URL }}dashboard/imgs/logo-full.png"></a>
-  {% endif %}
 </div>
