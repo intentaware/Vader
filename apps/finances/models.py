@@ -148,7 +148,7 @@ class Plan(TimeStamped, Stripe):
         return super(Plan, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['id']
+        ordering = ['amount']
 
     def create_stripe_plan(self, *args, **kwargs):
         return self._stripe.Plan.create(**self.stripe_dictionary)
