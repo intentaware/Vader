@@ -122,6 +122,15 @@ class Plan(TimeStamped, Stripe):
         return self.name
 
     def save(self, *args, **kwargs):
+        """Override the default save to hook the plans with Stripe.
+
+        Args:
+            *args: arguments, normally plain arguments
+            **kwargs: Keyword arguments
+
+        Returns:
+            name (obj): Django Plan model object
+        """
         plan = None
         sd = self.stripe_dictionary
         if sd and self.stripe_id:
@@ -138,13 +147,15 @@ class Plan(TimeStamped, Stripe):
                 self.create_stripe_plan()
         return super(Plan, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering = ['id']
+
     def create_stripe_plan(self, *args, **kwargs):
         return self._stripe.Plan.create(**self.stripe_dictionary)
 
     @property
     def stripe_plan(self):
         return self._stripe.Plan.retrieve(self.stripe_id)
-
 
     def features(self):
         from itertools import groupby
