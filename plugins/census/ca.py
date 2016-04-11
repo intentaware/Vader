@@ -1,4 +1,5 @@
 from django.db import connections
+import random
 
 
 class CaCensus(object):
@@ -8,7 +9,7 @@ class CaCensus(object):
         self.city = city
 
     def get_geocode(self):
-        print self.city
+        # print self.city
         query = """
             SELECT geocode FROM cacensus2011.geocodes WHERE city='{city}';
         """.format(city=self.city)
@@ -21,7 +22,7 @@ class CaCensus(object):
         if len(result):
             geocode = result[0][0]
 
-        print geocode
+        # print geocode
 
         self.geocode = geocode
 
@@ -81,23 +82,39 @@ class CaCensus(object):
             if 'Average' in row[2]:
                 income = row[3]
 
+        print income
+        if not income:
+            income = 0
+        else:
+            income = int(income) + random.sample(range(-7500,7500), 1)[0]
+
         return income
 
     def get_profile(self):
         doc = dict()
 
         population = self.get_population()
+
         if len(population):
-            if population['male'] > population['female']:
+            doc['sex'] = random.sample(['male', 'male','male', 'female', 'female'], 1)[0]
+            if doc['sex'] == 'male':
                 doc['sex'] = 'Male'
-                doc['age'] = int(population['median_male'])
+                doc['age'] = int(population['median_male']) + random.sample(range(-9,10), 1)[0]
             else:
                 doc['sex'] = 'Female'
-                doc['age'] = int(population['median_female'])
+                doc['age'] = int(population['median_female']) + random.sample(range(-9,10), 1)[0]
+            # if population['male'] > population['female']:
+            #     doc['sex'] = 'Male'
+            #     doc['age'] = int(population['median_male'])
+            # else:
+            #     doc['sex'] = 'Female'
+            #     doc['age'] = int(population['median_female'])
 
         income = self.get_income()
 
-        if int(income) > 45000:
+        print income
+
+        if int(income) > 40000:
             doc['job'] = 'White Collar'
         else:
             doc['job'] = 'Blue Collar'

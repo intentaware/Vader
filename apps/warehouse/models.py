@@ -8,11 +8,15 @@ from django.contrib.postgres.fields import JSONField
 
 class IPStore(TimeStamped):
     ip = models.GenericIPAddressField(unpack_ipv4=True)
+    # from existing django cities
     postal_code = models.ForeignKey('cities.PostalCode', blank=True, null=True)
+    # from geocodes data
+    geocoded_postal_code = models.CharField(max_length=8, blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     geocode = JSONField(blank=True, null=True)
     census = JSONField(blank=True, null=True)
+    profile = JSONField(blank=True, null=True)
 
     def __unicode__(self):
         return self.ip

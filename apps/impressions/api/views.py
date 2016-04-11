@@ -45,10 +45,12 @@ class GetImpression(APIView):
                         # print val
                         coupons = request.publisher.get_target_campaigns(
                             request,
-                            campaign_id=val)
+                            campaign_id=val
+                        )
                         # print coupons
-                        impressions = self.get_impression_markup(request,
-                                                                 coupons)
+                        impressions = self.get_impression_markup(
+                            request, coupons
+                        )
                         return Response(impressions, status=200)
 
     def get_impression_markup(self, request, coupons):
@@ -139,10 +141,27 @@ class GetProfile(APIView):
         meta = self.process_request(request)
         return Response(meta, status=200)
 
+    def get_from_ipstore(self, ip, postcode):
+        census = None
+        try:
+            ipstore = IPStore.objects.get(ip=ip)
+        except:
+            queryset = IPStore.objects.filter(geocoded_postal_code=postcode,
+                                              census__isnull=False)
+            if queryset.count():
+                ipstore = queryset[0]
+            else:
+                ipstore = None
+
+        if ipstore:
+            census = ipstore.census
+
+        return census
+
     def process_request(self, request):
         from ipware.ip import get_real_ip
         from django.conf import settings
-        ip = get_real_ip(request) or '209.251.58.248'
+        ip = get_real_ip(request) or '99.235.58.170'
         if ip:
             from geoip2 import database, webservice
             client = webservice.Client(
@@ -172,8 +191,8 @@ class GetProfile(APIView):
                 # census = CaCensus(city=city).get_profile()
                 results = gmaps.reverse_geocode(
                     (location['latitude'], location['longitude'])
-                )[0]['address_components']
-                for r in results:
+                )
+                for r in results[0]['address_components']:
                     try:
                         types = r['types']
                         if types[0] == 'locality' and types[1] == 'political':
@@ -185,7 +204,10 @@ class GetProfile(APIView):
                             postcode = r['long_name']
                     except:
                         pass
-                census = CaCensus(city=city).get_profile()
+                census = self.get_from_ipstore(ip, postcode)
+                if not census:
+                    census = CaCensus(city=city).get_profile()
+                    IPStore.objects.create(ip=ip, census=census, geocode=results)
 
         user_agent = request.META['HTTP_USER_AGENT']
 
