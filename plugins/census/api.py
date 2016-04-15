@@ -1012,7 +1012,8 @@ class CensusUS(object):
         profile = self.get_profile()
 
         age = profile['demographics']['age']['median_age']['total']['values']['this']
-        doc['age'] = int(age)
+        if age:
+            doc['age'] = int(age)
 
         male = profile['demographics']['sex']['percent_male']['values']['this']
         female = profile['demographics']['sex']['percent_female']['values']['this']
