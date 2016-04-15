@@ -235,9 +235,14 @@ class IP2GeoModel(BaseModel):
                         if queryset.count():
                             census = queryset[0].census
                         else:
-                            geoid = Geography.objects.get(
-                                full_name__contains=postcode
-                            ).full_geoid.replace('|', '00US')
+                            try:
+                                geoid = Geography.objects.get(
+                                    full_name__contains=postcode
+                                ).full_geoid.replace('|', '00US')
+                            except Geography.MultipleObjectsReturned:
+                                geoid = Geography.objects.filter(
+                                    full_name__contains=postcode
+                                )[0].full_geoid.replace('|', '00US')
                             census = CensusUS(geoid=geoid).computed_profile()
                         warehouse.census = census
                         warehouse.save()
