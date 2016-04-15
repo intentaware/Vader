@@ -216,9 +216,12 @@ class IP2GeoModel(BaseModel):
                     ip2geo = None
                 if ip and ip2geo:
                     country = ip2geo['country']['iso_code']
-                    postcode = ip2geo['postal']['code']
+                    try:
+                        postcode = ip2geo['postal']['code']
+                    except KeyError:
+                        postcode = None
                     city = ip2geo['city']['names']['en']
-                    if country == 'US':
+                    if country == 'US' and postcode:
                         queryset = IPStore.objects.filter(
                             geocoded_postal_code=postcode,
                             census__isnull=False
