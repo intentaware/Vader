@@ -84,10 +84,12 @@ class ToCompany(BaseModel):
     """
     quickly creates a relationship to a company
     """
-    company = models.ForeignKey('companies.Company',
-                                blank=True,
-                                null=True,
-                                related_name='%(class)ss')
+    company = models.ForeignKey(
+        'companies.Company',
+        blank=True,
+        null=True,
+        related_name='%(class)ss'
+    )
 
     class Meta:
         abstract = True
@@ -133,19 +135,22 @@ class IP2GeoModel(BaseModel):
 
         try:
             out['country'] = ip2geo['country']['names'][
-                'en'] if ip2geo else None
+                'en'
+            ] if ip2geo else None
         except KeyError:
             out['country'] = None
 
         try:
             out['latitude'] = ip2geo['location'][
-                'latitude'] if ip2geo else None
+                'latitude'
+            ] if ip2geo else None
         except KeyError:
             out['latitude'] = None
 
         try:
             out['longitude'] = ip2geo['location'][
-                'longitude'] if ip2geo else None
+                'longitude'
+            ] if ip2geo else None
         except KeyError:
             out['longitude'] = None
 
@@ -173,8 +178,7 @@ class IP2GeoModel(BaseModel):
     def hydrate_meta(self):
         return self._hydrate_meta()
 
-    @staticmethod
-    def get_census_data(q):
+    def get_census_data(self):
         """
         Gets the census data against a given lookup
 
@@ -184,21 +188,55 @@ class IP2GeoModel(BaseModel):
         Returns:
             json: json for geo
         """
-        import requests, json
-        from django.apps import apps
-        from django.conf import settings
+        from apps.warehouse.models import IPStore
+        from plugins.census.models import Geography
+        from plugins.census.api import CensusUS
+        from plugins.census.ca import CaCensus
 
-        params = {'q': q, 'sumlevs': None, 'start': None}
-        # Geography = apps.get_model('census', 'geography')
-        r = requests.get(settings.CENSUS_GEOID_LOOKUP, params=params)
+        census = None
+        if self.meta:
+            # first we will lookup the existing ipstore if it has data
+            # then we will lookup the respective geographic census tables
 
-        if r.status_code == 200:
-            geoid = json.loads(r.text)['results'][0]['full_geoid']
-            from plugins.census.profile import geo_profile
-            census_data = geo_profile(geoid)
-            return census_data
+            try:
+                ip = self.meta['ip']
+            except KeyError:
+                ip = None
 
-    def append_census_data(self, q):
-        d = self.get_census_data(q)
+            try:
+                warehouse = IPStore.objects.get(ip=ip)
+                census = warehouse.census
+            except IPStore.DoesNotExist:
+                warehouse = IPStore.objects.create(ip=ip)
+
+            if not census:
+                try:
+                    ip2geo = self.meta['ip2geo']
+                except KeyError:
+                    ip2geo = None
+                if ip and ip2geo:
+                    country = ip2geo['country']['iso_code']
+                    postcode = ip2geo['postal']['code']
+                    city = ip2geo['city']['names']['en']
+                    if country == 'US':
+                        queryset = IPStore.objects.filter(
+                            geocoded_postal_code=postcode,
+                            census__isnull=False
+                        )
+                        if queryset.count():
+                            census = queryset[0].census
+                        else:
+                            geoid = Geography.objects.get(
+                                full_name__contains=postcode
+                            ).full_geoid.replace('|', '00US')
+                            census = CensusUS(geoid=geoid).computed_profile()
+                        warehouse.census = census
+                        warehouse.save()
+                    if country == 'Canada':
+                        pass
+        return census
+
+    def append_census_data(self):
+        d = self.get_census_data()
         self.meta.update({'census': d})
         self.save()
