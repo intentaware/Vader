@@ -49,7 +49,8 @@ DATABASES = {
         'PASSWORD': 'axBPx97Xx2pNDnphPvf6kWwXmqNbP3SNjSKVs32D',
         'HOST': 'vader.c3udwfzrnadp.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
-    }
+    },
+    'us_census': US_CENSUS_DB
 }
 
 STRIPE_KEY = 'sk_live_ykBdrWZnCW4YddbDDxrwm0dm'
