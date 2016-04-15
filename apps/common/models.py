@@ -220,7 +220,10 @@ class IP2GeoModel(BaseModel):
                         postcode = ip2geo['postal']['code']
                     except KeyError:
                         postcode = None
-                    city = ip2geo['city']['names']['en']
+                    try:
+                        city = ip2geo['city']['names']['en']
+                    except KeyError:
+                        city = None
                     if country == 'US' and postcode:
                         queryset = IPStore.objects.filter(
                             geocoded_postal_code=postcode,
