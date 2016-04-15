@@ -241,7 +241,7 @@ class IP2GeoModel(BaseModel):
                                 ).full_geoid.replace('|', '00US')
                                 census = CensusUS(geoid=geoid).computed_profile()
                             except Geography.DoesNotExist:
-                                print 'PostCode ID: %s' %(postcode)s
+                                print 'PostCode ID: %s' % (postcode)
                         warehouse.census = census
                         warehouse.save()
                     if country == 'Canada':
