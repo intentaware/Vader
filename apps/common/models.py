@@ -215,7 +215,10 @@ class IP2GeoModel(BaseModel):
                 except KeyError:
                     ip2geo = None
                 if ip and ip2geo:
-                    country = ip2geo['country']['iso_code']
+                    try:
+                        country = ip2geo['country']['iso_code']
+                    except KeyError:
+                        country = None
                     try:
                         postcode = ip2geo['postal']['code']
                     except KeyError:
