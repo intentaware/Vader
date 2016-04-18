@@ -111,6 +111,10 @@ class GetImpression(APIView):
             be updated if the value exists.
             """
             impression.meta[key] = val
+        try:
+            impression.append_census_data()
+        except:
+            pass
         impression.save()
 
     def claim_coupon(self, impression, email):
