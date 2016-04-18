@@ -25,7 +25,7 @@ class GetImpression(APIView):
     def get(self, request, pk=None, b64_string=None):
         if not pk:
             coupons = request.publisher.get_target_campaigns(request)
-            # TODO: when we are done with legace, pinpoint a single coupon
+            # TODO: when we are done with legacy, pinpoint a single coupon
             impressions = self.get_impression_markup(request, coupons)
             return Response(impressions, status=200)
         else:
@@ -106,6 +106,10 @@ class GetImpression(APIView):
             None: returns nothing
         """
         for key, val in dictionary.iteritems():
+            """
+            the reason we are updating it like this, we want the dictionary to
+            be updated if the value exists.
+            """
             impression.meta[key] = val
         impression.save()
 
@@ -119,20 +123,28 @@ class GetImpression(APIView):
 
     def process_request(self, request):
         from ipware.ip import get_real_ip
-        ip = get_real_ip(request) or '99.22.48.100'
-        if ip:
+
+        doc = dict()
+        doc['ip'] = get_real_ip(request) or '99.22.48.100'
+        if doc['ip']:
             from geoip2 import database, webservice
             from django.conf import settings
-            # client = webservice.Client(
-            #     settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET)
-            # ip2geo = client.insights(ip).raw
+            client = webservice.Client(
+                settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET)
+            ip2geo = client.insights(doc['ip']).raw
             # print ip2geo
-            reader = database.Reader(settings.MAXMIND_CITY_DB)
-            ip2geo = reader.city(ip).raw
+            # reader = database.Reader(settings.MAXMIND_CITY_DB)
+            # ip2geo = reader.city(ip).raw
         else:
             ip2geo = None
-        user_agent = request.META['HTTP_USER_AGENT']
-        return {'ip': ip, 'user_agent': user_agent, 'ip2geo': ip2geo, }
+        doc['ip2geo'] = ip2geo
+        for k,v in request.META.iteritems():
+            if 'HTTP' in k:
+                k = k.split('HTTP_')[1].lower()
+                doc[k] = v
+            elif not 'wsgi' in k:
+                doc[k.lower()] = v
+        return doc
 
 
 class GetProfile(APIView):
@@ -210,8 +222,6 @@ class GetProfile(APIView):
                     IPStore.objects.create(ip=ip, census=census, geocode=results)
 
         user_agent = request.META['HTTP_USER_AGENT']
-
-        from apps.common.utils.encoders import dump
 
         return {
             'ip': ip,

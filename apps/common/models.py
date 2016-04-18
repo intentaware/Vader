@@ -214,19 +214,28 @@ class IP2GeoModel(BaseModel):
                     ip2geo = self.meta['ip2geo']
                 except KeyError:
                     ip2geo = None
+
                 if ip and ip2geo:
                     try:
                         country = ip2geo['country']['iso_code']
                     except KeyError:
                         country = None
+
                     try:
                         postcode = ip2geo['postal']['code']
                     except KeyError:
                         postcode = None
+
                     try:
                         city = ip2geo['city']['names']['en']
                     except KeyError:
                         city = None
+
+                    try:
+                        location = ip2geo['location']
+                    except:
+                        location = None
+
                     if country == 'US' and postcode:
                         queryset = IPStore.objects.filter(
                             geocoded_postal_code=postcode,
@@ -239,13 +248,22 @@ class IP2GeoModel(BaseModel):
                                 geoid = Geography.objects.get(
                                     full_name__contains=postcode
                                 ).full_geoid.replace('|', '00US')
-                                census = CensusUS(geoid=geoid).computed_profile()
+                                census = CensusUS(
+                                    geoid=geoid
+                                ).computed_profile()
                             except Geography.DoesNotExist:
                                 print 'PostCode ID: %s' % (postcode)
                         warehouse.census = census
                         warehouse.save()
-                    if country == 'Canada':
-                        pass
+
+                    if country == 'Canada' and location:
+                        from googlemaps import Client
+                        from django.conf import settings
+
+                        gmaps = Client(key=settings.GOOGLE_GEOCODE_KEY)
+                        results = gmaps.reverse_geocode(
+                            (location['latitude'], location['longitude'])
+                        )
         return census
 
     def append_census_data(self):
