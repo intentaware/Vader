@@ -143,7 +143,7 @@ class GetImpression(APIView):
             ip2geo = None
         doc['ip2geo'] = ip2geo
         for k,v in request.META.iteritems():
-            if 'HTTP' in k:
+            if 'HTTP_' in k:
                 k = k.split('HTTP_')[1].lower()
                 doc[k] = v
             elif not 'wsgi' in k:
