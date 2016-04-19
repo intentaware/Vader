@@ -134,7 +134,8 @@ class GetImpression(APIView):
             from geoip2 import database, webservice
             from django.conf import settings
             client = webservice.Client(
-                settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET)
+                settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET
+            )
             ip2geo = client.insights(doc['ip']).raw
             # print ip2geo
             # reader = database.Reader(settings.MAXMIND_CITY_DB)
@@ -142,7 +143,7 @@ class GetImpression(APIView):
         else:
             ip2geo = None
         doc['ip2geo'] = ip2geo
-        for k,v in request.META.iteritems():
+        for k, v in request.META.iteritems():
             if 'HTTP_' in k:
                 k = k.split('HTTP_')[1].lower()
                 doc[k] = v
@@ -162,8 +163,10 @@ class GetProfile(APIView):
         try:
             ipstore = IPStore.objects.get(ip=ip)
         except:
-            queryset = IPStore.objects.filter(geocoded_postal_code=postcode,
-                                              census__isnull=False)
+            queryset = IPStore.objects.filter(
+                geocoded_postal_code=postcode,
+                census__isnull=False
+            )
             if queryset.count():
                 ipstore = queryset[0]
             else:
@@ -223,7 +226,9 @@ class GetProfile(APIView):
                 census = self.get_from_ipstore(ip, postcode)
                 if not census:
                     census = CaCensus(city=city).get_profile()
-                    IPStore.objects.create(ip=ip, census=census, geocode=results)
+                    IPStore.objects.create(ip=ip,
+                                           census=census,
+                                           geocode=results)
 
         user_agent = request.META['HTTP_USER_AGENT']
 
