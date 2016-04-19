@@ -281,6 +281,9 @@ US_CENSUS_DB = {
     'PORT': '5432',
 }
 
+# Mocking IP for simulating census data
+CENSUS_MOCK_IP = '99.235.58.170'
+
 
 try:
     from local import *
