@@ -13,6 +13,7 @@ class GetImpression(BaseImpression):
 
     def get(self, request, pk=None, b64_string=None):
         response = dict()
+        campaign = None
         if pk:
             try:
                 impression = Impression.objects.get(id=pk)
@@ -37,7 +38,17 @@ class GetImpression(BaseImpression):
         return Response(response)
 
     def get_markup(self, request, campaign):
-        return {'campaign': campaign}
+        impressions = list()
+        visitor, created = Visitor.objects.get_or_create(key=request.visitor)
+        if request.user.is_authenticated() and not visitor.user:
+            visitor.user = request.user
+            visitor.save()
+        # TODO:
+        #   Why do we need to process meta if we already have campaign id?
+        # if not campaign:
+        #     meta = self.process_request(request)
+        meta = self.process_request(request)
+        return {'campaign': campaign, 'meta': meta}
 
     def claim_coupon(self, impression, email):
         user, created = User.objects.get_or_create(email=email)
