@@ -52,7 +52,7 @@ DEVSERVER_MODULES = (
 
 DEVSERVER_TRUNCATE_SQL = False
 
-EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 STRIPE_KEY = 'sk_test_s0cxlb2a5kArqUwfSGeig5CI'
 

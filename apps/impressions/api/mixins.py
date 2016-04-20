@@ -8,13 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from ipware.ip import get_real_ip
-from googlemaps import Client
 
+from googlemaps import Client
 from geoip2 import database, webservice
 
-from apps.api.permissions import PublisherAPIPermission
-from apps.impressions.models import Impression
-from apps.users.models import User, Visitor
 from apps.warehouse.models import IPStore
 
 from plugins.census.models import Geography
@@ -30,8 +27,10 @@ class BaseImpression(APIView):
         This generate starts the process
 
         Args:
-            ip (string): IP v4 address normally in the range xxx.xxx.xxx.xxx where x is a number
-            from_db (Boolean, optional): condition to check if we should get the data from maxmind API or locally.
+            ip (string): IP v4 address normally in the range xxx.xxx.xxx.xxx
+                where x is a number and the value of xxx is always less than 256
+            from_db (Boolean, optional): condition to check if we should get
+                the data from maxmind API or locally.
 
         Returns:
             doc (dict): dictionary object
@@ -137,11 +136,16 @@ class BaseImpression(APIView):
         Call the respective API to accumulate the cencus data
 
         Args:
-            country (string): country iso code, for example CA for Canada, US for United States
-            postcode (string): the postal code for the the place for which the census data is required
-            city (None, optional): city, as an option for fallback if the  postcode data is not available.
-            location (None, optional): dictionary with latitude and longitude as keys.
-            ip (None, optional): IP v4 Address in the format xxx.xxx.xxx.xxx where xxx is always less than 256
+            country (string): country iso code, for example CA for Canada,
+                US for United States
+            postcode (string): the postal code for the the place for which the
+                census data is required
+            city (None, optional): city, as an option for fallback if the
+                postcode data is not available.
+            location (None, optional): dictionary with latitude and longitude
+                as keys.
+            ip (None, optional): IP v4 Address in the format xxx.xxx.xxx.xxx
+                where xxx is always less than 256
 
         Returns:
             census (dict): census dictionary object
@@ -186,7 +190,7 @@ class BaseImpression(APIView):
 
         return doc
 
-    def decode_base64(self, encoded_string, model):
+    def decode_base64(self, encoded_string, model=None):
         """
         decodes the querystring to return parameters
 
@@ -205,14 +209,15 @@ class BaseImpression(APIView):
         data = json.loads(b64decode(encoded_string))
 
         doc = dict()
-        doc['email'] = data.get('email', None)
-        doc['campaign'] = data.get('campaign', None)
-        doc['meta'] = data.get('meta', None)
-
-        if doc['meta']:
-            doc['meta'] = json.loads(doc['meta'])
-
-        self.update_meta(doc, model)
+        for key, val in data.iteritems():
+            if key == 'meta':
+                j = json.loads(val)
+                for k,v in j.iteritems():
+                    doc[k] = v
+            else:
+                doc[key] = val
+        if model:
+            self.update_meta(doc, model)
         return doc
 
     def update_meta(self, dictionary, model):
