@@ -183,3 +183,54 @@ class BaseImpression(APIView):
         doc['census'] = self.get_census_data(
             country, postcode, city, location, ip
         )
+
+        return doc
+
+    def decode_base64(self, encoded_string, model):
+        """
+        decodes the querystring to return parameters
+
+        TODO:
+            i am not really sure base64 is the right encoding, because if we are
+            sending the data over https, MITM is out of question.
+
+        Args:
+            encoded_string (string): base64 encoded string
+            model (obj): django model object
+
+        Returns:
+            name (obj): django model objects
+        """
+        from base64 import b64encode, b64decode
+        data = json.loads(b64decode(encoded_string))
+
+        doc = dict()
+        doc['email'] = data.get('email', None)
+        doc['campaign'] = data.get('campaign', None)
+        doc['meta'] = data.get('meta', None)
+
+        if doc['meta']:
+            doc['meta'] = json.loads(doc['meta'])
+
+        self.update_meta(doc, model)
+        return doc
+
+    def update_meta(self, dictionary, model):
+        """
+        updates model meta data
+
+        Args:
+            dictionary (dict): dictionary of items
+            model (obj): model who Json field meta is to be updated
+
+        Returns:
+            None: returns nothing
+
+        """
+        for key, val in dictionary.iteritems():
+            """
+            the reason we are updating it like this, we want the dictionary to
+            update if the key already exists
+            """
+            model.meta[key] = val
+        model.save()
