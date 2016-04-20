@@ -12,6 +12,7 @@ class GetImpression(BaseImpression):
     template = 'impressions/basic.html'
 
     def get(self, request, pk=None, b64_string=None):
+        response = dict()
         if pk:
             try:
                 impression = Impression.objects.get(id=pk)
@@ -19,13 +20,24 @@ class GetImpression(BaseImpression):
                 impression = None
             if b64_string:
                 doc = self.decode_base64(b64_string, impression)
+
                 email = doc.get('email', None)
-                self.claim_coupon(impression, email) if (
+                response = self.claim_coupon(impression, email) if (
                     email and impression
                 ) else None
+
+                campaign = doc.get('campaign', None)
+                print campaign
+                response = self.get_markup(
+                    request, campaign
+                ) if campaign else None
         else:
             pass
-        return Response()
+        print response
+        return Response(response)
+
+    def get_markup(self, request, campaign):
+        return {'campaign': campaign}
 
     def claim_coupon(self, impression, email):
         user, created = User.objects.get_or_create(email=email)
@@ -34,6 +46,7 @@ class GetImpression(BaseImpression):
         impression.visitor.save()
         impression.save()
         impression.coupon.claim(user)
+        return {'data': 'Email Sent Sucesfully'}
 
 
 class GetProfile(BaseImpression):
