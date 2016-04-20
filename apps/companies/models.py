@@ -55,17 +55,16 @@ class Company(TimeStamped, SluggedFromName, Stripe):
     def __unicode__(self):
         return self.name
 
-    def get_target_campaigns(self, request, campaign_id=None):
+    def get_target_campaigns(self, request, meta, campaign_id=None):
         from apps.campaigns.models import Coupon
         if not campaign_id:
-            return Coupon.objects.active().exclude(
+            return Coupon.objects.active().remaining().exclude(
                 campaign__image=None
             ).order_by('?')[:1]
         else:
             return Coupon.objects.filter(
-                campaign_id=campaign_id,
-                redeemed_on__isnull=True,
-            ).order_by('?')[:1]
+                campaign_id=campaign_id
+            ).remaining().order_by('?')[:1]
 
     @property
     def stripe_customer_id(self):

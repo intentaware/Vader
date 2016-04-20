@@ -1,3 +1,6 @@
+from django.template import RequestContext
+from django.template.loader import render_to_string
+
 from rest_framework.response import Response
 
 from apps.api.permissions import PublisherAPIPermission
@@ -33,7 +36,7 @@ class GetImpression(BaseImpression):
                     request, campaign
                 ) if campaign else None
         else:
-            pass
+            response = self.get_markup(request, campaign)
         print response
         return Response(response)
 
@@ -48,7 +51,23 @@ class GetImpression(BaseImpression):
         # if not campaign:
         #     meta = self.process_request(request)
         meta = self.process_request(request)
-        return {'campaign': campaign, 'meta': meta}
+        coupon = self.request.publisher.get_target_campaigns(
+            request=request,
+            meta=meta,
+            campaign_id=campaign
+        )[0]
+        impression = Impression.objects.create(
+            coupon=coupon,
+            campaign=coupon.campaign,
+            publisher=request.publisher,
+            visitor=visitor,
+            meta=meta
+        )
+        template = render_to_string(
+            self.template, RequestContext(request, {'impression': impression})
+        )
+        impressions.append({'id': impression.id, 'template': template})
+        return impressions
 
     def claim_coupon(self, impression, email):
         user, created = User.objects.get_or_create(email=email)
