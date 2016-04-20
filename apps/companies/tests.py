@@ -28,10 +28,10 @@ class CompaniesTest(TestCase):
         print "Company payment_data test Passed"
 
     def test_get_target_campaigns(self):
-        response = self.company.get_target_campaigns(request='GET',campaign_id=self.campaign.id)
+        response = self.company.get_target_campaigns(request='GET',meta= {}, campaign_id=self.campaign.id)
         count  = Coupon.objects.all().count()
         companies = Campaign.objects.all().count()
 
         print self.campaign.invoice
-        
-       
+
+
