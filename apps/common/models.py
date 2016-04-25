@@ -3,6 +3,8 @@ from django_extensions.db.fields import CreationDateTimeField, \
     ModificationDateTimeField, AutoSlugField
 from django.contrib.postgres.fields import JSONField
 
+from .managers import BaseReportManager, BaseReportQuerySet
+
 # Create your models here.
 
 
@@ -98,6 +100,10 @@ class ToCompany(BaseModel):
 class IP2GeoModel(BaseModel):
     meta = JSONField(blank=True, null=True)
     visitor = models.ForeignKey('users.visitor', related_name='%(class)ss')
+
+    # custom manager
+    objects = models.Manager()
+    reporter = BaseReportManager.from_queryset(BaseReportQuerySet)()
 
     class Meta:
         abstract = True
