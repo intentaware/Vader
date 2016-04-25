@@ -82,4 +82,5 @@ class GetImpression(BaseImpression):
 class GetProfile(BaseImpression):
 
     def get(self, request):
-        return Response({})
+        response = self.process_request(request)
+        return Response(response, status=200)
