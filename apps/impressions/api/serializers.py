@@ -1,3 +1,5 @@
+from django.core.exceptions import MultipleObjectsReturned
+
 from rest_framework import serializers
 from apps.impressions.models import Impression
 from apps.api.fields import JsonField
@@ -32,6 +34,8 @@ class ImpressionCSVSerializer(ImpressionSerializer):
                 store = IPStore.objects.get(ip=ip)
             except IPStore.DoesNotExist:
                 store = None
+            except MultipleObjectsReturned:
+                store = IPStore.objects.filter(ip=ip).first()
         else:
             store = None
         return store
