@@ -212,7 +212,7 @@ class BaseImpression(APIView):
         for key, val in data.iteritems():
             if key == 'meta':
                 j = json.loads(val)
-                for k,v in j.iteritems():
+                for k, v in j.iteritems():
                     doc[k] = v
             else:
                 doc[key] = val
