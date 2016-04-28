@@ -1,3 +1,6 @@
+import json
+
+from django.core import serializers
 from django.db.models.manager import Manager, QuerySet
 from django.utils import timezone as _tz
 from dateutil.relativedelta import *
@@ -33,6 +36,20 @@ class BaseReportQuerySet(QuerySet):
             nxt += delta
         return result
 
+    @staticmethod
+    def json_serialize(queryset):
+        """
+        Warning! This is a memory intensive operation. The server may break
+
+        Args:
+            queryset (obj): django queryset object
+
+        Returns:
+            name (dict): dictionary object
+        """
+        return serializers.serialize('json', queryset)
+
+
     def n_months(self, months):
         """
         filters the queryset on number of months given
@@ -66,4 +83,8 @@ class BaseReportQuerySet(QuerySet):
                 added_on__date=dt.date()
             ).count()
 
-        print doc
+        return doc
+
+    def f_on_meta_property(self):
+        queryset = self
+        return json.loads(self.json_serialize(queryset))
