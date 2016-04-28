@@ -1,4 +1,4 @@
-import json
+import itertools, json, operator
 
 from django.core import serializers
 from django.db.models.manager import Manager, QuerySet
@@ -49,8 +49,7 @@ class BaseReportQuerySet(QuerySet):
         """
         return serializers.serialize('json', queryset)
 
-
-    def n_months(self, months):
+    def bracket_months(self, months):
         """
         filters the queryset on number of months given
 
@@ -64,7 +63,7 @@ class BaseReportQuerySet(QuerySet):
         start = end + relativedelta(months=-months)
         return self.filter(added_on__gte=start)
 
-    def f_daily(self):
+    def frequency_daily(self):
         """
         gets the daily frequency of objects in the given queryset
 
@@ -85,6 +84,16 @@ class BaseReportQuerySet(QuerySet):
 
         return doc
 
-    def f_on_meta_property(self):
-        queryset = self
-        return json.loads(self.json_serialize(queryset))
+    def frequency_on_meta_key(self, key):
+        queryset = self.filter(meta__has_key=key).values_list(
+            'meta',
+            flat=True
+        )
+        queryset = sorted(queryset, key=operator.itemgetter(key))
+        doc = list()
+        for k, v in itertools.groupby(queryset, key=operator.itemgetter(key)):
+            doc.append({
+                    k: len(list(v))
+                })
+        print doc
+        return doc
