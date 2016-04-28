@@ -36,14 +36,14 @@ class ImpressionCSVSerializer(ImpressionSerializer):
                 store = None
             except MultipleObjectsReturned:
                 store = IPStore.objects.filter(ip=ip).first()
+            finally:
+                store = None
         else:
             store = None
         return store
 
-
     def get_visitor(self, obj):
         return obj.visitor.key
-
 
     def get_ip(self, obj):
         try:
@@ -51,7 +51,6 @@ class ImpressionCSVSerializer(ImpressionSerializer):
             return obj.meta['ip']
         except KeyError:
             return None
-
 
     def get_postal_code(self, obj):
         # store = self.get_ipstore(obj)

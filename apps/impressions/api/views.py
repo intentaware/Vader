@@ -7,7 +7,7 @@ from apps.api.permissions import PublisherAPIPermission
 from apps.impressions.models import Impression
 from apps.users.models import User, Visitor
 
-from .mixins import BaseImpression
+from apps.api.mixins import BaseImpression
 
 
 class GetImpression(BaseImpression):
