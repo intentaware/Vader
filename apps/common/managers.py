@@ -92,8 +92,41 @@ class BaseReportQuerySet(QuerySet):
         queryset = sorted(queryset, key=operator.itemgetter(key))
         doc = list()
         for k, v in itertools.groupby(queryset, key=operator.itemgetter(key)):
-            doc.append({
-                    k: len(list(v))
-                })
-        print doc
+            doc.append({k: len(list(v))})
+        return doc
+
+    def frequency_on_meta_ip2geo_key(self, key):
+        queryset = self.filter(meta__has_key='ip2geo').values_list(
+            'meta',
+            flat=True
+        )
+        queryset = map(lambda x: x.get('ip2geo', None), queryset)
+        doc = list()
+
+        if key == 'city' or key == 'country':
+            # first sorting for groupby
+            queryset = sorted(
+                queryset,
+                key=
+                lambda x: x[key]['names']['en'] if x.get(key, None) else None
+            )
+            for k, v in itertools.groupby(
+                queryset,
+                key=
+                lambda x: x[key]['names']['en'] if x.get(key, None) else None
+            ):
+                doc.append({k: len(list(v))})
+
+        elif key == 'postal_code':
+            queryset = sorted(
+                queryset,
+                key=
+                lambda x: x['postal']['code'] if x.get('postal', None) else None
+            )
+            for k, v in itertools.groupby(
+                queryset,
+                key=
+                lambda x: x['postal']['code'] if x.get('postal', None) else None
+            ):
+                doc.append({k: len(list(v))})
         return doc
