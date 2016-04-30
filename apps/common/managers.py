@@ -21,9 +21,9 @@ class BaseReportQuerySet(QuerySet):
         Args:
             start_date (datetime): starting date
             end_date (datetime): ending date
-            increment (int): integer
-            period (str): valid values are 'years', 'months', 'weeks', 'days', 'hours',
-                        'minutes', 'seconds', 'microseconds'
+            increment (int): the number by which we need to increment
+            period (str): valid values are 'years', 'months', 'weeks', 'days',
+                'hours', 'minutes', 'seconds', 'microseconds'
 
         Returns:
             name (list): an array of valid dates
