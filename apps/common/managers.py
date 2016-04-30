@@ -129,4 +129,22 @@ class BaseReportQuerySet(QuerySet):
                 lambda x: x['postal']['code'] if x.get('postal', None) else None
             ):
                 doc.append({k: len(list(v))})
+        elif key == 'location':
+            queryset = sorted(
+                queryset,
+                key=
+                lambda x: x['location'] if x.get('location', None) else None
+            )
+            for k, v in itertools.groupby(
+                queryset,
+                key=
+                lambda x: x['location'] if x.get('location', None) else None
+            ):
+                doc.append(
+                    {
+                        'latitude': k['latitude'],
+                        'longitude': k['longitude'],
+                        'count': len(list(v))
+                    }
+                )
         return doc
