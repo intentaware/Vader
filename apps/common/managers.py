@@ -85,6 +85,16 @@ class BaseReportQuerySet(QuerySet):
         return doc
 
     def frequency_on_meta_key(self, key):
+        """
+        Gets the count on any flattened meta key
+
+        Args:
+            key (str): key name e.g for dict {'name': 'intentaware'}, the input
+            key would be name
+
+        Returns:
+            name (list): distribution across the given key
+        """
         queryset = self.filter(meta__has_key=key).values_list(
             'meta',
             flat=True
