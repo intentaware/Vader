@@ -4,6 +4,7 @@ from rest_framework.decorators import detail_route, list_route
 from apps.campaigns.models import Campaign
 from apps.api.viewsets import BaseModelViewSet
 from .serializers import CampaignSerializer, CreateCampaignSerializer
+from apps.impressions.models import Impression
 from apps.impressions.api.serializers import ImpressionCSVSerializer
 
 
@@ -13,7 +14,7 @@ class CampaignViewSet(BaseModelViewSet):
     model = Campaign
 
     def get_queryset(self):
-        return super(CampaignViewSet, self).get_queryset().active()
+        return super(CampaignViewSet, self).get_queryset()
 
     def create(self, request):
         data = request.data
@@ -56,3 +57,16 @@ class CampaignViewSet(BaseModelViewSet):
                 added_on__gte=_delta
             ).order_by('added_on')
         return Response(ImpressionCSVSerializer(impressions, many=True).data)
+
+    @detail_route(methods=['post'])
+    def reporter(self, request, pk=None, *args, **kwargs):
+        campaign = Campaign.objects.get(pk=pk)
+        period_k = request.data.get('period_name', 'months')
+        period_v = request.data.get('period_v', 3)
+
+        super_queryset = Impression.reporter.filter(campaign=campaign)
+
+        queryset = super_queryset.n_months(period_v).f_daily()
+
+        return Response(queryset, status=200)
+
