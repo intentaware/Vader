@@ -66,4 +66,5 @@ class BaseReportQuerySet(QuerySet):
                 added_on__date=dt.date()
             ).count()
 
-        print doc
+        doc = dict(sorted(doc.iteritems()))
+        return doc
