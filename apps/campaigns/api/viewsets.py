@@ -10,7 +10,13 @@ from apps.impressions.api.serializers import ImpressionCSVSerializer
 
 class CampaignViewSet(BaseModelViewSet):
     serializer_class = CampaignSerializer
-    prefetch_args = ['image', 'coupons', 'invoice', 'coupons__impressions', 'impressions',]
+    prefetch_args = [
+        'image',
+        'coupons',
+        'invoice',
+        'coupons__impressions',
+        'impressions',
+    ]
     model = Campaign
 
     def get_queryset(self):
@@ -26,7 +32,6 @@ class CampaignViewSet(BaseModelViewSet):
         else:
             return Response(s.errors, status=400)
 
-
     def update(self, request, *args, **kwargs):
         data = request.data
         instance = self.get_object()
@@ -39,11 +44,15 @@ class CampaignViewSet(BaseModelViewSet):
         else:
             return Response(s.errors, 400)
 
-    @list_route(methods=['get',])
+    @list_route(methods=['get', ])
     def past(self, request, *args, **kwargs):
         return Response(
-                CampaignSerializer(Campaign.objects.inactive(), many=True).data, 200
-            )
+            CampaignSerializer(
+                Campaign.objects.inactive(),
+                many=True
+            ).data,
+            status=200
+        )
 
     @detail_route(methods=['get'])
     def impressions(self, request, pk=None, *args, **kwargs):
@@ -53,20 +62,15 @@ class CampaignViewSet(BaseModelViewSet):
         _now = _tz.now()
         _delta = _now + relativedelta(months=-0) + relativedelta(days=-30)
         impressions = Impression.objects.filter(
-                publisher=request.session['company'],
-                added_on__gte=_delta
-            ).order_by('added_on')
+            publisher=request.session['company'],
+            added_on__gte=_delta
+        ).order_by('added_on')
         return Response(ImpressionCSVSerializer(impressions, many=True).data)
 
-    @detail_route(methods=['post'])
-    def reporter(self, request, pk=None, *args, **kwargs):
-        campaign = Campaign.objects.get(pk=pk)
-        period_k = request.data.get('period_name', 'months')
-        period_v = request.data.get('period_v', 3)
-
-        super_queryset = Impression.reporter.filter(campaign=campaign)
-
-        queryset = super_queryset.n_months(period_v).f_daily()
+    @detail_route(methods=['get'], url_path='reports/useragents')
+    def useragents(self, request, pk=None):
+        queryset = Impression.reporter.filter(
+            campaign_id=pk
+        ).bracket_months(3).useragents()
 
         return Response(queryset, status=200)
-

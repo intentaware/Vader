@@ -4,6 +4,7 @@ from django.core import serializers
 from django.db.models.manager import Manager, QuerySet
 from django.utils import timezone as _tz
 from dateutil.relativedelta import *
+from dateutil import parser as dt_parser
 
 
 class BaseReportManager(Manager):
@@ -75,13 +76,21 @@ class BaseReportQuerySet(QuerySet):
         start = queryset.first().added_on
         end = queryset.last().added_on
         date_range = self.date_range(start, end, 1, 'days')
-        doc = dict()
+        doc = list()
 
         for dt in date_range:
-            doc[dt.date().isoformat()] = queryset.filter(
-                added_on__date=dt.date()
-            ).count()
+            singleton = {
+                'date': dt.date(),
+                'count': queryset.filter(
+                    added_on__date=dt.date()
+                ).count()
+            }
+            # doc[dt.date().isoformat()] = queryset.filter(
+            #     added_on__date=dt.date()
+            # ).count()
+            doc.append(singleton)
 
+        doc = sorted(doc, key=lambda x: x['date'])
         return doc
 
     def frequency_on_meta_key(self, key):
@@ -157,4 +166,52 @@ class BaseReportQuerySet(QuerySet):
                         'count': len(list(v))
                     }
                 )
+        return doc
+
+    def useragents(self):
+        queryset = self.filter(meta__has_key='user_agent').values_list(
+            'meta',
+            flat=True
+        )
+
+        from ua_parser import user_agent_parser
+
+        queryset = map(
+            lambda x: user_agent_parser.Parse(x.get('user_agent', '')),
+            queryset)
+
+        device = list()
+        browser = list()
+        osys = list()
+
+        doc = dict()
+
+        s_queryset = sorted(queryset, key=lambda x: x['device']['family'])
+
+        for k, v in itertools.groupby(s_queryset, key= lambda x: x['device']['family']):
+            device.append({
+                    'family': k,
+                    'count': len(list(v))
+                })
+
+        s_queryset = sorted(queryset, key=lambda x: x['os']['family'])
+
+        for k, v in itertools.groupby(s_queryset, key=lambda x: x['os']['family']):
+            osys.append({
+                    'family': k,
+                    'count': len(list(v))
+                })
+
+        s_queryset = sorted(queryset, key=lambda x: x['user_agent']['family'])
+
+        for k,v in itertools.groupby(s_queryset, key=lambda x: x['user_agent']['family']):
+            browser.append({
+                    'browser': k,
+                    'count': len(list(v))
+                })
+
+        doc['device'] = device
+        doc['os'] = osys
+        doc['browser'] = browser
+
         return doc
