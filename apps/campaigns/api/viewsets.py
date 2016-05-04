@@ -75,8 +75,8 @@ class CampaignViewSet(BaseModelViewSet):
 
         return Response(queryset, status=200)
 
-    @detail_route(methods=['get'], url_path='reports/intervaled')
-    def intervaled(self, request, pk=None):
+    @detail_route(methods=['get'], url_path='reports/history')
+    def history(self, request, pk=None):
         queryset = Impression.reporter.filter(
             campaign_id=pk
         ).bracket_months(3).frequency_daily()
