@@ -72,25 +72,26 @@ class BaseReportQuerySet(QuerySet):
             name (dict): dictionary object with dates as keys and count as value
         """
         queryset = self.order_by('added_on')
-
-        start = queryset.first().added_on
-        end = queryset.last().added_on
-        date_range = self.date_range(start, end, 1, 'days')
         doc = list()
 
-        for dt in date_range:
-            singleton = {
-                'date': dt.date(),
-                'count': queryset.filter(
-                added_on__date=dt.date()
-            ).count()
-            }
-            # doc[dt.date().isoformat()] = queryset.filter(
-            #     added_on__date=dt.date()
-            # ).count()
-            doc.append(singleton)
+        if queryset.count():
+            start = queryset.first().added_on
+            end = queryset.last().added_on
+            date_range = self.date_range(start, end, 1, 'days')
 
-        doc = sorted(doc, key=lambda x: x['date'])
+            for dt in date_range:
+                singleton = {
+                    'date': dt.date(),
+                    'count': queryset.filter(
+                    added_on__date=dt.date()
+                ).count()
+                }
+                # doc[dt.date().isoformat()] = queryset.filter(
+                #     added_on__date=dt.date()
+                # ).count()
+                doc.append(singleton)
+
+            doc = sorted(doc, key=lambda x: x['date'])
         return doc
 
     def frequency_on_meta_key(self, key):
