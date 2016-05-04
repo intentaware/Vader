@@ -65,7 +65,6 @@ guppy==0.1.10
 hachoir-core==1.3.3
 hachoir-metadata==1.3.3
 hachoir-parser==1.3.4
-httpagentparser==1.7.8
 idna==2.0
 ipaddr==2.1.11
 ipaddress==1.0.7
@@ -128,7 +127,9 @@ texttable==0.8.4
 traitlets==4.1.0
 tvdb-api==1.10
 Twisted==15.5.0
+ua-parser==0.7.1
 unicodecsv==0.14.1
+user-agents==1.0.1
 w3lib==1.13.0
 wcwidth==0.1.5
 websocket-client==0.32.0
