@@ -12,28 +12,28 @@ class Command(BaseCommand):
         Metric = apps.get_model('guages', 'metric')
         IPStore = apps.get_model('warehouse', 'ipstore')
 
-        queryset = Impression.objects.filter(
-            meta__has_keys=['ip', 'ip2geo'])
+        # queryset = Impression.objects.filter(
+        #     meta__has_keys=['ip', 'ip2geo'])
 
-        print queryset.count()
+        # print queryset.count()
 
-        for q in queryset:
-            ip = q.meta['ip']
-            try:
-                location = q.meta['ip2geo']['location']
+        # for q in queryset:
+        #     ip = q.meta['ip']
+        #     try:
+        #         location = q.meta['ip2geo']['location']
 
-                store, created = IPStore.objects.get_or_create(ip=ip)
+        #         store, created = IPStore.objects.get_or_create(ip=ip)
 
-                if created:
-                    print "Reverse geocoding against ip: %s" %(store.ip)
-                    self.update_gecode(store, location)
-                else:
-                    if q.updated_on > _delta and store.updated_on < _delta:
-                        if not (store.latitude == location['latitude'] and store.longitude == location['longitude']):
-                            print "Updating reverse geocoding against ip: %s" %(store.ip)
-                            self.update_gecode(store, location)
-            except KeyError:
-                pass
+        #         if created:
+        #             print "Reverse geocoding against ip: %s" %(store.ip)
+        #             self.update_gecode(store, location)
+        #         else:
+        #             if q.updated_on > _delta and store.updated_on < _delta:
+        #                 if not (store.latitude == location['latitude'] and store.longitude == location['longitude']):
+        #                     print "Updating reverse geocoding against ip: %s" %(store.ip)
+        #                     self.update_gecode(store, location)
+        #     except KeyError:
+        #         pass
 
         qry = IPStore.objects.filter(geocode__isnull=True)
         print qry.count()
