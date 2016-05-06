@@ -57,14 +57,18 @@ class Command(BaseCommand):
 
     def update_gecode(self, ip, location):
         from googlemaps import Client
+        from googlemaps.exceptions import Timeout
         from django.conf import settings
         import json
 
         ip.latitude = location['latitude']
         ip.longitude = location['longitude']
 
-        gmaps = Client(key=settings.GOOGLE_GEOCODE_KEY)
-        result = gmaps.reverse_geocode((location['latitude'], location['longitude']))
-        ip.geocode = result
+        try:
+            gmaps = Client(key=settings.GOOGLE_GEOCODE_KEY)
+            result = gmaps.reverse_geocode((location['latitude'], location['longitude']))
+            ip.geocode = result
+        except Timeout:
+            pass
 
         ip.save()
