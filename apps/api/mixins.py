@@ -173,6 +173,7 @@ class BaseImpression(APIView):
 
         doc = dict()
         doc['ip2geo'] = ip2geo
+        doc['ip'] = ip
         doc = self.parse_request_meta(request, doc)
 
         if ip2geo:
