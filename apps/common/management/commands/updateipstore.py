@@ -35,7 +35,10 @@ class Command(BaseCommand):
             except KeyError:
                 pass
 
-        for q in IPStore.objects.filter(geocode__isnull=True):
+        qry = IPStore.objects.filter(geocode__isnull=True)
+        print qry.count()
+
+        for q in qry:
             print "processing for ip: %s" %(q.ip)
             location = self.get_location_from_ip(q.ip)
             print "location fetched, updating geocde"
