@@ -12,28 +12,43 @@ class Command(BaseCommand):
         Metric = apps.get_model('guages', 'metric')
         IPStore = apps.get_model('warehouse', 'ipstore')
 
-        queryset = Impression.objects.filter(
-            meta__at_ip__isnull=False, meta__at_ip2geo__isnull=False)
+        # queryset = Impression.objects.filter(
+        #     meta__has_keys=['ip', 'ip2geo'])
 
-        print queryset.count()
+        # print queryset.count()
 
-        for q in queryset:
-            ip = q.meta['ip']
-            try:
-                location = q.meta['ip2geo']['location']
+        # for q in queryset:
+        #     ip = q.meta['ip']
+        #     try:
+        #         location = q.meta['ip2geo']['location']
 
-                store, created = IPStore.objects.get_or_create(ip=ip)
+        #         store, created = IPStore.objects.get_or_create(ip=ip)
 
-                if created:
-                    print "Reverse geocoding against ip: %s" %(store.ip)
-                    self.update_gecode(store, location)
-                else:
-                    if q.updated_on > _delta and store.updated_on < _delta:
-                        if not (store.latitude == location['latitude'] and store.longitude == location['longitude']):
-                            print "Updating reverse geocoding against ip: %s" %(store.ip)
-                            self.update_gecode(store, location)
-            except KeyError:
-                pass
+        #         if created:
+        #             print "Reverse geocoding against ip: %s" %(store.ip)
+        #             self.update_gecode(store, location)
+        #         else:
+        #             if q.updated_on > _delta and store.updated_on < _delta:
+        #                 if not (store.latitude == location['latitude'] and store.longitude == location['longitude']):
+        #                     print "Updating reverse geocoding against ip: %s" %(store.ip)
+        #                     self.update_gecode(store, location)
+        #     except KeyError:
+        #         pass
+
+        for q in IPStore.objects.filter(geocode__isnull=True):
+            print "processing for ip: %s" %(q.ip)
+            location = self.get_location_from_ip(q.ip)
+            print "location fetched, updating geocde"
+            self.update_gecode(q, location)
+            print "---"
+
+    def get_location_from_ip(self, ip):
+        from geoip2 import database, webservice
+        from django.conf import settings
+        reader = webservice.Client(
+                settings.MAXMIND_CLIENTID, settings.MAXMIND_SECRET
+            )
+        return reader.insights(ip).raw['location']
 
     def update_gecode(self, ip, location):
         from googlemaps import Client
@@ -45,6 +60,6 @@ class Command(BaseCommand):
 
         gmaps = Client(key=settings.GOOGLE_GEOCODE_KEY)
         result = gmaps.reverse_geocode((location['latitude'], location['longitude']))
-        ip.geocode = json.dumps(result)
+        ip.geocode = result
 
         ip.save()
