@@ -83,8 +83,8 @@ class BaseReportQuerySet(QuerySet):
                 singleton = {
                     'date': dt.date(),
                     'count': queryset.filter(
-                    added_on__date=dt.date()
-                ).count()
+                        added_on__date=dt.date()
+                    ).count()
                 }
                 # doc[dt.date().isoformat()] = queryset.filter(
                 #     added_on__date=dt.date()
@@ -170,6 +170,12 @@ class BaseReportQuerySet(QuerySet):
         return doc
 
     def useragents(self):
+        """
+        gets the user agents
+
+        Returns:
+            name (TYPE): Description
+        """
         queryset = self.filter(meta__has_key='user_agent').values_list(
             'meta',
             flat=True
@@ -179,7 +185,8 @@ class BaseReportQuerySet(QuerySet):
 
         queryset = map(
             lambda x: user_agent_parser.Parse(x.get('user_agent', '')),
-            queryset)
+            queryset
+        )
 
         device = list()
         browser = list()
@@ -189,30 +196,47 @@ class BaseReportQuerySet(QuerySet):
 
         s_queryset = sorted(queryset, key=lambda x: x['device']['family'])
 
-        for k, v in itertools.groupby(s_queryset, key= lambda x: x['device']['family']):
-            device.append({
-                    'family': k,
-                    'count': len(list(v))
-                })
+        for k, v in itertools.groupby(
+            s_queryset,
+            key=lambda x: x['device']['family']
+        ):
+            device.append({'family': k, 'count': len(list(v))})
 
         s_queryset = sorted(queryset, key=lambda x: x['os']['family'])
 
-        for k, v in itertools.groupby(s_queryset, key=lambda x: x['os']['family']):
-            osys.append({
-                    'family': k,
-                    'count': len(list(v))
-                })
+        for k, v in itertools.groupby(
+            s_queryset,
+            key=lambda x: x['os']['family']
+        ):
+            osys.append({'family': k, 'count': len(list(v))})
 
         s_queryset = sorted(queryset, key=lambda x: x['user_agent']['family'])
 
-        for k,v in itertools.groupby(s_queryset, key=lambda x: x['user_agent']['family']):
-            browser.append({
-                    'browser': k,
-                    'count': len(list(v))
-                })
+        for k, v in itertools.groupby(
+            s_queryset,
+            key=lambda x: x['user_agent']['family']
+        ):
+            browser.append({'browser': k, 'count': len(list(v))})
 
         doc['device'] = device
         doc['os'] = osys
         doc['browser'] = browser
+
+        return doc
+
+    def flatten(self, *args, **kwargs):
+        default_mask = ['ip']
+        mask = list()
+        mask = mask.append(default_mask) if kwargs.get(
+            'mask', None
+        ) else default_mask
+        doc = list()
+        queryset = self.order_by('added_on')
+
+        for q in queryset:
+            singleton = q.hydrate_meta
+            singleton['added_on'] = q.added_on
+            singleton['visitor'] = q.visitor.key
+            doc.append(singleton)
 
         return doc

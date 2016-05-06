@@ -35,6 +35,8 @@ class IPStore(TimeStamped):
             for s in self.geocode[0]['address_components']:
                 try:
                     if s['types'][0] == 'postal_code':
+                        print self.ip
+                        print s
                         pc = s['long_name']
                 except:
                     pass

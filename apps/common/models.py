@@ -172,11 +172,21 @@ class IP2GeoModel(BaseModel):
 
         try:
             store = IPStore.objects.get(ip=out['ip'])
+        except KeyError:
+            store = IPStore.objects.get(ip=out['trait_ip_address'])
         except IPStore.DoesNotExist:
             store = None
 
         out['nearest_address'] = store.nearest_address if store else None
         out['postal_code'] = store.long_postal_code if store else None
+
+        try:
+            out['postal_code'] = ip2geo['postal'][
+                'code'] if ip2geo and not out[
+                    'postal_code'
+                ] else None
+        except KeyError:
+            pass
 
         return out
 
