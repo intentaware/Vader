@@ -69,6 +69,6 @@ class Command(BaseCommand):
             result = gmaps.reverse_geocode((location['latitude'], location['longitude']))
             ip.geocode = result
         except Timeout:
-            pass
+            print 'unable to reverse geocode: %s' %(ip)
 
         ip.save()
