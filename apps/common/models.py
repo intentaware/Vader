@@ -118,11 +118,13 @@ class IP2GeoModel(BaseModel):
         meta = self.meta
         meta.pop('meta', None)
         meta.pop('email', None)
-
         # flattening cascaded json
         ip2geo = meta.pop('ip2geo', None)
         nav = meta.pop('navigator', None)
         screen = meta.pop('screen', None)
+
+        # inserting the remaining meta
+        out.update(meta)
 
         if nav:
             for k, v in nav.iteritems():
@@ -160,33 +162,28 @@ class IP2GeoModel(BaseModel):
         except KeyError:
             out['longitude'] = None
 
+        try:
+            out['postal_code'] = ip2geo['postal']['code'] if ip2geo else None
+        except KeyError:
+            out['postal_code'] = None
+
         if ip2geo:
             traits = ip2geo['traits']
             for k, v in traits.iteritems():
                 key = 'trait_%s' % (k)
                 out[key] = v
 
-        out.update(meta)
-
         IPStore = apps.get_model('warehouse', 'IPStore')
 
+        ip = out.get('ip', out.get('trait_ip_address', None))
+
         try:
-            store = IPStore.objects.get(ip=out['ip'])
-        except KeyError:
-            store = IPStore.objects.get(ip=out['trait_ip_address'])
+            store = IPStore.objects.get(ip=ip)
         except IPStore.DoesNotExist:
             store = None
 
         out['nearest_address'] = store.nearest_address if store else None
-        out['postal_code'] = store.long_postal_code if store else None
-
-        try:
-            out['postal_code'] = ip2geo['postal'][
-                'code'] if ip2geo and not out[
-                    'postal_code'
-                ] else None
-        except KeyError:
-            pass
+        out['long_postal_code'] = store.long_postal_code if store else None
 
         return out
 

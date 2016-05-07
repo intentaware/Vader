@@ -225,18 +225,25 @@ class BaseReportQuerySet(QuerySet):
         return doc
 
     def flatten(self, *args, **kwargs):
-        default_mask = ['ip']
+        default_mask = ['ip', 'trait_ip_address']
         mask = list()
         mask = mask.append(default_mask) if kwargs.get(
             'mask', None
         ) else default_mask
-        doc = list()
+        data = list()
         queryset = self.order_by('added_on')
 
         for q in queryset:
             singleton = q.hydrate_meta
             singleton['added_on'] = q.added_on
             singleton['visitor'] = q.visitor.key
-            doc.append(singleton)
+            # singleton = dict(sorted(singleton.iteritems()))
+            data.append(singleton)
+            for m in mask:
+                singleton.pop(m, None)
 
-        return doc
+        data = sorted(data, key=lambda x: x['added_on'], reverse=True)
+        columns = list()
+        for val in data[0].items():
+            columns.append(val[0])
+        return {"columns": columns, "data": data, }
