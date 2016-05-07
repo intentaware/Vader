@@ -82,3 +82,10 @@ class CampaignViewSet(BaseModelViewSet):
         ).bracket_months(3).frequency_daily()
 
         return Response(queryset, status=200)
+
+    @detail_route(methods=['get'], url_path='reports/datatable')
+    def datatable(self, request, pk):
+        period = request.data.get('period', 1)
+        queryset = Impression.reporter.filter(
+            campaign_id=pk).bracket_months(period).flatten()
+        return Response(queryset, status=200)

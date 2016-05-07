@@ -1,10 +1,14 @@
 import sys
 
-from fabric.api import env, require, run, sudo, put, cd, lcd, task, settings as fabric_settings
+from fabric.api import env, require, run, sudo, put, cd, lcd, task, abort
+from fabric.api import settings as fabric_settings
 from fabric.api import local as lrun
+
 from fabric.contrib.console import confirm
 
 from fabric.network import ssh
+
+from fabric.colors import red, green
 # ssh.util.log_to_file("paramiko.log", 10)
 
 IMPORT_ERROR = 'Please add the location of \n DEPLOY_KEY, \n STAGE_KEY, \n LOCAL_PROJECT_PATH, \n LOCAL_ENVIRONMENT_PATH in adomattic.conf.fabric.variables'
@@ -87,6 +91,10 @@ def live():
     env.impressions = '/srv/%(name)s/magneto/impressions/' % env
     env.emails = '/srv/%(name)s/magneto/emails/' % env
 
+    if confirm(red('You are about to deploy on live servers, Do you want to continue?'), default=False):
+        print(red('You selected continue ....'))
+    else:
+        abort(green('Perhaps some othertime :)'))
 
 
 def update_envs():
