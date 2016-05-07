@@ -1,4 +1,5 @@
 import itertools, json, operator
+from string import capwords
 
 from django.core import serializers
 from django.db.models.manager import Manager, QuerySet
@@ -245,5 +246,9 @@ class BaseReportQuerySet(QuerySet):
         data = sorted(data, key=lambda x: x['added_on'], reverse=True)
         columns = list()
         for val in data[0].items():
-            columns.append(val[0])
-        return {"columns": columns, "data": data, }
+            columns.append({
+                    'name': capwords(val[0].replace('_', ' ')),
+                    'prop': val[0],
+                    'width': len(val[0]) * 10
+                })
+        return {"columns": columns, "data": data }
