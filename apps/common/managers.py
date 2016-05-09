@@ -249,6 +249,6 @@ class BaseReportQuerySet(QuerySet):
             columns.append({
                     'name': capwords(val[0].replace('_', ' ')),
                     'prop': val[0],
-                    'width': len(val[0]) * 10
+                    # 'width': len(val[0]) * 10
                 })
         return {"columns": columns, "data": data }
