@@ -244,11 +244,16 @@ class BaseReportQuerySet(QuerySet):
                 singleton.pop(m, None)
 
         data = sorted(data, key=lambda x: x['added_on'], reverse=True)
+
         columns = list()
-        for val in data[0].items():
-            columns.append({
-                    'name': capwords(val[0].replace('_', ' ')),
-                    'prop': val[0],
-                    # 'width': len(val[0]) * 10
-                })
-        return {"columns": columns, "data": data }
+
+        if len(data):
+            for val in data[0].items():
+                columns.append(
+                    {
+                        'name': capwords(val[0].replace('_', ' ')),
+                        'prop': val[0],
+                        # 'width': len(val[0]) * 10
+                    }
+                )
+        return {"columns": columns, "data": data}
