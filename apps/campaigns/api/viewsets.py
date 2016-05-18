@@ -4,16 +4,23 @@ from rest_framework.decorators import detail_route, list_route
 from apps.campaigns.models import Campaign
 from apps.api.viewsets import BaseModelViewSet
 from .serializers import CampaignSerializer, CreateCampaignSerializer
+from apps.impressions.models import Impression
 from apps.impressions.api.serializers import ImpressionCSVSerializer
 
 
 class CampaignViewSet(BaseModelViewSet):
     serializer_class = CampaignSerializer
-    prefetch_args = ['image', 'coupons', 'invoice', 'coupons__impressions', 'impressions',]
+    prefetch_args = [
+        'image',
+        'coupons',
+        'invoice',
+        'coupons__impressions',
+        'impressions',
+    ]
     model = Campaign
 
     def get_queryset(self):
-        return super(CampaignViewSet, self).get_queryset().active()
+        return super(CampaignViewSet, self).get_queryset()
 
     def create(self, request):
         data = request.data
@@ -24,7 +31,6 @@ class CampaignViewSet(BaseModelViewSet):
             return Response(CampaignSerializer(c).data)
         else:
             return Response(s.errors, status=400)
-
 
     def update(self, request, *args, **kwargs):
         data = request.data
@@ -38,11 +44,15 @@ class CampaignViewSet(BaseModelViewSet):
         else:
             return Response(s.errors, 400)
 
-    @list_route(methods=['get',])
+    @list_route(methods=['get', ])
     def past(self, request, *args, **kwargs):
         return Response(
-                CampaignSerializer(Campaign.objects.inactive(), many=True).data, 200
-            )
+            CampaignSerializer(
+                Campaign.objects.inactive(),
+                many=True
+            ).data,
+            status=200
+        )
 
     @detail_route(methods=['get'])
     def impressions(self, request, pk=None, *args, **kwargs):
@@ -52,7 +62,55 @@ class CampaignViewSet(BaseModelViewSet):
         _now = _tz.now()
         _delta = _now + relativedelta(months=-0) + relativedelta(days=-30)
         impressions = Impression.objects.filter(
-                publisher=request.session['company'],
-                added_on__gte=_delta
-            ).order_by('added_on')
+            publisher=request.session['company'],
+            added_on__gte=_delta
+        ).order_by('added_on')
         return Response(ImpressionCSVSerializer(impressions, many=True).data)
+
+    @detail_route(methods=['get'], url_path='reports/useragents')
+    def useragents(self, request, pk=None):
+        queryset = Impression.reporter.filter(
+            campaign_id=pk
+        ).bracket_months(3).useragents()
+
+        return Response(queryset, status=200)
+
+    @detail_route(methods=['get'], url_path='reports/history')
+    def history(self, request, pk=None):
+        queryset = Impression.reporter.filter(
+            campaign_id=pk
+        ).bracket_months(3).frequency_daily()
+
+        return Response(queryset, status=200)
+
+    @detail_route(methods=['get'], url_path='reports/datatable')
+    def datatable(self, request, pk):
+        period = request.query_params.get('period', 1)
+        period = int(period)
+        queryset = Impression.reporter.filter(
+            campaign_id=pk).bracket_months(period).flatten()
+        return Response(queryset, status=200)
+
+    @detail_route(methods=['get'], url_path='reports/csv')
+    def csv(self, request, pk):
+        import csv
+        from django.http import HttpResponse
+
+        period = request.data.get('period', 1)
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="report.csv"'
+
+        writer = csv.writer(response)
+        queryset = Impression.reporter.filter(
+            campaign_id=pk).bracket_months(period).flatten()
+
+        header = [c['name'] for c in queryset['columns']]
+        writer.writerow(header)
+
+        for data in queryset['data']:
+            row = [data[key] for key in data]
+            writer.writerow(row)
+
+        return response
+

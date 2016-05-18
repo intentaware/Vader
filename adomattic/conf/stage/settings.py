@@ -1,4 +1,5 @@
 from base import *
+import os
 
 SITE_ID = 1
 
@@ -48,3 +49,70 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT=['json']
 CELERY_TIMEZONE = 'UTC'
 CELERY_ENABLE_UTC = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '[%(asctime)s]: %(levelname)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        # Include the default Django email handler for errors
+        # This is what you'd get without configuring logging at all.
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+             # But the emails are plain text by default - HTML is nicer
+            'include_html': True,
+        },
+        # Log to a text file that can be rotated by logrotate
+        'logfile': {
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'error-django.log'),
+            'formatter': 'verbose',
+        },
+        'log_to_stdout': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        # All the time, anywhere
+        ' ': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        # Again, default Django configuration to email unhandled exceptions
+        'django.request': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        # Might as well log any errors anywhere else in Django
+        'django': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        # All the apps
+        'apps': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG', # Or maybe INFO or DEBUG
+            'propagate': True
+        },
+        'cities': {
+            'handlers': ['log_to_stdout'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    },
+}
