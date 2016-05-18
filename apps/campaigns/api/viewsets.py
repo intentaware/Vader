@@ -85,7 +85,32 @@ class CampaignViewSet(BaseModelViewSet):
 
     @detail_route(methods=['get'], url_path='reports/datatable')
     def datatable(self, request, pk):
-        period = request.data.get('period', 1)
+        period = request.query_params.get('period', 1)
+        period = int(period)
         queryset = Impression.reporter.filter(
             campaign_id=pk).bracket_months(period).flatten()
         return Response(queryset, status=200)
+
+    @detail_route(methods=['get'], url_path='reports/csv')
+    def csv(self, request, pk):
+        import csv
+        from django.http import HttpResponse
+
+        period = request.data.get('period', 1)
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="report.csv"'
+
+        writer = csv.writer(response)
+        queryset = Impression.reporter.filter(
+            campaign_id=pk).bracket_months(period).flatten()
+
+        header = [c['name'] for c in queryset['columns']]
+        writer.writerow(header)
+
+        for data in queryset['data']:
+            row = [data[key] for key in data]
+            writer.writerow(row)
+
+        return response
+
