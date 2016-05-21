@@ -282,8 +282,10 @@ US_CENSUS_DB = {
 }
 
 # Mocking IP for simulating census data
-CENSUS_MOCK_IP = '99.235.58.170'
-
+# Canada
+# CENSUS_MOCK_IP = '99.235.58.170'
+# USA
+CENSUS_MOCK_IP = '209.152.78.85'
 
 try:
     from local import *
