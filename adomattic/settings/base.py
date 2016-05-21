@@ -277,7 +277,7 @@ US_CENSUS_DB = {
     'NAME': 'us_census',
     'USER': 'census',
     'PASSWORD': 'RnEnrChWdJUq9g6VTvhPbHEt8mRzW9We',
-    'HOST': 'us-census.c3udwfzrnadp.us-west-2.rds.amazonaws.com',
+    'HOST': 'icensus.c3udwfzrnadp.us-west-2.rds.amazonaws.com',
     'PORT': '5432',
 }
 

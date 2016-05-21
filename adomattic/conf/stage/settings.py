@@ -21,7 +21,8 @@ INSTALLED_APPS += (
 
 # Set your DSN value
 RAVEN_CONFIG = {
-    'dsn': 'https://b1b9cb8df048483295724db97fadd76c:7f95b0b35c154327a0cd24d6638eb1d8@app.getsentry.com/45852',
+    'dsn':
+    'https://b1b9cb8df048483295724db97fadd76c:7f95b0b35c154327a0cd24d6638eb1d8@app.getsentry.com/45852',
 }
 
 STATIC_URL = 'http://stage.intentaware.com/static/'
@@ -46,7 +47,7 @@ CELERY_RESULT_BACKEND = 'amqp://vader:multiscan@rabbit/vader'
 
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT=['json']
+CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TIMEZONE = 'UTC'
 CELERY_ENABLE_UTC = True
 
@@ -55,7 +56,8 @@ LOGGING = {
     'disable_existing_loggers': True,
     'formatters': {
         'verbose': {
-            'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+            'format':
+            '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'simple': {
@@ -69,7 +71,7 @@ LOGGING = {
         'mail_admins': {
             'class': 'django.utils.log.AdminEmailHandler',
             'level': 'ERROR',
-             # But the emails are plain text by default - HTML is nicer
+            # But the emails are plain text by default - HTML is nicer
             'include_html': True,
         },
         # Log to a text file that can be rotated by logrotate
@@ -106,7 +108,7 @@ LOGGING = {
         # All the apps
         'apps': {
             'handlers': ['logfile'],
-            'level': 'DEBUG', # Or maybe INFO or DEBUG
+            'level': 'DEBUG',  # Or maybe INFO or DEBUG
             'propagate': True
         },
         'cities': {
