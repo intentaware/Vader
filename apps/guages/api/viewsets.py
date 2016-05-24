@@ -28,7 +28,7 @@ class AssetViewSet(BaseModelViewSet):
 
 
 class AssetReportViewSet(ReporterViewSet):
-    permissions = (PublisherAPIPermission, )
+    permission_classes = (PublisherAPIPermission, )
     model = Asset
     reporter_model = Metric
     #lookup_field = 'key'
