@@ -25,7 +25,7 @@ class ReporterViewSet(BaseModelViewSet):
     @detail_route(methods=['get'], url_path='reports/useragents')
     def useragents(self, request, pk=None):
         queryset = self.reporter_model.reporter.filter(
-            self._filter(pk)).bracket_months(3).useragents()
+            **self._filter(pk)).bracket_months(3).useragents()
 
         return Response(queryset, status=200)
 
@@ -41,7 +41,7 @@ class ReporterViewSet(BaseModelViewSet):
         period = request.query_params.get('period', 1)
         period = int(period)
         queryset = self.reporter_model.reporter.filter(
-            self._filter(pk)).bracket_months(period).flatten()
+            **self._filter(pk)).bracket_months(period).flatten()
         return Response(queryset, status=200)
 
     @detail_route(methods=['get'], url_path='reports/csv')
@@ -56,7 +56,7 @@ class ReporterViewSet(BaseModelViewSet):
 
         writer = csv.writer(response)
         queryset = self.reporter_model.reporter.filter(
-            self._filter(pk)).bracket_months(period).flatten()
+            **self._filter(pk)).bracket_months(period).flatten()
 
         header = [c['name'] for c in queryset['columns']]
         writer.writerow(header)
