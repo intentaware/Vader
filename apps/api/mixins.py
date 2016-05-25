@@ -76,22 +76,35 @@ class BaseImpression(APIView):
         """
         census = None
 
-        try:
-            ipstore = IPStore.objects.get(ip=ip)
-        except:
+        ipstore, created = IPStore.objects.get_or_create(ip=ip)
+
+        if created or not ipstore.census:
             queryset = IPStore.objects.filter(
                 geocoded_postal_code=postcode,
                 census__isnull=False
             )
-            if queryset.count():
-                ipstore = queryset[0]
-            else:
-                ipstore = None
 
-        if ipstore:
+            if queryset.count():
+                ipstore.census = queryset[0].census
+                ipstore.geocoded_postal_code = queryset[0].geocoded_postal_code
+                ipstore.save()
+                census = queryset[0].census
+        else:
             census = ipstore.census
 
-        return census
+        # try:
+        #     ipstore = IPStore.objects.get(ip=ip)
+        # except:
+        #     queryset = IPStore.objects.filter(
+        #         geocoded_postal_code=postcode,
+        #         census__isnull=False
+        #     )
+        #     if queryset.count():
+        #         ipstore = queryset[0]
+        #     else:
+        #         ipstore = None
+
+        return census, ipstore
 
     def get_US_census(self, postcode):
         geoid = Geography.objects.get(
@@ -120,15 +133,19 @@ class BaseImpression(APIView):
 
         # first try from IPStore, else lookup census database and update the
         #  ipstore in the process
-        census = self.get_from_ipstore(ip, postcode)
+        census, ipstore = self.get_from_ipstore(ip, postcode)
         if not census:
             census = CaCensus(city=city).get_profile()
-            IPStore.objects.create(
-                ip=ip,
-                census=census,
-                geocode=results,
-                geocoded_postal_code=postcode
-            )
+            ipstore.census = census
+            ipstore.geocode = results
+            ipstore.geocoded_postal_code=postcode
+            ipstore.save()
+            # IPStore.objects.create(
+            #     ip=ip,
+            #     census=census,
+            #     geocode=results,
+            #     geocoded_postal_code=postcode
+            # )
         return census
 
     def get_census_data(self, country, postcode, city, location, ip):
