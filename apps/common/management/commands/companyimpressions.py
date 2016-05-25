@@ -17,8 +17,7 @@ class UnicodeWriter(object):
         try:
             self.writer.writerow({k:v.encode("utf-8", errors="replace") if isinstance(v, unicode) else v for k,v in D.items()})
         except UnicodeEncodeError:
-            print "Unicode Error on"
-            print D
+            pass
         # Fetch UTF-8 output from the queue ...
         data = self.queue.getvalue()
         data = data.decode("utf-8")

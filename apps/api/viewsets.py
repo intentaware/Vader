@@ -46,23 +46,21 @@ class ReporterViewSet(BaseModelViewSet):
 
     @detail_route(methods=['get'], url_path='reports/csv')
     def csv(self, request, pk):
-        import csv
+        from apps.common.utils.reporter.csvs import UnicodeDictWriter
         from django.http import HttpResponse
 
-        period = request.data.get('period', 1)
+        period = request.query_params.get('period', 1)
+        period = int(period)
 
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="report.csv"'
 
-        writer = csv.writer(response)
         queryset = self.reporter_model.reporter.filter(
             **self._filter(pk)).bracket_months(period).flatten()
 
-        header = [c['name'] for c in queryset['columns']]
-        writer.writerow(header)
-
-        for data in queryset['data']:
-            row = [data[key] for key in data]
-            writer.writerow(row)
+        fieldnames = [c['prop'] for c in queryset['columns']]
+        writer = UnicodeDictWriter(response, fieldnames=fieldnames, extrasaction='ignore')
+        writer.writeheader()
+        writer.writerows(queryset['data'])
 
         return response
