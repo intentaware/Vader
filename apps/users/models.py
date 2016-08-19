@@ -7,10 +7,10 @@ from apps.common.models import *
 
 
 class UserManager(BaseUserManager):
-
     '''
     methods added to base user manager for easy managing
     '''
+
     @classmethod
     def normalize_email(cls, email):
         """
@@ -26,15 +26,12 @@ class UserManager(BaseUserManager):
             email = '@'.join([email_name.lower(), domain_part.lower()])
         return email
 
-
     def create_user(self, email=None, password=None, **extra_fields):
         """
         Creates and saves a User with the given email and password.
         """
         email = self.normalize_email(email)
-        user = self.model(
-                email=email, is_active=True, **extra_fields
-            )
+        user = self.model(email=email, is_active=True, **extra_fields)
 
         if password:
             user.set_password(password)
@@ -42,7 +39,6 @@ class UserManager(BaseUserManager):
             user.set_unusable_password()
         user.save(using=self._db)
         return user
-
 
     def create_superuser(self, email, password, **extra_fields):
         """
@@ -57,7 +53,6 @@ class UserManager(BaseUserManager):
 
 
 class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
-
     '''
     replacemnt for default auth.User model
     inheriting for AbstractBaseUser for default methods
@@ -69,7 +64,9 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=32, blank=True)
     last_name = models.CharField(max_length=32, blank=True)
     email = models.EmailField(
-        max_length=128, blank=True, null=True, unique=True)
+        max_length=128, blank=True,
+        null=True, unique=True
+    )
 
     is_active = models.BooleanField(default=True)
     # Dates
@@ -92,7 +89,6 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
     # activation/reset link
     key = ShortUUIDField(blank=True, null=True)
 
-
     def __unicode__(self):
         name = self.email
         if self.first_name or self.last_name:
@@ -113,7 +109,6 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
     def username(self):
         return self.email
 
-
     @property
     def name(self):
         return self.get_full_name()
@@ -121,7 +116,7 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
     @property
     def email_from(self):
         if self.name:
-            return '%s <%s>' %(self.name, self.email)
+            return '%s <%s>' % (self.name, self.email)
         else:
             return self.email
 
@@ -142,10 +137,12 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
         from django.core.mail import send_mail
         from django.conf import settings
         send_mail(
-                recipient_list=[self.email_from,],
-                from_email=settings.ADOMATTIC_FROM,
-                **kwargs
-            )
+            recipient_list=[
+                self.email_from,
+            ],
+            from_email=settings.ADOMATTIC_FROM,
+            **kwargs
+        )
 
     def send_templated_email(self, template, context, **kwargs):
         """
@@ -160,11 +157,13 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
 
         message = render_to_string(template, context)
         email = EmailMessage(
-                to=[self.email_from,],
-                from_email=settings.ADOMATTIC_FROM,
-                body=message,
-                **kwargs
-            )
+            to=[
+                self.email_from,
+            ],
+            from_email=settings.ADOMATTIC_FROM,
+            body=message,
+            **kwargs
+        )
         email.content_subtype = 'html'
         email.send()
 
@@ -189,7 +188,9 @@ class User(TimeStamped, AbstractBaseUser, PermissionsMixin):
                 'user': self
             },
             subject=subject,
-            **kwargs)
+            **kwargs
+        )
+
 
 class Visitor(TimeStamped):
     user = models.ForeignKey('users.User', blank=True, null=True)

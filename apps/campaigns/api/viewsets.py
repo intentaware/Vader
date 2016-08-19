@@ -25,7 +25,7 @@ class CampaignViewSet(BaseModelViewSet):
     def create(self, request):
         data = request.data
         data['company'] = request.session['company']
-        s = CreateCampaignSerializer(data=request.data)
+        s = CreateCampaignSerializer(data=data)
         if s.is_valid():
             c = s.save()
             return Response(CampaignSerializer(c).data)
@@ -71,7 +71,7 @@ class CampaignViewSet(BaseModelViewSet):
     def useragents(self, request, pk=None):
         queryset = Impression.reporter.filter(
             campaign_id=pk
-        ).bracket_months(3).useragents()
+        ).bracket_months(6).useragents()
 
         return Response(queryset, status=200)
 
@@ -79,7 +79,7 @@ class CampaignViewSet(BaseModelViewSet):
     def history(self, request, pk=None):
         queryset = Impression.reporter.filter(
             campaign_id=pk
-        ).bracket_months(3).frequency_daily()
+        ).bracket_months(6).frequency_daily()
 
         return Response(queryset, status=200)
 
