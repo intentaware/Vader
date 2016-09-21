@@ -8,8 +8,7 @@ from apps.finances.models import Plan
 class PasswordValidationForm(forms.Form):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(
-        label='Password confirmation',
-        widget=forms.PasswordInput
+        label='Password confirmation', widget=forms.PasswordInput
     )
 
     def clean_password2(self):
@@ -25,9 +24,7 @@ class PasswordValidationForm(forms.Form):
 class UserCreationForm(PasswordValidationForm):
     # create user
     email = forms.EmailField(
-        required=True,
-        max_length=128,
-        label='Email Address'
+        required=True, max_length=128, label='Email Address'
     )
 
     def clean_email(self):
@@ -45,9 +42,7 @@ class CompanyCreationForm(UserCreationForm):
 
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(
-        required=True,
-        max_length=128,
-        label='Email Address'
+        required=True, max_length=128, label='Email Address'
     )
 
     def clean_email(self):
@@ -85,8 +80,10 @@ class SubscriptionForm(BasePaymentForm):
 
             try:
                 customer.save()
-            except (company._stripe.error.CardError,
-                    company._stripe.error.AuthenticationError) as ce:
+            except (
+                company._stripe.error.CardError,
+                company._stripe.error.AuthenticationError
+            ) as ce:
                 if ce.param in ['exp_month', 'exp_year']:
                     self.add_error('expiration', ce.message)
                 elif ce.param in ['name', 'cvc']:
@@ -98,19 +95,18 @@ class SubscriptionForm(BasePaymentForm):
             print plan
             try:
                 subscription = customer.subscriptions.create(
-                    plan=plan.stripe_id)
+                    plan=plan.stripe_id
+                )
                 try:
                     c_subscription = CompanySubscription.objects.get(
-                        company=company,
-                        plan=plan)
+                        company=company, plan=plan
+                    )
                     print c_subscription
                     c_subscription.stripe_id = subscription.id
                     c_subscription.save()
                 except CompanySubscription.DoesNotExist:
                     CompanySubscription.objects.create(
-                        company=company,
-                        plan=plan,
-                        stripe_id=subscription.id
+                        company=company, plan=plan, stripe_id=subscription.id
                     )
             except (
                 company._stripe.error.CardError,

@@ -23,11 +23,15 @@ class SetSessionData(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         """
-        Sets the data to set the company information inside the session
-        :param request:
-        :param args:
-        :param kwargs:
-        :return:
+        Sets the company information in the logged in session
+
+        Args:
+            request (obj): django request object
+            *args (list): list of arguments
+            **kwargs (dict): list of keyword arguements
+
+        Returns:
+            name (obj): normally calls the parent dispatch method
         """
         user = self.request.user
         if user and user.memberships.count() > 0:
