@@ -5,16 +5,18 @@ from apps.api.viewsets import BaseModelViewSet, ReporterViewSet
 from .serializers import AssetSerializer, CreateAssetSerializer
 from apps.guages.models import Asset, Metric
 
-class AssetViewSet(BaseModelViewSet):
+class AssetViewSet(ReporterViewSet):
     serializer_class = AssetSerializer
     model = Asset
+    # prefetch_args = []
+    reporter_model = Metric
 
     def get_queryset(self):
-        return Asset.objects.prefetch_related(
-                    'metrics'
-                ).filter(
-                    publisher_id=self.request.session['company']
-                )
+        company = self.request.user.memberships.get(is_default=True).company
+        return self.model.objects.prefetch_related(*self.prefetch_args).filter(
+            publisher=company
+        )
+        # return super(AssetViewSet, self).get_queryset()
 
     def create(self, request):
         data = request.data
