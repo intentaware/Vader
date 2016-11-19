@@ -13,7 +13,9 @@ class ImpressionMiddleware(object):
                 request.publisher = publisher
             except Company.DoesNotExist:
                 request.publisher = None
-            request.visitor = request.get_signed_cookie('visitor', shortuuid.uuid())
+            request.visitor = request.get_signed_cookie(
+                'visitor', shortuuid.uuid()
+            )
 
     def process_response(self, request, response):
         publisher = getattr(request, 'publisher', None)
@@ -23,4 +25,10 @@ class ImpressionMiddleware(object):
             else:
                 visitor = shortuuid.uuid()
             response.set_signed_cookie('visitor', visitor)
+            response.set_cookie(
+                'visitor',
+                value=visitor,
+                domain='.intentaware.com',
+                httponly=False
+            )
         return response
