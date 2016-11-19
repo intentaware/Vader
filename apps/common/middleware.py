@@ -16,6 +16,7 @@ class ImpressionMiddleware(object):
             request.visitor = request.get_signed_cookie(
                 'visitor', shortuuid.uuid()
             )
+        print request.COOKIES
 
     def process_response(self, request, response):
         publisher = getattr(request, 'publisher', None)
