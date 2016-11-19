@@ -1,5 +1,7 @@
 from django.conf import settings
-import shortuuid
+import shortuuid, logging
+
+logger = logging.getLogger(__name__)
 
 
 class ImpressionMiddleware(object):
@@ -16,7 +18,7 @@ class ImpressionMiddleware(object):
             request.visitor = request.get_signed_cookie(
                 'visitor', shortuuid.uuid()
             )
-        print request.COOKIES
+        logger.info(request.COOKIES)
 
     def process_response(self, request, response):
         publisher = getattr(request, 'publisher', None)
