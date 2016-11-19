@@ -15,10 +15,12 @@ class ImpressionMiddleware(object):
                 request.publisher = publisher
             except Company.DoesNotExist:
                 request.publisher = None
-            request.visitor = request.get_signed_cookie(
-                'visitor', shortuuid.uuid()
-            )
+            # request.visitor = request.get_signed_cookie(
+            #     'visitor', shortuuid.uuid()
+            # )
+            request.visitor = request.COOKIES.get('visitor', shortuuid.uuid())
         logger.info(request.COOKIES)
+        logger.info(request.visitor)
 
     def process_response(self, request, response):
         publisher = getattr(request, 'publisher', None)
@@ -27,6 +29,9 @@ class ImpressionMiddleware(object):
                 visitor = request.visitor
             else:
                 visitor = shortuuid.uuid()
+
+            logger.info(visitor)
+
             response.set_signed_cookie('visitor', visitor)
             response.set_cookie(
                 'visitor',
