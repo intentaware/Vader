@@ -19,8 +19,8 @@ class ImpressionMiddleware(object):
             #     'visitor', shortuuid.uuid()
             # )
             request.visitor = request.COOKIES.get('visitor', shortuuid.uuid())
-        # logger.info(request.COOKIES)
-        logger.info(request.visitor)
+            # logger.info(request.COOKIES)
+            logger.info(request.visitor)
 
     def process_response(self, request, response):
         publisher = getattr(request, 'publisher', None)
