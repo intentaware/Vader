@@ -83,4 +83,6 @@ class GetProfile(BaseImpression):
 
     def get(self, request):
         response = self.process_request(request)
+        if hasattr(request, 'visitor'):
+            response['visitor'] = request.visitor
         return Response(response, status=200)
