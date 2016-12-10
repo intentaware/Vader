@@ -83,6 +83,5 @@ class GetProfile(BaseImpression):
 
     def get(self, request):
         response = self.process_request(request)
-        if hasattr(request, 'visitor'):
-            response['visitor'] = request.visitor
+        response['visitor'] = request.COOKIES.get('visitor', None)
         return Response(response, status=200)
