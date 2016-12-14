@@ -1,4 +1,4 @@
-import itertools, json, operator
+import itertools, json, operator, logging
 from string import capwords
 
 from django.core import serializers
@@ -7,6 +7,8 @@ from django.utils import timezone as _tz
 from dateutil.relativedelta import *
 from dateutil import parser as dt_parser
 
+
+logger = logging.getLogger(__name__)
 
 class BaseReportManager(Manager):
     pass
@@ -256,4 +258,6 @@ class BaseReportQuerySet(QuerySet):
                         # 'width': len(val[0]) * 10
                     }
                 )
+
+        logger.info(columns)
         return {"columns": columns, "data": data}
