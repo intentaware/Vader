@@ -124,7 +124,7 @@ class IP2GeoModel(BaseModel):
         ip2geo = meta.pop('ip2geo', None)
         nav = meta.pop('navigator', None)
         screen = meta.pop('screen', None)
-        census = meta.pop('census', {})
+        census = meta.pop('census', dict())
 
         # inserting the remaining meta
         out.update(meta)
@@ -141,10 +141,13 @@ class IP2GeoModel(BaseModel):
 
         census_keys = ['age', 'education', 'job', 'transport', 'sex']
 
-        for k in census_keys:
-            key = 'census_%s' % (k)
-            value = census.get('k', None)
-            out[key] = v
+
+        logger.info('census: %s' %(census))
+
+        # for k in census_keys:
+        #     key = 'census_%s' % (k)
+        #     value = census.get('k', None)
+        #     out[key] = v
 
         try:
             out['city'] = ip2geo['city']['names']['en'] if ip2geo else None
