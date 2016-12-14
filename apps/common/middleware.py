@@ -36,7 +36,7 @@ class ImpressionMiddleware(object):
             response.set_cookie(
                 'visitor',
                 value=visitor,
-                domain='.intentaware.com',
-                httponly=False
+            #    domain='.intentaware.com',
+            #    httponly=False
             )
         return response

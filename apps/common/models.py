@@ -1,3 +1,4 @@
+import logging
 from django.db import models
 from django_extensions.db.fields import CreationDateTimeField, \
     ModificationDateTimeField, AutoSlugField
@@ -6,6 +7,8 @@ from django.contrib.postgres.fields import JSONField
 from .managers import BaseReportManager, BaseReportQuerySet
 
 # Create your models here.
+
+logger = logging.getLogger(__name__)
 
 
 class BaseModel(models.Model):
@@ -112,7 +115,6 @@ class IP2GeoModel(BaseModel):
         from django.apps import apps
         out = dict()
         out['id'] = self.id
-        out['visitor'] = self.visitor.key
 
         # clean garbage
         meta = self.meta
@@ -122,6 +124,7 @@ class IP2GeoModel(BaseModel):
         ip2geo = meta.pop('ip2geo', None)
         nav = meta.pop('navigator', None)
         screen = meta.pop('screen', None)
+        census = meta.pop('census', {})
 
         # inserting the remaining meta
         out.update(meta)
@@ -135,6 +138,13 @@ class IP2GeoModel(BaseModel):
             for k, v in screen.iteritems():
                 key = 'screen_%s' % (k)
                 out[key] = v
+
+        census_keys = ['age', 'education', 'job', 'transport', 'sex']
+
+        for k in census_keys:
+            key = 'census_%s' % (k)
+            value = census.get('k', None)
+            out[key] = v
 
         try:
             out['city'] = ip2geo['city']['names']['en'] if ip2geo else None
