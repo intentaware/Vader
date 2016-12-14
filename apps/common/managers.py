@@ -251,6 +251,7 @@ class BaseReportQuerySet(QuerySet):
 
         if len(data):
             for val in data[0].items():
+                logger.info(val)
                 columns.append(
                     {
                         'name': capwords(val[0].replace('_', ' ')),
@@ -258,6 +259,4 @@ class BaseReportQuerySet(QuerySet):
                         # 'width': len(val[0]) * 10
                     }
                 )
-
-        logger.info(columns)
         return {"columns": columns, "data": data}
