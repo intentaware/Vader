@@ -147,7 +147,7 @@ class IP2GeoModel(BaseModel):
         for k in census_keys:
             key = 'census_%s' % (k)
             value = census.get('k', '')
-            out[key] = v
+            out[key] = value
 
         try:
             out['city'] = ip2geo['city']['names']['en'] if ip2geo else None
