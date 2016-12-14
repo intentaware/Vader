@@ -141,13 +141,12 @@ class IP2GeoModel(BaseModel):
 
         census_keys = ['age', 'education', 'job', 'transport', 'sex']
 
-        if not census:
-            census = dict()
+        logger.info('census: %s' %(census))
 
         for k in census_keys:
             key = 'census_%s' % (k)
             value = census.get('k', '')
-            logger.info('%s: %s' % (k, value))
+            # logger.info('%s: %s' % (k, value))
             out[key] = value
 
         try:
