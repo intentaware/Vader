@@ -143,11 +143,11 @@ class IP2GeoModel(BaseModel):
 
         logger.info('census: %s' %(census))
 
-        for k in census_keys:
-            key = 'census_%s' % (k)
-            value = census.get('k', '')
-            # logger.info('%s: %s' % (k, value))
-            out[key] = value
+        # for k in census_keys:
+        #     key = 'census_%s' % (k)
+        #     value = census.get('k', '')
+        #     # logger.info('%s: %s' % (k, value))
+        #     out[key] = value
 
         try:
             out['city'] = ip2geo['city']['names']['en'] if ip2geo else None
