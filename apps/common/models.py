@@ -149,7 +149,7 @@ class IP2GeoModel(BaseModel):
         for k in census_keys:
             key = 'census_%s' % (k)
             value = census.get('k', '')
-            # logger.info('%s: %s' % (k, value))
+            logger.info('%s: %s' % (k, value))
             out[key] = value
 
         try:
