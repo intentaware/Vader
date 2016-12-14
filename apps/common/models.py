@@ -141,16 +141,13 @@ class IP2GeoModel(BaseModel):
 
         census_keys = ['age', 'education', 'job', 'transport', 'sex']
 
-
+        census = dict() if not census else census
         logger.info('census: %s' %(census))
 
-        census = dict() if not census else census
-
-
-        # for k in census_keys:
-        #     key = 'census_%s' % (k)
-        #     value = census.get('k', None)
-        #     out[key] = v
+        for k in census_keys:
+            key = 'census_%s' % (k)
+            value = census.get('k', '')
+            out[key] = v
 
         try:
             out['city'] = ip2geo['city']['names']['en'] if ip2geo else None
