@@ -78,7 +78,9 @@ class BaseImpression(APIView):
 
         ipstore, created = IPStore.objects.get_or_create(ip=ip)
 
-        if created or not ipstore.census:
+        if ipstore.census:
+            census = ipstore.census
+        else:
             queryset = IPStore.objects.filter(
                 geocoded_postal_code=postcode,
                 census__isnull=False
@@ -88,9 +90,21 @@ class BaseImpression(APIView):
                 ipstore.census = queryset[0].census
                 ipstore.geocoded_postal_code = queryset[0].geocoded_postal_code
                 ipstore.save()
-                census = queryset[0].census
-        else:
-            census = ipstore.census
+                census = queryset[0].census            
+
+        # if created or not ipstore.census:
+        #     queryset = IPStore.objects.filter(
+        #         geocoded_postal_code=postcode,
+        #         census__isnull=False
+        #     )
+
+        #     if queryset.count():
+        #         ipstore.census = queryset[0].census
+        #         ipstore.geocoded_postal_code = queryset[0].geocoded_postal_code
+        #         ipstore.save()
+        #         census = queryset[0].census
+        # else:
+        #     census = ipstore.census
 
         # try:
         #     ipstore = IPStore.objects.get(ip=ip)
@@ -134,6 +148,7 @@ class BaseImpression(APIView):
         # first try from IPStore, else lookup census database and update the
         #  ipstore in the process
         census, ipstore = self.get_from_ipstore(ip, postcode)
+        
         if not census:
             census = CaCensus(city=city).get_profile()
             ipstore.census = census

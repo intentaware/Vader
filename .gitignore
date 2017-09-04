@@ -196,6 +196,9 @@ celerybeat-schedule
 # Project Exports
 *.csv
 
+# Visual Studio Code
+.vscode/
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
