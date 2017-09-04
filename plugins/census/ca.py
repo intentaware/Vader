@@ -67,6 +67,8 @@ class CaCensus(object):
 
         income = 40000
 
+        results = None
+
         doc = dict()
 
         if geocode:
