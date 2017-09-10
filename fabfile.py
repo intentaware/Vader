@@ -96,6 +96,37 @@ def live():
     else:
         abort(green('Perhaps some othertime :)'))
 
+def lab():
+    """
+    Environment Settings for Staging Server
+
+    Usage:
+        fab live <task>
+    """
+    env.run = run
+    env.sudo = sudo
+    env.cd = cd
+    env.name = 'lab'
+    env.conf_path = 'lab'
+    env.project_root = '/srv/%(name)s/' % env
+    env.hosts = ['ec2-54-198-177-190.compute-1.amazonaws.com', ]
+    env.user = 'ec2-user'
+    env.key_filename = DEPLOY_KEY
+    # env.no_keys = True
+    # env.use_ssh_config = False
+    env.branch = 'master'
+    env.venv_root = '/srv/%(name)s/' % env
+    env.venv = 'source /srv/%(name)s/bin/activate && ' % env
+    env.dashboard = '/srv/%(name)s/magneto/dashboard/' % env
+    env.impressions = '/srv/%(name)s/magneto/impressions/' % env
+    env.emails = '/srv/%(name)s/magneto/emails/' % env
+    env.git_path = 'https://github.com/innovation-labs/Vader.git'
+
+    if confirm(red('You are about to deploy on live servers, Do you want to continue?'), default=False):
+        print(red('You selected continue ....'))
+    else:
+        abort(green('Perhaps some othertime :)'))
+
 
 def update_envs():
     """
@@ -176,12 +207,20 @@ def prepare():
     Prepare your system, install necessary libraries and data
     """
     import platform
-    system = platform.system().lower()
+    system = env.run("uname -s")
+    print system
+    system = system.lower()
+    # system = platform.system().lower()
     if system == 'darwin':
         brew()
         get_ipdb()
     elif system == 'linux':
-        if platform.dist()[0].lower() == 'ubuntu':
+        # if platform.dist()[0].lower() == 'ubuntu':
+        #     apt()
+        # else:
+        #     yum()
+        version = "uname -a"
+        if "ubuntu" in version.lower():
             apt()
         else:
             yum()
@@ -206,7 +245,11 @@ def clone():
     """
     env.run("sudo mkdir %(project_root)s" % env)
     env.run("sudo chown -R ec2-user:ec2-user %(project_root)s" % env)
-    env.run("git clone --recursive git@github.com:intentaware/Vader.git %(project_root)s" % env)
+    git_path = getattr(env.git_path)
+    if git_path:
+        env.run("git glone --recursive %(git_path)s %(project_root)s" %env)
+    else:
+        env.run("git clone --recursive git@github.com:intentaware/Vader.git %(project_root)s" % env)
 
 
 def git_pull():
